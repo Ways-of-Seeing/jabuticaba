@@ -128,13 +128,14 @@ Fontes: Plus Jakarta Sans e Bricolage Grotesque (OFL), incluídas em `assets/fon
 
 ## Licença
 
-O código do jabuticaba está sob a **[PolyForm Noncommercial 1.0.0](LICENSE.md)**: pode usar, estudar, modificar e compartilhar para fins **não comerciais** — uso pessoal, pesquisa, ensino, hobby, e por organizações sem fins lucrativos, escolas e órgãos públicos. **Uso comercial depende de autorização** da Ways of Seeing; para isso, abra uma conversa em [issues](https://github.com/Ways-of-Seeing/jabuticaba/issues).
+O jabuticaba é **software livre e de código aberto**, sob a **[GNU Affero General Public License v3.0](LICENSE)** (AGPL-3.0), a mesma licença do Mastodon, do Pixelfed e do Castopod.
+
+Na prática: qualquer pessoa ou empresa pode usar, estudar, modificar e distribuir o app, inclusive comercialmente. Em troca, quem distribuir uma versão modificada — ou oferecê-la às pessoas como serviço pela rede — precisa publicar o código dessa versão sob a mesma licença. Assim o jabuticaba e o que for construído a partir dele continuam abertos.
 
 Fora da licença do código:
 
-- **Nome e marca.** "jabuticaba", o símbolo e os ícones identificam o produto e não estão licenciados para outros usos. O [media kit](brand/media-kit/README.md) pode ser usado para falar do jabuticaba (imprensa, divulgação), seguindo o brandbook.
+- **Nome e marca.** "jabuticaba", o símbolo e os ícones identificam o produto oficial da Ways of Seeing. Forks são bem-vindos, mas devem usar outro nome e outro ícone. O [media kit](brand/media-kit/README.md) pode ser usado para falar do jabuticaba (imprensa, divulgação), seguindo o brandbook.
 - **Fontes.** As famílias em `assets/fonts/` e `brand/media-kit/fontes/` são de terceiros e seguem a SIL Open Font License (cópias junto às fontes no media kit).
 - **Conteúdo das redes.** Posts, fotos, vídeos e áudios mostrados pelo app (e presentes nas capturas) pertencem a quem os publicou.
 
-Copyright © 2026 Ways of Seeing.
-
+Copyright © 2026 Ways of Seeing. Contribuições são bem-vindas; ao enviar uma, você concorda em licenciá-la sob a AGPL-3.0.
