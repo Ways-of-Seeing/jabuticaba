@@ -1,0 +1,36 @@
+{
+    "name": "jabuticaba",
+    "short_name": "jabuticaba",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#0F0812",
+    "theme_color": "#7B2D9E",
+    "description": "Explorador do fediverso: vídeos curtos, fotos, conversas e comunidades de redes abertas, num lugar só.",
+    "orientation": "any",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
+    "lang": "pt-BR"
+}

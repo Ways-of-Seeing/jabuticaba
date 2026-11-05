@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!-- Substituído pelo valor de `--base-href` no `flutter build web`. -->
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="jabuticaba: um explorador do fediverso. Vídeos curtos, fotos, conversas e comunidades de redes abertas, num lugar só.">
+  <meta name="theme-color" content="#7B2D9E">
+
+  <!-- Ícones -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+  <link rel="alternate icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="jabuticaba">
+
+  <!-- Compartilhamento -->
+  <meta property="og:title" content="jabuticaba">
+  <meta property="og:description" content="Todas as redes abertas. Um lugar só.">
+  <meta property="og:image" content="icons/Icon-512.png">
+
+  <title>jabuticaba</title>
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    /* Tela de abertura enquanto o Flutter carrega. */
+    html, body { margin: 0; height: 100%; background: #0F0812; }
+    @media (prefers-color-scheme: light) { html, body { background: #F8F3F7; } }
+    #splash {
+      position: fixed; inset: 0; display: grid; place-items: center;
+      transition: opacity .35s ease;
+    }
+    #splash img { width: 112px; height: 112px; animation: bob 1.6s ease-in-out infinite; }
+    @keyframes bob { 50% { transform: translateY(-8px) scale(1.03); } }
+    @media (prefers-reduced-motion: reduce) { #splash img { animation: none; } }
+  </style>
+</head>
+<body>
+  <div id="splash" aria-hidden="true"><img src="favicon.svg" alt=""></div>
+  <script>
+    // Some com a tela de abertura quando o primeiro quadro do app aparece.
+    window.addEventListener('flutter-first-frame', function () {
+      var s = document.getElementById('splash');
+      if (!s) return;
+      s.style.opacity = '0';
+      setTimeout(function () { s.remove(); }, 400);
+    });
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

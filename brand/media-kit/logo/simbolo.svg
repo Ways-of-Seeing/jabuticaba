@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FFF8EE"/>
+    <stop offset="1" stop-color="#F5D6EE"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="0.5" cy="0.42" r="0.55">
+    <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.9"/>
+    <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="fruit" cx="0.36" cy="0.32" r="0.78">
+    <stop offset="0" stop-color="#C88AF2"/>
+    <stop offset="0.28" stop-color="#8E3CC0"/>
+    <stop offset="0.7" stop-color="#4F1468"/>
+    <stop offset="1" stop-color="#250630"/>
+  </radialGradient>
+  <radialGradient id="fruitBack" cx="0.38" cy="0.32" r="0.8">
+    <stop offset="0" stop-color="#A964DA"/>
+    <stop offset="0.35" stop-color="#6E2596"/>
+    <stop offset="1" stop-color="#1E0528"/>
+  </radialGradient>
+  <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0.55" stop-color="#E7B6FF" stop-opacity="0"/>
+    <stop offset="1" stop-color="#E7B6FF" stop-opacity="0.85"/>
+  </linearGradient>
+  <linearGradient id="leaf" x1="0" y1="1" x2="1" y2="0">
+    <stop offset="0" stop-color="#2F9A55"/>
+    <stop offset="1" stop-color="#8BE39A"/>
+  </linearGradient>
+  <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="18"/>
+  </filter>
+  <filter id="blur6" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="6"/>
+  </filter>
+  <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="26"/>
+    <feOffset dy="22" result="b"/>
+    <feFlood flood-color="#3A0B4C" flood-opacity="0.28"/>
+    <feComposite in2="b" operator="in" result="s"/>
+    <feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+</defs>
+<g transform="translate(512 512) scale(1.28) translate(-512 -540)"><ellipse cx="540" cy="884" rx="250" ry="34" fill="#5A1A73" opacity="0.22" filter="url(#soft)"/><g filter="url(#shadow)">
+  <circle cx="352" cy="470" r="168" fill="url(#fruitBack)"/>
+  <circle cx="352" cy="470" r="162" fill="none" stroke="url(#rim)" stroke-width="15.1" filter="url(#blur6)"/>
+  <ellipse cx="294.9" cy="399.4" rx="50.4" ry="28.6"
+           transform="rotate(-32 294.9 399.4)" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="341.9" cy="365.8" r="8.4" fill="#FFFFFF" opacity="0.75"/>
+  <ellipse cx="352" cy="317.1" rx="25.2" ry="10.1" fill="#2A0734" opacity="0.55"/>
+  <polygon points="352.0,302.7 356.9,310.0 371.2,310.3 360.0,315.2 363.8,322.7 352.0,318.4 340.2,322.7 344.0,315.2 332.8,310.3 347.1,310.0" fill="#1A0421"/>
+  <circle cx="352" cy="313.8" r="4.2" fill="#7A3A8F"/>
+
+  <circle cx="566" cy="612" r="268" fill="url(#fruit)"/>
+  <circle cx="566" cy="612" r="262" fill="none" stroke="url(#rim)" stroke-width="24.1" filter="url(#blur6)"/>
+  <ellipse cx="474.9" cy="499.4" rx="80.4" ry="45.6"
+           transform="rotate(-32 474.9 499.4)" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="549.9" cy="445.8" r="13.4" fill="#FFFFFF" opacity="0.75"/>
+  <ellipse cx="566" cy="368.1" rx="40.2" ry="16.1" fill="#2A0734" opacity="0.55"/>
+  <polygon points="566.0,345.1 573.9,356.8 596.6,357.3 578.7,365.0 584.9,377.1 566.0,370.1 547.1,377.1 553.3,365.0 535.4,357.3 558.1,356.8" fill="#1A0421"/>
+  <circle cx="566" cy="362.8" r="6.7" fill="#7A3A8F"/>
+</g>
+  <g transform="translate(572 356) rotate(-38)">
+    <path d="M0 0 C 40 -10 70 -14 95 -12" stroke="#2C7A45" stroke-width="16" fill="none" stroke-linecap="round"/>
+    <path d="M 90 -12 C 160 -110 330 -120 400 -40 C 330 40 170 70 90 -12 Z" fill="url(#leaf)"/>
+    <path d="M 95 -12 C 190 -40 300 -50 392 -40" stroke="#E8FFEA" stroke-width="9" fill="none" stroke-linecap="round" opacity="0.85"/>
+    <g stroke="#E8FFEA" stroke-width="6" stroke-linecap="round" opacity="0.6" fill="none">
+      <path d="M 170 -30 C 190 -60 210 -75 232 -86"/>
+      <path d="M 240 -38 C 262 -64 282 -78 304 -86"/>
+      <path d="M 310 -43 C 326 -60 340 -68 356 -72"/>
+      <path d="M 180 -26 C 205 -6 225 6 246 12"/>
+      <path d="M 252 -34 C 276 -16 296 -6 318 0"/>
+    </g>
+  </g>
+</g></svg>

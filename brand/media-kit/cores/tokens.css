@@ -1,0 +1,24 @@
+/* Tokens da marca jabuticaba (gerado por tool/brand/make_media_kit.py) */
+:root {
+  --jabu-casca: #0F0812;
+  --jabu-ameixa: #7B2D9E;
+  --jabu-uva: #9B4DCA;
+  --jabu-brilho: #C58AF0;
+  --jabu-magenta: #E0459B;
+  --jabu-folha: #5FBF7A;
+  --jabu-polpa: #FBF6FA;
+  --jabu-degrade: linear-gradient(135deg, #8E3BB8, #E0459B);
+  --rede-mastodon: #6364FF;
+  --rede-bluesky: #1185FE;
+  --rede-threads: #8A8A8A;
+  --rede-pixelfed: #F0447A;
+  --rede-peertube: #F1680D;
+  --rede-loops: #00C2A8;
+  --rede-lemmy: #14B88A;
+  --rede-funkwhale: #009FE3;
+  --rede-castopod: #009486;
+  --fonte-titulos: 'Bricolage Grotesque', system-ui, sans-serif;
+  --fonte-texto: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --raio-cartao: 22px;
+  --raio-pequeno: 14px;
+}

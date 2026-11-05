@@ -1,0 +1,557 @@
+<title>Brandbook jabuticaba</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Literata:wght@400;700&family=Pixelify+Sans:wght@400;700&family=IBM+Plex+Mono:wght@400;700&family=VT323&display=swap">
+<style>
+/* Layout: capa da fruta, depois capítulos em coluna de 1080px com grades que viram coluna única no celular. */
+:root {
+  /* Dark-first: a casa da marca é o tema Jabuticaba. */
+  --bg: #0F0812;
+  --surface: #1A1020;
+  --surface-2: #24172B;
+  --line: #33243B;
+  --ink: #FBF6FA;
+  --muted: #AA98B2;
+  --accent: #C58AF0;
+  --hot: #E0459B;
+  --leaf: #5FBF7A;
+  --grad: linear-gradient(135deg, #8E3BB8, #E0459B);
+  --display: "Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --text: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --r: 22px;
+  --r-sm: 14px;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #F8F3F7; --surface: #FFFFFF; --surface-2: #F1E8F0; --line: #E6DAE4;
+    --ink: #1C1020; --muted: #7A6880; --accent: #7B2D9E; --hot: #C8327F; --leaf: #2F9A55;
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #F8F3F7; --surface: #FFFFFF; --surface-2: #F1E8F0; --line: #E6DAE4;
+  --ink: #1C1020; --muted: #7A6880; --accent: #7B2D9E; --hot: #C8327F; --leaf: #2F9A55;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font: 400 16px/1.6 var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+.wrap {
+  max-width: 1080px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { font-family: var(--display); letter-spacing: -.02em; text-wrap: balance; margin: 0; }
+h2 { font-size: clamp(30px, 5vw, 44px); font-weight: 800; line-height: 1.05; }
+h3 { font-size: 20px; font-weight: 700; }
+p { margin: 0; max-width: 65ch; }
+.eyebrow { font: 700 12px/1 var(--text); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+.lead { font-size: 18px; color: var(--muted); }
+.muted { color: var(--muted); }
+code, .mono { font-family: var(--mono); font-size: .9em; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+/* Capa */
+.cover {
+  position: relative; overflow: hidden;
+  background: radial-gradient(120% 90% at 85% 10%, #4B1A55 0%, #1A0B20 55%, #0F0812 100%);
+  color: #FBF6FA;
+}
+.cover .wrap { display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 24px; padding-block: 72px 56px; }
+.cover h1 { font-size: clamp(52px, 10vw, 112px); font-weight: 800; line-height: .92; letter-spacing: -.04em; }
+.cover .tag { margin-top: 18px; font: 500 clamp(18px, 2.4vw, 24px)/1.35 var(--text); color: #E3D3EA; }
+.cover .meta { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 8px; }
+.cover .meta span { font: 600 13px/1 var(--text); padding: 9px 14px; border-radius: 999px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14); }
+.cover img { width: 100%; max-width: 420px; justify-self: end; filter: drop-shadow(0 30px 40px rgba(0,0,0,.45)); }
+
+/* Navegação */
+nav.toc { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+nav.toc .wrap { display: flex; gap: 6px; overflow-x: auto; padding-block: 10px; scrollbar-width: none; }
+nav.toc a { flex: none; font: 600 14px/1 var(--text); color: var(--muted); text-decoration: none; padding: 9px 14px; border-radius: 999px; }
+nav.toc a:hover { color: var(--ink); background: var(--surface-2); }
+
+section { padding-block: 72px; border-bottom: 1px solid var(--line); }
+section > .wrap { display: grid; gap: 36px; }
+.head { display: grid; gap: 12px; }
+
+.grid { display: grid; gap: 16px; }
+.g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 22px; min-width: 0; }
+.card h3 + p { margin-top: 6px; color: var(--muted); }
+
+/* Essência */
+.quote { font: 700 clamp(24px, 3.4vw, 34px)/1.2 var(--display); letter-spacing: -.02em; }
+.statement { display: grid; gap: 10px; padding: 28px; border-radius: var(--r); background: var(--surface); border: 1px solid var(--line); }
+.statement.hl { background: var(--grad); border: 0; color: #fff; }
+.statement.hl .eyebrow { color: rgba(255,255,255,.8); }
+.value h3 { display: flex; gap: 10px; align-items: baseline; }
+.value .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--grad); flex: none; translate: 0 -2px; }
+
+/* Tabelas */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-sm); }
+table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 15px; }
+th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 700 12px/1.2 var(--text); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); background: var(--surface); }
+tr:last-child td { border-bottom: 0; }
+td.yes::before { content: "✓ "; color: var(--leaf); font-weight: 800; }
+td.no::before { content: "✕ "; color: var(--hot); font-weight: 800; }
+
+/* Logo */
+.stage { border-radius: var(--r); display: grid; place-items: center; padding: 36px 20px; min-height: 220px; border: 1px solid var(--line); }
+.stage.dark { background: #0F0812; color: #FBF6FA; }
+.stage.light { background: #FBF6FA; color: #1C1020; }
+.stage.photo { background: linear-gradient(135deg, #F1680D, #F0447A 60%, #6364FF); }
+.wordmark { display: flex; align-items: center; gap: 14px; font: 800 clamp(32px, 5vw, 48px)/1 var(--display); letter-spacing: -.03em; }
+.wordmark img { height: 1.35em; width: auto; }
+.mono-dark img { filter: brightness(0) saturate(100%) invert(5%) sepia(20%) saturate(2000%) hue-rotate(250deg); }
+.mono-light img { filter: brightness(0) invert(1); }
+.clearspace { position: relative; padding: 34px; outline: 2px dashed var(--accent); outline-offset: -2px; border-radius: 8px; }
+.clearspace img { width: 130px; display: block; }
+.clearspace .x { position: absolute; font: 700 12px/1 var(--mono); color: var(--accent); }
+.dont .stage { min-height: 170px; position: relative; }
+.dont .stage::after { content: ""; position: absolute; inset: 14px auto auto 14px; width: 26px; height: 26px; border-radius: 50%; background: var(--hot); -webkit-mask: none; }
+.dont .stage::before { content: "✕"; position: absolute; inset: 14px auto auto 14px; z-index: 1; width: 26px; height: 26px; display: grid; place-items: center; color: #fff; font: 800 14px/1 var(--text); }
+.dont img { width: 110px; }
+.cap { font-size: 14px; color: var(--muted); margin-top: 10px; }
+.sizes { display: flex; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+.sizes figure { margin: 0; display: grid; justify-items: center; gap: 8px; font: 600 12px/1 var(--mono); color: var(--muted); }
+
+/* Cores */
+.swatch { border-radius: var(--r); overflow: hidden; border: 1px solid var(--line); background: var(--surface); min-width: 0; }
+.swatch .chip { height: 120px; }
+.swatch .info { padding: 14px 16px 16px; display: grid; gap: 4px; }
+.swatch .name { font: 700 16px/1.2 var(--display); }
+.swatch .use { font-size: 13px; color: var(--muted); }
+.copy { all: unset; cursor: pointer; font: 600 13px/1.2 var(--mono); color: var(--ink); width: fit-content; border-bottom: 1px dashed var(--muted); }
+.copy:hover { color: var(--accent); }
+.ratio { display: flex; height: 54px; border-radius: var(--r-sm); overflow: hidden; border: 1px solid var(--line); }
+.ratio div { display: grid; place-items: center; font: 700 13px/1 var(--text); }
+.grad-bar { height: 72px; border-radius: var(--r); background: var(--grad); display: flex; align-items: end; justify-content: space-between; padding: 12px 16px; color: #fff; font: 600 13px/1 var(--mono); }
+.nets { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; font: 700 13px/1 var(--text); border: 1px solid var(--line); background: var(--surface); }
+.pill i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+/* Tipografia */
+.specimen { display: grid; gap: 18px; }
+.specimen .big { font: 800 clamp(56px, 11vw, 120px)/.9 var(--display); letter-spacing: -.04em; }
+.specimen .alpha { font: 500 20px/1.5 var(--text); color: var(--muted); word-break: break-word; }
+.scale { display: grid; gap: 0; border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.scale > div { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 16px; align-items: baseline; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+.scale > div:last-child { border-bottom: 0; }
+.scale .k { font: 600 12px/1.3 var(--mono); color: var(--muted); }
+.scale .s { overflow-wrap: anywhere; }
+
+/* Temas */
+.theme { border-radius: var(--r); overflow: hidden; border: 1px solid var(--line); background: var(--surface); min-width: 0; }
+.theme .prev { padding: 16px; display: grid; gap: 10px; height: 170px; }
+.theme .bar { height: 10px; display: flex; gap: 4px; }
+.theme .bar i { width: 10px; height: 10px; border-radius: 50%; display: block; }
+.theme .ttl { font-size: 26px; line-height: 1; }
+.theme .ln { height: 6px; border-radius: 3px; opacity: .55; }
+.theme .btn { margin-top: auto; width: fit-content; padding: 7px 14px; font-size: 13px; font-weight: 700; }
+.theme .info { padding: 14px 16px 16px; display: grid; gap: 4px; border-top: 1px solid var(--line); }
+.theme .info b { font: 700 16px/1.2 var(--display); }
+.theme .info span { font-size: 13px; color: var(--muted); }
+
+/* Componentes */
+.demo { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.btn-grad { border: 0; color: #fff; background: var(--grad); padding: 13px 22px; border-radius: 999px; font: 700 15px/1 var(--text); }
+.btn-out { background: transparent; color: var(--ink); border: 1px solid var(--line); padding: 12px 20px; border-radius: 999px; font: 700 15px/1 var(--text); }
+.chip-sel { background: color-mix(in srgb, var(--accent) 20%, transparent); border: 1px solid var(--line); color: var(--ink); padding: 9px 14px; border-radius: 999px; font: 700 14px/1 var(--text); }
+.chip { background: var(--surface); border: 1px solid var(--line); color: var(--ink); padding: 9px 14px; border-radius: 999px; font: 700 14px/1 var(--text); }
+.post { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; display: grid; gap: 10px; max-width: 520px; }
+.post .who { display: flex; gap: 12px; align-items: center; }
+.post .av { width: 44px; height: 44px; border-radius: 50%; background: var(--grad); display: grid; place-items: center; color: #fff; font: 800 18px/1 var(--display); flex: none; }
+.post .who b { display: block; font-size: 15px; }
+.post .who span { font-size: 13px; color: var(--muted); }
+.post .net { margin-left: auto; font: 700 11px/1 var(--text); padding: 5px 9px; border-radius: 999px; color: #6364FF; background: rgba(99,100,255,.14); }
+.post .acts { display: flex; gap: 18px; font: 600 13px/1 var(--text); color: var(--muted); }
+.radii { display: flex; gap: 16px; flex-wrap: wrap; }
+.radii div { width: 110px; height: 80px; background: var(--surface-2); border: 1px solid var(--line); display: grid; place-items: end start; padding: 10px; font: 600 12px/1 var(--mono); color: var(--muted); }
+.space { display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; }
+.space div { display: grid; gap: 6px; justify-items: center; font: 600 12px/1 var(--mono); color: var(--muted); }
+.space i { display: block; background: var(--grad); border-radius: 3px; }
+
+/* Voz */
+.say { display: grid; gap: 10px; }
+.say .bad, .say .good { padding: 14px 16px; border-radius: var(--r-sm); border: 1px solid var(--line); }
+.say .good { background: color-mix(in srgb, var(--leaf) 12%, var(--surface)); }
+.say .bad { background: color-mix(in srgb, var(--hot) 10%, var(--surface)); }
+.say small { display: block; font: 700 11px/1 var(--text); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 6px; color: var(--muted); }
+
+/* Media kit */
+.files { display: grid; gap: 10px; }
+.files div { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 16px; padding: 14px 18px; border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--surface); }
+.files code { color: var(--accent); overflow-wrap: anywhere; }
+footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
+footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: center; }
+
+@media (max-width: 860px) {
+  .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .g3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 620px) {
+  .cover .wrap { grid-template-columns: 1fr; padding-block: 48px 40px; }
+  .cover img { justify-self: start; max-width: 220px; order: -1; }
+  .g2, .g3, .g4 { grid-template-columns: minmax(0, 1fr); }
+  .scale > div, .files div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  section { padding-block: 52px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cover img { animation: bob 5s ease-in-out infinite; }
+  @keyframes bob { 50% { transform: translateY(-10px) rotate(-2deg); } }
+}
+</style>
+
+<header class="cover">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow" style="color:#E3B6FF">Brandbook · versão 1.0 · novembro de 2026</p>
+      <h1 style="margin-top:14px">jabuticaba</h1>
+      <p class="tag">Todas as redes abertas. Um lugar só.</p>
+      <div class="meta"><span>Essência</span><span>Logo</span><span>Cores</span><span>Tipografia</span><span>8 temas</span><span>Voz</span></div>
+    </div>
+    <img src="{{LOGO_SVG}}" alt="Símbolo do jabuticaba: duas jabuticabas roxas e brilhantes com uma folha verde">
+  </div>
+</header>
+
+<nav class="toc" aria-label="Capítulos">
+  <div class="wrap">
+    <a href="#essencia">Essência</a><a href="#voz">Personalidade e voz</a><a href="#logo">Logo</a><a href="#cores">Cores</a>
+    <a href="#tipografia">Tipografia</a><a href="#temas">Temas</a><a href="#interface">Interface</a><a href="#kit">Media kit</a>
+  </div>
+</nav>
+
+<main>
+<section id="essencia">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Essência</p>
+      <h2>Muitos frutos, um tronco só</h2>
+      <p class="lead">A jabuticabeira dá fruto direto no tronco: dezenas de frutinhas grudadas na mesma madeira, cada uma inteira, todas do mesmo pé. É o que o app faz com o fediverso — muitas redes independentes brotando de um tronco comum, os protocolos abertos. E é coisa nossa: o app fala português primeiro.</p>
+    </div>
+    <div class="grid g2">
+      <div class="statement hl">
+        <p class="eyebrow">Missão</p>
+        <p class="quote">Tornar o fediverso fácil, bonito e acolhedor para qualquer pessoa.</p>
+        <p>Explorar sem conta, entrar sem medo e ter todas as redes abertas num lugar só.</p>
+      </div>
+      <div class="statement">
+        <p class="eyebrow">Visão</p>
+        <p class="quote">Redes sociais como a jabuticabeira.</p>
+        <p class="muted">Muitos frutos, de muitos donos, num tronco comum e aberto. Ninguém deveria escolher entre estar com a sua comunidade e ter liberdade sobre a própria vida online.</p>
+      </div>
+    </div>
+    <div class="head"><h3>Valores</h3></div>
+    <div class="grid g3">
+      <div class="card value"><h3><span class="dot"></span>Aberto por padrão</h3><p>Protocolos e código abertos. Se a pessoa sair do jabuticaba, leva tudo com ela.</p></div>
+      <div class="card value"><h3><span class="dot"></span>Acolhimento</h3><p>Português do Brasil primeiro, linguagem simples, explicação antes de pedir qualquer coisa.</p></div>
+      <div class="card value"><h3><span class="dot"></span>Autonomia</h3><p>A pessoa escolhe onde mora, o que segue e como o app parece. Sugerimos, não decidimos.</p></div>
+      <div class="card value"><h3><span class="dot"></span>Atenção não é produto</h3><p>Sem anúncios e sem algoritmo de engajamento. O que está em alta vem das redes, e dizemos de onde.</p></div>
+      <div class="card value"><h3><span class="dot"></span>Privacidade de verdade</h3><p>O que dá fica no aparelho. Senha se digita no servidor; tokens ficam no cofre do sistema.</p></div>
+      <div class="card value"><h3><span class="dot"></span>Beleza com propósito</h3><p>Cuidado em cada detalhe, a favor da leitura: alto contraste, movimento reduzido, temas.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="voz">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Personalidade e voz</p>
+      <h2>Uma amiga que entende de tecnologia</h2>
+      <p class="lead">Fala com você, em frases curtas, explica antes de pedir e nunca faz ninguém se sentir de fora por não saber o que é "instância".</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>O jabuticaba é</th><th>O jabuticaba não é</th></tr></thead>
+        <tbody>
+          <tr><td class="yes">curioso</td><td class="no">sabichão</td></tr>
+          <tr><td class="yes">caloroso</td><td class="no">meloso</td></tr>
+          <tr><td class="yes">brasileiro</td><td class="no">caricato</td></tr>
+          <tr><td class="yes">brincalhão na medida</td><td class="no">cheio de piadinha</td></tr>
+          <tr><td class="yes">claro e direto</td><td class="no">técnico ou burocrático</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid g3">
+      <div class="say">
+        <h3>Botões dizem o que acontece</h3>
+        <div class="good"><small>Assim</small>Criar minha conta · Publicar em 2 · Conectar</div>
+        <div class="bad"><small>Assim não</small>OK · Enviar · Prosseguir</div>
+      </div>
+      <div class="say">
+        <h3>Erros dizem o que fazer</h3>
+        <div class="good"><small>Assim</small>Não consegui falar com esse servidor. Confira o endereço e sua conexão.</div>
+        <div class="bad"><small>Assim não</small>Ops! Algo deu errado (erro 0x1F).</div>
+      </div>
+      <div class="say">
+        <h3>Explicar antes de pedir</h3>
+        <div class="good"><small>Assim</small>Vamos abrir o login do seu servidor no navegador. Sua senha é digitada lá, nunca aqui.</div>
+        <div class="bad"><small>Assim não</small>Insira suas credenciais.</div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Dizemos</th><th>Evitamos</th></tr></thead>
+        <tbody>
+          <tr><td>servidor</td><td>instância</td></tr>
+          <tr><td>seu endereço (<span class="mono">@voce@servidor</span>)</td><td>handle, acct, WebFinger</td></tr>
+          <tr><td>entrar no fediverso</td><td>fazer onboarding</td></tr>
+          <tr><td>senha de app</td><td>token, credencial</td></tr>
+          <tr><td>Fio · Clipes · Fotos · Comunidades</td><td>timeline · reels · feed · subreddit</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="logo">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Logo</p>
+      <h2>Duas frutas, uma folha</h2>
+      <p class="lead">O símbolo mostra duas jabuticabas com brilho e a coroinha no topo, característica da fruta, presas por uma folha. O nome sempre se escreve em minúsculas: <b>jabuticaba</b>.</p>
+    </div>
+    <div class="grid g3">
+      <div><div class="stage dark"><img src="{{LOGO_SVG}}" alt="Símbolo" style="width:150px"></div><p class="cap">Símbolo — uso principal, sobre fundo escuro ou claro.</p></div>
+      <div><div class="stage light"><img src="{{ICON_PNG}}" alt="Ícone do app" style="width:150px;border-radius:34px"></div><p class="cap">Ícone do app — fundo cor de polpa, para lojas e telas iniciais.</p></div>
+      <div><div class="stage light"><img src="{{MACOS_PNG}}" alt="Ícone do macOS" style="width:160px"></div><p class="cap">Ícone macOS — squircle com margem e sombra, padrão do sistema.</p></div>
+    </div>
+    <div class="grid g2">
+      <div><div class="stage light"><span class="wordmark"><img src="{{LOGO_SVG}}" alt="">jabuticaba</span></div><p class="cap">Wordmark para fundo claro: Bricolage Grotesque 800.</p></div>
+      <div><div class="stage dark"><span class="wordmark"><img src="{{LOGO_SVG}}" alt="">jabuticaba</span></div><p class="cap">Wordmark para fundo escuro, texto em Polpa.</p></div>
+      <div><div class="stage light mono-dark"><span class="wordmark"><img src="{{LOGO_SVG}}" alt="">jabuticaba</span></div><p class="cap">Monocromático escuro — impressão em uma cor, carimbos.</p></div>
+      <div><div class="stage photo mono-light"><span class="wordmark" style="color:#fff"><img src="{{LOGO_SVG}}" alt="">jabuticaba</span></div><p class="cap">Monocromático claro — sobre fotos e fundos coloridos.</p></div>
+    </div>
+    <div class="grid g2">
+      <div class="card">
+        <h3>Área de proteção</h3>
+        <p>Deixe em volta do símbolo um respiro de, no mínimo, a largura da folha. Nada de texto, borda ou outro logo dentro desse espaço.</p>
+        <div style="display:grid;place-items:center;margin-top:20px">
+          <div class="clearspace"><img src="{{LOGO_SVG}}" alt=""><span class="x" style="top:8px;left:50%;translate:-50% 0">x</span><span class="x" style="bottom:8px;left:50%;translate:-50% 0">x</span><span class="x" style="left:10px;top:50%;translate:0 -50%">x</span><span class="x" style="right:10px;top:50%;translate:0 -50%">x</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Tamanho mínimo</h3>
+        <p>Abaixo disso a coroinha e o brilho somem. Para favicons use o SVG, que continua nítido.</p>
+        <div class="sizes" style="margin-top:22px">
+          <figure><img src="{{LOGO_SVG}}" alt="" style="width:16px"><figcaption>16 px</figcaption></figure>
+          <figure><img src="{{LOGO_SVG}}" alt="" style="width:32px"><figcaption>32 px</figcaption></figure>
+          <figure><img src="{{LOGO_SVG}}" alt="" style="width:64px"><figcaption>64 px</figcaption></figure>
+          <figure><span class="wordmark" style="font-size:24px"><img src="{{LOGO_SVG}}" alt="">jabuticaba</span><figcaption>wordmark 24 px</figcaption></figure>
+        </div>
+      </div>
+    </div>
+    <div class="head"><h3>Não faça</h3></div>
+    <div class="grid g4 dont">
+      <div><div class="stage light"><img src="{{LOGO_SVG}}" alt="" style="transform:scaleX(1.5)"></div><p class="cap">Esticar ou achatar.</p></div>
+      <div><div class="stage light"><img src="{{LOGO_SVG}}" alt="" style="filter:hue-rotate(150deg)"></div><p class="cap">Trocar a cor da fruta.</p></div>
+      <div><div class="stage" style="background:#5A1F7A"><img src="{{LOGO_SVG}}" alt=""></div><p class="cap">Usar sobre roxo parecido.</p></div>
+      <div><div class="stage light"><img src="{{LOGO_SVG}}" alt="" style="transform:rotate(-35deg);filter:drop-shadow(8px 8px 0 #1C1020)"></div><p class="cap">Girar ou somar sombras.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="cores">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Cores</p>
+      <h2>Casca, polpa e folha</h2>
+      <p class="lead">A paleta sai da fruta: o roxo quase preto da casca, o brilho violeta, a polpa clara e o verde da folha. Toque no código para copiar.</p>
+    </div>
+    <div class="grid g4" id="swatches"></div>
+    <div class="grad-bar"><span>#8E3BB8</span><span>Degradê da marca · 135°</span><span>#E0459B</span></div>
+    <div class="card">
+      <h3>Proporção</h3>
+      <p>Muito fundo, pouco destaque: o degradê aparece em uma coisa por tela (o botão principal, um cabeçalho), não em tudo.</p>
+      <div class="ratio" style="margin-top:16px" aria-label="Proporção de uso das cores">
+        <div style="flex:60;background:#0F0812;color:#FBF6FA">60% Casca</div>
+        <div style="flex:25;background:#FBF6FA;color:#1C1020">25% Polpa</div>
+        <div style="flex:10;background:linear-gradient(135deg,#8E3BB8,#E0459B);color:#fff">10%</div>
+        <div style="flex:5;background:#5FBF7A"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Cores das redes</h3>
+      <p>Usadas só para identificar de onde vem cada conteúdo — na pílula da rede e no selo do avatar. Nunca como cor da marca.</p>
+      <div class="nets" style="margin-top:16px" id="nets"></div>
+    </div>
+  </div>
+</section>
+
+<section id="tipografia">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Tipografia</p>
+      <h2>Bricolage para chamar, Jakarta para ler</h2>
+      <p class="lead">Bricolage Grotesque tem personalidade de cartaz e entra só em títulos. Plus Jakarta Sans é calma e muito legível, para todo o resto. Ambas são livres (licença OFL).</p>
+    </div>
+    <div class="grid g2">
+      <div class="card specimen"><p class="eyebrow">Títulos · Bricolage Grotesque 700–800</p><div class="big">Aa Jj</div><p class="alpha" style="font-family:var(--display);font-weight:700">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789</p></div>
+      <div class="card specimen"><p class="eyebrow">Texto · Plus Jakarta Sans 400–800</p><div class="big" style="font-family:var(--text);font-weight:700">Aa Jj</div><p class="alpha">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 ação · coração · você</p></div>
+    </div>
+    <div class="scale" role="table" aria-label="Escala tipográfica">
+      <div><span class="k">display · 52/800</span><span class="s" style="font:800 52px/1 var(--display);letter-spacing:-.02em">Explore o fediverso</span></div>
+      <div><span class="k">headline · 28/800</span><span class="s" style="font:800 28px/1.1 var(--display)">Comunidades para você</span></div>
+      <div><span class="k">título · 18/700</span><span class="s" style="font:700 18px/1.3 var(--text)">Conversar e acompanhar pessoas</span></div>
+      <div><span class="k">corpo · 16/400</span><span class="s" style="font:400 16px/1.45 var(--text)">Cada servidor tem suas regras e seu clima, mas todos conversam entre si.</span></div>
+      <div><span class="k">rótulo · 12,5/600</span><span class="s" style="font:600 12.5px/1.2 var(--text);color:var(--muted)">2,3 mil ativos · Cadastro na hora</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="temas">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Temas</p>
+      <h2>Oito jeitos de ver o mesmo app</h2>
+      <p class="lead">Cada tema muda cores, fontes, cantos, bordas, o filtro das imagens e até a forma dos títulos. A marca continua a mesma: o símbolo e o nome nunca mudam de forma.</p>
+    </div>
+    <div class="grid g4" id="themes"></div>
+  </div>
+</section>
+
+<section id="interface">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Interface</p>
+      <h2>Peças que se repetem</h2>
+      <p class="lead">Cantos generosos, pílulas para ações e filtros, o degradê reservado para a ação principal.</p>
+    </div>
+    <div class="grid g2">
+      <div class="card"><h3>Botões e chips</h3><div class="demo" style="margin-top:16px"><button class="btn-grad" type="button">+ Seguir</button><button class="btn-out" type="button">✓ Seguindo</button><span class="chip-sel">✨ Em alta</span><span class="chip">#fotografia</span></div></div>
+      <div class="card"><h3>Raios</h3><div class="radii" style="margin-top:16px"><div style="border-radius:22px">22 · cartão</div><div style="border-radius:14px">14 · pequeno</div><div style="border-radius:999px;place-items:center">pílula</div></div></div>
+    </div>
+    <div class="grid g2">
+      <div class="post" aria-label="Exemplo de post">
+        <div class="who"><div class="av">A</div><div><b>Ana Lima</b><span>@ana@organica.social · 3 h</span></div><span class="net">Mastodon</span></div>
+        <p>Primeira semana no fediverso e já achei uma comunidade de fotografia de rua em Recife. Quem diria. <span style="color:var(--accent);font-weight:600">#fotografia</span></p>
+        <div class="acts"><span>💬 12</span><span>🔁 4</span><span>♥ 87</span></div>
+      </div>
+      <div class="card"><h3>Espaçamento</h3><p>Base de 4 px. Entre blocos de seção, 30; dentro de cartões, 16 a 22.</p>
+        <div class="space" style="margin-top:16px"><div><i style="width:4px;height:4px"></i>4</div><div><i style="width:8px;height:8px"></i>8</div><div><i style="width:12px;height:12px"></i>12</div><div><i style="width:16px;height:16px"></i>16</div><div><i style="width:20px;height:20px"></i>20</div><div><i style="width:24px;height:24px"></i>24</div><div><i style="width:32px;height:32px"></i>32</div></div>
+      </div>
+    </div>
+    <div class="grid g3">
+      <div class="card"><h3>Ícones</h3><p>Material Icons arredondados, traço cheio quando selecionado e contorno quando não.</p></div>
+      <div class="card"><h3>Imagens</h3><p>Sempre com blurhash ou degradê enquanto carregam, cantos de 18 px e conteúdo sensível desfocado até o toque.</p></div>
+      <div class="card"><h3>Movimento</h3><p>160–420 ms, curva <span class="mono">easeOutCubic</span>. Com "reduzir movimento" ligado, nada balança.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="kit">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Media kit</p>
+      <h2>Arquivos prontos</h2>
+      <p class="lead">Tudo fica em <span class="mono">brand/media-kit/</span> no repositório e é gerado por script. Para mudar algo, altere os scripts e rode de novo.</p>
+    </div>
+    <div class="files">
+      <div><code>logo/</code><span>Símbolo em PNG (64 a 1024) e SVG, ícone do app, ícone macOS, versões monocromáticas e wordmark horizontal e vertical para fundo claro e escuro.</span></div>
+      <div><code>social/</code><span>Imagem de compartilhamento 1200×630, capa de perfil 1500×500 e avatar 400×400.</span></div>
+      <div><code>cores/</code><span>Paleta em imagem, <span class="mono">tokens.json</span> e <span class="mono">tokens.css</span>.</span></div>
+      <div><code>fontes/</code><span>As seis famílias usadas no app, cada uma com a licença OFL.</span></div>
+      <div><code>capturas/</code><span>Prévias das telas e dos temas.</span></div>
+      <div><code>tool/icon/make_icon.py</code><span>Desenha o ícone e aplica em todas as plataformas.</span></div>
+      <div><code>tool/brand/make_media_kit.py</code><span>Gera o media kit e este brandbook.</span></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="wordmark" style="font-size:22px"><img src="{{LOGO_SVG}}" alt="">jabuticaba</span>
+    <span>Brandbook 1.0 · feito com protocolos abertos</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var colors = [
+    ["Casca", "#0F0812", "Fundo do tema escuro; a pele da fruta"],
+    ["Ameixa", "#7B2D9E", "Cor principal da marca"],
+    ["Uva", "#9B4DCA", "Variação clara da principal"],
+    ["Brilho", "#C58AF0", "Destaque sobre fundos escuros"],
+    ["Magenta", "#E0459B", "Fim do degradê; curtidas e alertas"],
+    ["Folha", "#5FBF7A", "Confirmações e a folha do símbolo"],
+    ["Polpa", "#FBF6FA", "Texto sobre escuro; fundo claro"],
+    ["Tinta", "#1C1020", "Texto sobre claro"]
+  ];
+  function rgb(h) { return [1, 3, 5].map(function (i) { return parseInt(h.slice(i, i + 2), 16); }).join(" "); }
+  var sw = document.getElementById("swatches");
+  colors.forEach(function (c) {
+    var el = document.createElement("div");
+    el.className = "swatch";
+    el.innerHTML = '<div class="chip" style="background:' + c[1] + '"></div><div class="info"><span class="name">' + c[0] +
+      '</span><button class="copy" type="button" data-v="' + c[1] + '">' + c[1] + '</button><span class="use">RGB ' + rgb(c[1]) +
+      '</span><span class="use">' + c[2] + '</span></div>';
+    sw.appendChild(el);
+  });
+
+  var nets = [["Mastodon", "#6364FF"], ["Bluesky", "#1185FE"], ["Threads", "#8A8A8A"], ["Pixelfed", "#F0447A"],
+    ["PeerTube", "#F1680D"], ["Loops", "#00C2A8"], ["Lemmy", "#14B88A"],
+    ["Funkwhale", "#009FE3"], ["Castopod", "#009486"]];
+  var nw = document.getElementById("nets");
+  nets.forEach(function (n) {
+    var el = document.createElement("span");
+    el.className = "pill";
+    el.innerHTML = '<i style="background:' + n[1] + '"></i>' + n[0] + ' <button class="copy" type="button" data-v="' + n[1] + '">' + n[1] + '</button>';
+    nw.appendChild(el);
+  });
+
+  var themes = [
+    { n: "Jabuticaba", d: "Escuro, roxo e brilhante", bg: "#0F0812", card: "#1A1020", ink: "#FBF6FA", mut: "#AA98B2", btn: "linear-gradient(135deg,#8E3BB8,#E0459B)", on: "#fff", f: "'Bricolage Grotesque'", w: 800, r: 14, t: "Aa" },
+    { n: "Polpa", d: "Claro e macio", bg: "#F8F3F7", card: "#FFFFFF", ink: "#1C1020", mut: "#7A6880", btn: "linear-gradient(135deg,#8E3BB8,#E0459B)", on: "#fff", f: "'Bricolage Grotesque'", w: 800, r: 14, t: "Aa" },
+    { n: "Paperwhite", d: "Papel e tinta, como um Kindle", bg: "#F3EFE4", card: "#F9F6EE", ink: "#1E1C19", mut: "#6E675C", btn: "#2A2824", on: "#F3EFE4", f: "Literata", w: 700, r: 6, t: "Aa" },
+    { n: "Windows 95", d: "Cinza, relevo e barra azul", bg: "#C0C0C0", card: "#C0C0C0", ink: "#000", mut: "#3A3A3A", btn: "#000080", on: "#fff", f: "'Pixelify Sans'", w: 700, r: 0, t: "Aa", bevel: true },
+    { n: "ASCII", d: "Texto puro, monoespaçado", bg: "#FFFFFF", card: "#FFFFFF", ink: "#000", mut: "#555", btn: "#000", on: "#fff", f: "'IBM Plex Mono'", w: 700, r: 0, t: "[ Aa ]", line: "#000" },
+    { n: "Matrix", d: "Verde fósforo sobre preto", bg: "#000500", card: "#00120A", ink: "#39FF6A", mut: "#15A63A", btn: "#39FF6A", on: "#000", f: "VT323", w: 400, r: 0, t: "> aa_", glow: true },
+    { n: "Alto contraste", d: "Máxima legibilidade", bg: "#000", card: "#000", ink: "#fff", mut: "#E6E6E6", btn: "#FFD400", on: "#000", f: "'Bricolage Grotesque'", w: 800, r: 12, t: "Aa", line: "#fff" },
+    { n: "Sistema", d: "Polpa de dia, Jabuticaba de noite", bg: "linear-gradient(90deg,#F8F3F7 50%,#0F0812 50%)", card: "transparent", ink: "#7B2D9E", mut: "#AA98B2", btn: "linear-gradient(135deg,#8E3BB8,#E0459B)", on: "#fff", f: "'Bricolage Grotesque'", w: 800, r: 14, t: "Aa" }
+  ];
+  var th = document.getElementById("themes");
+  themes.forEach(function (t) {
+    var bevel = t.bevel ? "box-shadow: inset 1px 1px #fff, inset -1px -1px #0a0a0a, inset 2px 2px #dfdfdf, inset -2px -2px #808080;" : "";
+    var border = t.line ? "border:2px solid " + t.line + ";" : (t.bevel ? "" : "border:1px solid rgba(127,127,127,.25);");
+    var el = document.createElement("div");
+    el.className = "theme";
+    el.innerHTML =
+      '<div class="prev" style="background:' + t.bg + ';color:' + t.ink + '">' +
+      '<div class="bar">' + [0, 1, 2].map(function () { return '<i style="background:' + t.mut + ';border-radius:' + (t.r ? '50%' : '0') + '"></i>'; }).join("") + "</div>" +
+      '<div style="background:' + t.card + ';' + border + bevel + 'border-radius:' + t.r + 'px;padding:12px;display:grid;gap:8px;height:100%">' +
+      '<span class="ttl" style="font-family:' + t.f + ',monospace;font-weight:' + t.w + ';' + (t.glow ? 'text-shadow:0 0 10px rgba(57,255,106,.7);' : '') + (t.f === "VT323" ? 'font-size:32px;' : '') + '">' + t.t + "</span>" +
+      '<i class="ln" style="background:' + t.mut + ';width:70%"></i><i class="ln" style="background:' + t.mut + ';width:45%"></i>' +
+      '<span class="btn" style="background:' + t.btn + ';color:' + t.on + ';border-radius:' + (t.r ? 999 : 0) + 'px;font-family:' + t.f + ',monospace;' + bevel + '">Seguir</span>' +
+      "</div></div>" +
+      '<div class="info"><b>' + t.n + "</b><span>" + t.d + "</span></div>";
+    th.appendChild(el);
+  });
+
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest(".copy");
+    if (!b) return;
+    var v = b.getAttribute("data-v");
+    function done() { var old = b.textContent; b.textContent = "copiado"; setTimeout(function () { b.textContent = old; }, 1200); }
+    try {
+      navigator.clipboard.writeText(v).then(done, function () { selectText(b); });
+    } catch (err) { selectText(b); }
+  });
+  function selectText(el) {
+    var r = document.createRange(); r.selectNodeContents(el);
+    var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+  }
+})();
+</script>
