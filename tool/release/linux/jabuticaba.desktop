@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=jabuticaba
+GenericName=Explorador do fediverso
+Comment=Todas as redes abertas do fediverso num app só
+Exec=jabuticaba
+Icon=jabuticaba
+Terminal=false
+Categories=Network;Feed;AudioVideo;
+Keywords=fediverso;mastodon;bluesky;pixelfed;lemmy;peertube;
+StartupWMClass=jabuticaba

@@ -4,6 +4,16 @@ Um explorador do fediverso: **vídeos curtos, fotos, conversas e comunidades** d
 
 Uma obra da [Ways of Seeing](https://ways-of-seeing.github.io). **Apresentação:** <https://ways-of-seeing.github.io/jabuticaba/> · **Brandbook:** <https://ways-of-seeing.github.io/jabuticaba/brandbook.html>
 
+## Baixar
+
+| | |
+|---|---|
+| 🍎 **macOS** 12+ (Apple Silicon e Intel) | [**Baixar .dmg**](https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.0/jabuticaba-macos.dmg) |
+| 🪟 **Windows** 10/11 | [**Baixar instalador**](https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.0/jabuticaba-windows-instalador.exe) · [versão portátil (.zip)](https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.0/jabuticaba-windows-x64.zip) |
+| 🐧 **Linux** 64 bits | [**Baixar .tar.gz**](https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.0/jabuticaba-linux-x64.tar.gz) |
+
+Versão 0.1.0, pré-lançamento gratuito. **Como instalar, liberar o app no macOS e no Windows e conectar suas contas:** [docs/INSTALAR.md](docs/INSTALAR.md). Todas as versões: [Releases](https://github.com/Ways-of-Seeing/jabuticaba/releases). iOS e Android vêm depois.
+
 A proposta não é só “colar o endereço da sua instância”: é **explorar primeiro**. Dá para descobrir, seguir e montar seu fio sem criar conta; quando quiser postar, o app ajuda a escolher um servidor.
 
 ## Telas

@@ -1,0 +1,118 @@
+name: release
+
+# Compila o app de desktop e anexa os instaladores à release da tag.
+# Uso: git tag v0.1.0 && git push origin v0.1.0
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag já existente para (re)compilar"
+        required: true
+
+permissions:
+  contents: write
+
+env:
+  FLUTTER_VERSION: "3.47.2"
+  TAG: ${{ inputs.tag || github.ref_name }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+      - name: Criar a release (pré-lançamento) se ainda não existir
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "$TAG" >/dev/null 2>&1 || \
+            gh release create "$TAG" --prerelease --title "jabuticaba ${TAG#v}" \
+              --notes-file tool/release/NOTAS.md
+
+  macos:
+    needs: release
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter build macos --release
+      - name: Empacotar .dmg
+        run: |
+          APP=build/macos/Build/Products/Release/jabuticaba.app
+          codesign --force --deep --sign - "$APP"
+          mkdir -p dmg && cp -R "$APP" dmg/ && ln -s /Applications dmg/Applications
+          hdiutil create -volname jabuticaba -srcfolder dmg -ov -format UDZO jabuticaba-macos.dmg
+      - name: Anexar
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$TAG" jabuticaba-macos.dmg --clobber
+
+  windows:
+    needs: release
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter build windows --release
+      - name: Instalador (Inno Setup) e zip portátil
+        shell: pwsh
+        run: |
+          choco install innosetup -y --no-progress
+          $version = "$env:TAG".TrimStart("v")
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "/DAppVersion=$version" tool\release\jabuticaba.iss
+          Compress-Archive -Path build\windows\x64\runner\Release\* -DestinationPath jabuticaba-windows-x64.zip
+      - name: Anexar
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$TAG" jabuticaba-windows-instalador.exe jabuticaba-windows-x64.zip --clobber
+
+  linux:
+    needs: release
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+      - name: Dependências de sistema
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev \
+            liblzma-dev libstdc++-12-dev libsecret-1-dev libjsoncpp-dev
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter build linux --release
+      - name: Empacotar .tar.gz
+        run: |
+          mkdir -p pacote/jabuticaba
+          cp -r build/linux/x64/release/bundle/* pacote/jabuticaba/
+          cp tool/release/linux/jabuticaba.desktop tool/release/linux/instalar.sh pacote/jabuticaba/
+          cp assets/brand/icon_full.png pacote/jabuticaba/jabuticaba.png
+          chmod +x pacote/jabuticaba/instalar.sh
+          tar -C pacote -czf jabuticaba-linux-x64.tar.gz jabuticaba
+      - name: Anexar
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$TAG" jabuticaba-linux-x64.tar.gz --clobber
