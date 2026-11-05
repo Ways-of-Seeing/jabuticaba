@@ -125,3 +125,16 @@ Fontes: Plus Jakarta Sans e Bricolage Grotesque (OFL), incluídas em `assets/fon
 - **Splash** com a jabuticaba.
 - **Traduções** (a interface hoje é em pt-BR).
 - Distribuição: veja [docs/DISTRIBUICAO.md](docs/DISTRIBUICAO.md).
+
+## Licença
+
+O código do jabuticaba está sob a **[PolyForm Noncommercial 1.0.0](LICENSE.md)**: pode usar, estudar, modificar e compartilhar para fins **não comerciais** — uso pessoal, pesquisa, ensino, hobby, e por organizações sem fins lucrativos, escolas e órgãos públicos. **Uso comercial depende de autorização** da Ways of Seeing; para isso, abra uma conversa em [issues](https://github.com/Ways-of-Seeing/jabuticaba/issues).
+
+Fora da licença do código:
+
+- **Nome e marca.** "jabuticaba", o símbolo e os ícones identificam o produto e não estão licenciados para outros usos. O [media kit](brand/media-kit/README.md) pode ser usado para falar do jabuticaba (imprensa, divulgação), seguindo o brandbook.
+- **Fontes.** As famílias em `assets/fonts/` e `brand/media-kit/fontes/` são de terceiros e seguem a SIL Open Font License (cópias junto às fontes no media kit).
+- **Conteúdo das redes.** Posts, fotos, vídeos e áudios mostrados pelo app (e presentes nas capturas) pertencem a quem os publicou.
+
+Copyright © 2026 Ways of Seeing.
+
