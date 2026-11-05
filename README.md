@@ -6,12 +6,27 @@ Uma obra da [Ways of Seeing](https://ways-of-seeing.github.io). **Apresentação
 
 A proposta não é só “colar o endereço da sua instância”: é **explorar primeiro**. Dá para descobrir, seguir e montar seu fio sem criar conta; quando quiser postar, o app ajuda a escolher um servidor.
 
+## Telas
+
+| Explorar | Clipes |
+|---|---|
+| ![Explorar](docs/telas/desktop/explorar.jpg) | ![Clipes](docs/telas/desktop/clipes.jpg) |
+| **Música** | **Podcasts** |
+| ![Música](docs/telas/desktop/musica.jpg) | ![Podcasts](docs/telas/desktop/podcasts.jpg) |
+| **Entrar no fediverso** | **Temas** |
+| ![Entrar no fediverso](docs/telas/desktop/fediverso-inicio.jpg) | ![Seletor de tema](docs/telas/desktop/visual.jpg) |
+
+| Explorar | Fio | Player | Mais |
+|---|---|---|---|
+| <img src="docs/telas/celular/explorar.jpg" width="190" alt="Explorar no celular"> | <img src="docs/telas/celular/fio.jpg" width="190" alt="Fio no celular"> | <img src="docs/telas/celular/player.jpg" width="190" alt="Player no celular"> | <img src="docs/telas/celular/mais.jpg" width="190" alt="Menu Mais no celular"> |
+
+**Todas as telas, menus e fluxos** (abas, post, perfil, comunidades, álbum, podcast, player, aviso de conta, cada passo de entrar no fediverso, primeiro uso e os oito temas): [docs/TELAS.md](docs/TELAS.md).
+
 ## Redes suportadas (leitura sem login)
 
 | Rede | Formato no app | Fonte |
 |---|---|---|
 | **Mastodon** | Fio, hashtags, perfis, respostas | `/api/v1/trends/*`, timelines de hashtag, contas |
-| **Threads** | Fio, perfis | Perfis que federam, lidos via Mastodon (`user@threads.net`) |
 | **Bluesky** | Fio, feeds temáticos, tópicos em alta, vídeos | AppView pública `public.api.bsky.app` |
 | **Pixelfed** | Fotos | `/api/pixelfed/v2/discover/posts/trending` |
 | **Loops** | Clipes (vertical, estilo TikTok/Reels) | `/api/web/feed`, `/api/v1/explore/tags`, feeds de hashtag |
@@ -20,6 +35,10 @@ A proposta não é só “colar o endereço da sua instância”: é **explorar 
 | **Funkwhale** | Música: álbuns, faixas, player | `/api/v1/tracks` e `/albums` de pods abertos (tanukitunes, funk.firobe.fr, samtherapy, tunez) |
 | **Castopod** | Podcasts: ~1.800 programas, episódios via RSS | [Castopod Index](https://index.castopod.org) + feed RSS de cada podcast |
 | Diretório | Servidores para começar | `api.joinmastodon.org` |
+
+## Sem Meta
+
+O jabuticaba **não integra o Threads, o Instagram, o Facebook nem qualquer outro serviço da Meta**. O Threads conversa com o fediverso, então posts e contas do `threads.net` às vezes chegam pelas tendências e hashtags do Mastodon: o app **descarta esse conteúdo** antes de mostrar (`MastodonApi.fromMeta`, coberto por teste). Nada da Meta aparece no Explorar, no Fio, na busca, nas respostas ou no que você segue.
 
 ## Contas (opcional)
 
@@ -30,7 +49,7 @@ O fluxo **Entrar no fediverso** (no onboarding, na aba Você ou no botão Public
 
 Com conta: aba **Minhas contas** no Fio (linhas do tempo juntas), curtir/compartilhar de verdade, "Seguir" também segue no servidor, e **Publicar** em várias contas ao mesmo tempo (respeitando o limite da rede mais restritiva, ex.: 300 no Bluesky). Tokens ficam no cofre do sistema (`flutter_secure_storage`: Keychain/Keystore/libsecret/DPAPI).
 
-Threads e Loops ainda não oferecem login para apps de terceiros — o conteúdo deles continua aparecendo e podendo ser seguido.
+O Loops ainda não oferece login para apps de terceiros — os vídeos continuam aparecendo e podendo ser seguidos.
 
 ## Temas
 
@@ -55,7 +74,7 @@ python3 tool/icon/make_icon.py && dart run flutter_launcher_icons
 ## Abas
 
 - **Explorar** — saudação, busca única, interesses, tópicos em alta, carrosséis de clipes, fotos, conversas, comunidades, vídeos, servidores, feeds e notícias.
-- **Fio** — linha do tempo em texto misturando redes, com filtros (Para você, Seguindo, Mastodon, Bluesky, Threads, Lemmy).
+- **Fio** — linha do tempo em texto misturando redes, com filtros (Minhas contas, Para você, Seguindo, Mastodon, Bluesky, Lemmy).
 - **Clipes** — vídeos em tela cheia, deslizando na vertical (Loops, PeerTube, Bluesky, Mastodon). No desktop: setas ↑/↓, `J`/`K`, `M` para mudo.
 - **Fotos** — grade masonry (Pixelfed + Mastodon + Bluesky), com filtros por hashtag.
 - **Música** — Funkwhale: álbuns recentes, faixas novas, busca e filtro por servidor; favoritos com conta Funkwhale.
@@ -68,7 +87,7 @@ python3 tool/icon/make_icon.py && dart run flutter_launcher_icons
 Um player global (`lib/state/player.dart`) toca música e podcasts com o mesmo motor nativo dos vídeos; o mini player fica acima das abas e o player completo tem fila, velocidade (podcasts) e ações. Um clipe com som pausa o áudio.
 
 - No celular a barra mostra Explorar, Fio, Clipes, Música e Podcasts; Fotos, Comunidades e Você ficam em **Mais**.
-- O Castopod Index e os feeds RSS não liberam CORS: na versão **web**, aponte para um espelho com `--dart-define=CASTOPOD_INDEX=https://seu-espelho/podcastindex.json`. No app nativo não há essa limitação.
+- O Castopod Index e os feeds RSS não liberam CORS: na versão **web**, aponte para um espelho com `--dart-define=CASTOPOD_INDEX=https://seu-espelho/podcastindex.json` e para um proxy de feeds com `--dart-define=FEED_PROXY=https://seu-proxy/?url=` (para testes locais há `tool/screens/feed_proxy.py`). No app nativo não há essa limitação.
 - `dart run tool/smoke_audio.dart` confere as fontes de áudio contra os servidores reais.
 
 ## Rodando
@@ -99,6 +118,10 @@ flutter build web --release --dart-define=DEMO=true
 
 Abas: `explorar`, `fio`, `clipes`, `fotos`, `musica`, `podcasts`, `comunidades`, `voce`. Temas: `jabuticaba`, `polpa`, `paperwhite`, `win95`, `ascii`, `matrix`, `contraste`.
 
+Também dá para abrir uma tela específica: `tela=` (`post`, `perfil`, `hashtag`, `comunidade`, `servidor`, `feed`, `busca`, `album`, `podcast`, `player`, `miniplayer`, `foto`, `clipe`, `aviso`, `aviso-musica`, `visual`, `guia`, `mais`), um passo de entrar no fediverso com `fediverso=` (`choose`, `connect`, `create`, `servers`, `signup`, `mastodonConnect`, `blueskyConnect`, `lemmyConnect`, `music`, `musicConnect`, `podcaster`), um segmento de Comunidades com `segmento=` (`groups`, `servers`, `feeds`, `channels`) e um passo do primeiro uso com `onboarding=1&passo=0..3`.
+
+As capturas de [docs/TELAS.md](docs/TELAS.md) saem de `tool/screens/scenes.tsv` com `python3 tool/screens/capture.py` (instruções no cabeçalho do script).
+
 ## Estrutura
 
 ```
@@ -113,7 +136,7 @@ lib/
   ui/widgets/             cartões, mídia, vídeo, texto rico, listas paginadas
 ```
 
-Todo conteúdo vira um `Post` comum; cada fonte é um `Loader` (página + cursor), e `mix()` intercala várias fontes num fio só — é assim que um único feed junta Mastodon, Bluesky, Threads e Lemmy. Uma instância fora do ar ou lenta (mais de 10 s) sai da mistura sem derrubar a tela.
+Todo conteúdo vira um `Post` comum; cada fonte é um `Loader` (página + cursor), e `mix()` intercala várias fontes num fio só — é assim que um único feed junta Mastodon, Bluesky e Lemmy. Uma instância fora do ar ou lenta (mais de 10 s) sai da mistura sem derrubar a tela.
 
 Fontes: Plus Jakarta Sans e Bricolage Grotesque (OFL), incluídas em `assets/fonts`.
 

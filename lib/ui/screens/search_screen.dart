@@ -10,15 +10,28 @@ import '../theme.dart';
 import '../widgets/basics.dart';
 import '../widgets/cards.dart';
 
-/// Busca única em Mastodon, Threads, Bluesky, Lemmy e PeerTube.
+/// Busca única em Mastodon, Bluesky, Lemmy e PeerTube.
 class SearchScreen extends ConsumerStatefulWidget {
-  const SearchScreen({super.key});
+  const SearchScreen({super.key, this.initialQuery});
+
+  /// Busca já preenchida ao abrir.
+  final String? initialQuery;
 
   @override
   ConsumerState<SearchScreen> createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends ConsumerState<SearchScreen> {
+  @override
+  void initState() {
+    super.initState();
+    final q = widget.initialQuery;
+    if (q != null && q.isNotEmpty) {
+      _ctrl.text = q;
+      _q = q;
+    }
+  }
+
   final _ctrl = TextEditingController();
   Timer? _debounce;
   String _q = '';

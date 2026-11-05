@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:jabuticaba/models/account.dart';
 import 'package:jabuticaba/models/models.dart';
 import 'package:jabuticaba/services/auth/auth.dart';
+import 'package:jabuticaba/services/mastodon.dart';
 import 'package:jabuticaba/ui/theme.dart';
 
 void main() {
@@ -32,14 +33,37 @@ void main() {
     });
 
     test('conta Mastodon alcança redes ActivityPub, mas não o Bluesky', () {
-      expect(a.canReach(Network.threads), isTrue);
+      expect(a.canReach(Network.peertube), isTrue);
       expect(a.canReach(Network.lemmy), isTrue);
       expect(a.canReach(Network.bluesky), isFalse);
     });
 
     test('limite do Bluesky é 300', () {
-      const bsky = Account(kind: AccountKind.bluesky, server: 'x', userId: 'did', handle: 'a.bsky.social', token: 't');
+      const bsky = Account(
+        kind: AccountKind.bluesky,
+        server: 'x',
+        userId: 'did',
+        handle: 'a.bsky.social',
+        token: 't',
+      );
       expect(bsky.charLimit, 300);
+    });
+  });
+
+  group('Meta', () {
+    test('contas e posts do Threads são reconhecidos para descarte', () {
+      expect(MastodonApi.isMetaAccount('zuck@threads.net'), isTrue);
+      expect(MastodonApi.isMetaAccount('alguem@Threads.com'), isTrue);
+      expect(MastodonApi.isMetaAccount('ana@mastodon.social'), isFalse);
+      expect(
+        MastodonApi.fromMeta({
+          'account': {'acct': 'ana@mastodon.social'},
+          'reblog': {
+            'account': {'acct': 'mosseri@threads.net'},
+          },
+        }),
+        isTrue,
+      );
     });
   });
 
@@ -51,8 +75,14 @@ void main() {
     });
 
     test('temas monocromáticos não usam a cor da rede', () {
-      expect(JabuStyle.paperwhite.network(Network.bluesky), JabuStyle.paperwhite.ink);
-      expect(JabuStyle.polpa.network(Network.bluesky), isNot(JabuStyle.polpa.ink));
+      expect(
+        JabuStyle.paperwhite.network(Network.bluesky),
+        JabuStyle.paperwhite.ink,
+      );
+      expect(
+        JabuStyle.polpa.network(Network.bluesky),
+        isNot(JabuStyle.polpa.ink),
+      );
     });
 
     test('todo tema gera um ThemeData', () {

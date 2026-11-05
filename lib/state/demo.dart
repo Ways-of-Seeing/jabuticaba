@@ -32,3 +32,7 @@ Future<void> prepareDemo(SharedPreferences prefs) async {
   ]);
   await prefs.setString('theme', q['tema'] ?? 'jabuticaba');
 }
+
+/// Parâmetro da URL no modo demonstração (`null` fora dele).
+String? demoParam(String key) =>
+    demoMode ? Uri.base.queryParameters[key] : null;

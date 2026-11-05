@@ -1,0 +1,68 @@
+# tipo	nome	consulta	seção	legenda
+d	explorar	aba=explorar	Abas	Explorar: busca única, interesses, tópicos em alta e carrosséis de cada formato
+d	fio	aba=fio	Abas	Fio: conversas de várias redes misturadas, com filtros por fonte
+d	clipes	aba=clipes	Abas	Clipes: vídeo curto vertical de Loops, PeerTube, Bluesky e Mastodon
+d	fotos	aba=fotos	Abas	Fotos: grade de Pixelfed, Mastodon e Bluesky, com filtros por hashtag
+d	musica	aba=musica	Abas	Música: álbuns e faixas do Funkwhale, com busca e filtro por servidor
+d	podcasts	aba=podcasts	Abas	Podcasts: programas do Castopod em alta, episódios novos e filtros
+d	comunidades-grupos	aba=comunidades&segmento=groups	Abas	Comunidades › Grupos: comunidades do Lemmy
+d	comunidades-servidores	aba=comunidades&segmento=servers	Abas	Comunidades › Servidores: servidores Mastodon por categoria
+d	comunidades-feeds	aba=comunidades&segmento=feeds	Abas	Comunidades › Feeds: feeds temáticos do Bluesky
+d	comunidades-canais	aba=comunidades&segmento=channels	Abas	Comunidades › Canais: canais do PeerTube
+d	voce	aba=voce	Abas	Você: contas, o que você segue, interesses e aparência
+d	busca	aba=explorar&tela=busca	Telas	Busca em todas as redes ao mesmo tempo
+d	hashtag	aba=explorar&tela=hashtag	Telas	Hashtag com posts de várias redes
+d	post	aba=fio&tela=post	Telas	Post aberto com respostas
+d	perfil	aba=explorar&tela=perfil	Telas	Perfil de uma conta, com botão de seguir
+d	comunidade	aba=comunidades&tela=comunidade	Telas	Comunidade do Lemmy com as discussões
+d	servidor	aba=comunidades&tela=servidor	Telas	Servidor Mastodon: o que acontece por lá e como entrar
+d	feed-bluesky	aba=comunidades&tela=feed	Telas	Feed do Bluesky
+d	foto	aba=fotos&tela=foto	Telas	Foto em tela cheia
+d	clipe	aba=clipes&tela=clipe	Telas	Clipe aberto a partir do Explorar
+d	album	aba=musica&tela=album	Áudio	Álbum do Funkwhale com as faixas
+d	podcast	aba=podcasts&tela=podcast	Áudio	Podcast do Castopod: episódios e botão de seguir
+d	player	aba=musica&tela=player	Áudio	Player completo com fila e controles
+d	miniplayer	aba=musica&tela=miniplayer	Áudio	Mini player, que acompanha o app inteiro
+d	aviso-conta	aba=fio&tela=aviso	Contas	Aviso de conta: aparece em toda ação que precisa de login
+d	aviso-musica	aba=musica&tela=aviso-musica	Contas	O mesmo aviso para favoritar música
+d	fediverso-inicio	aba=voce&fediverso=choose	Contas	Entrar no fediverso: já tenho conta ou quero criar
+d	fediverso-conectar	aba=voce&fediverso=connect	Contas	Conectar uma conta existente
+d	fediverso-mastodon	aba=voce&fediverso=mastodonConnect	Contas	Conectar Mastodon, Pixelfed e afins pelo navegador
+d	fediverso-bluesky	aba=voce&fediverso=blueskyConnect	Contas	Conectar Bluesky com senha de app
+d	fediverso-lemmy	aba=voce&fediverso=lemmyConnect	Contas	Conectar Lemmy
+d	fediverso-criar	aba=voce&fediverso=create	Contas	Criar conta: a gente ajuda a escolher
+d	fediverso-servidores	aba=voce&fediverso=servers	Contas	Escolher um servidor por tema e idioma
+d	fediverso-cadastro	aba=voce&fediverso=signup	Contas	Cadastro feito dentro do app
+d	fediverso-musica	aba=voce&fediverso=music	Contas	Conta de música (Funkwhale)
+d	fediverso-musica-conectar	aba=voce&fediverso=musicConnect	Contas	Conectar um servidor Funkwhale
+d	fediverso-podcaster	aba=voce&fediverso=podcaster	Contas	Para quem quer publicar um podcast
+d	onboarding-1	onboarding=1&passo=0	Primeiro uso	Boas-vindas
+d	onboarding-2	onboarding=1&passo=1	Primeiro uso	Interesses, para montar o Explorar
+d	onboarding-3	onboarding=1&passo=2	Primeiro uso	Tema, que muda o app na hora
+d	onboarding-4	onboarding=1&passo=3	Primeiro uso	Você já está no fediverso? Criar conta, conectar ou só explorar
+d	guia	aba=explorar&tela=guia	Primeiro uso	O fediverso em 1 minuto: guia das redes
+d	visual	aba=explorar&tela=visual	Temas	Seletor de tema
+d	tema-polpa	aba=explorar&tema=polpa	Temas	Polpa (claro)
+d	tema-paperwhite	aba=explorar&tema=paperwhite	Temas	Paperwhite
+d	tema-win95	aba=explorar&tema=win95	Temas	Windows 95
+d	tema-ascii	aba=explorar&tema=ascii	Temas	ASCII
+d	tema-matrix	aba=explorar&tema=matrix	Temas	Matrix
+d	tema-contraste	aba=explorar&tema=contraste	Temas	Alto contraste
+d	tema-win95-musica	aba=musica&tema=win95	Temas	Música no Windows 95
+d	tema-paperwhite-fio	aba=fio&tema=paperwhite	Temas	Fio no Paperwhite
+d	tema-matrix-podcasts	aba=podcasts&tema=matrix	Temas	Podcasts no Matrix
+m	explorar	aba=explorar	Celular	Explorar
+m	fio	aba=fio	Celular	Fio
+m	clipes	aba=clipes	Celular	Clipes
+m	fotos	aba=fotos	Celular	Fotos
+m	musica	aba=musica	Celular	Música
+m	podcasts	aba=podcasts	Celular	Podcasts
+m	comunidades	aba=comunidades	Celular	Comunidades
+m	voce	aba=voce	Celular	Você
+m	mais	aba=explorar&tela=mais	Celular	Menu Mais (Fotos, Comunidades, Você e Visual)
+m	player	aba=musica&tela=player	Celular	Player
+m	post	aba=fio&tela=post	Celular	Post com respostas
+m	onboarding	onboarding=1&passo=0	Celular	Boas-vindas
+m	fediverso	aba=voce&fediverso=choose	Celular	Entrar no fediverso
+m	tema-polpa	aba=explorar&tema=polpa	Celular	Tema Polpa
+m	tema-win95	aba=explorar&tema=win95	Celular	Tema Windows 95

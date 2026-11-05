@@ -62,10 +62,9 @@ class SettingsNotifier extends Notifier<Settings> {
     try {
       final raw = _prefs.getString('follows');
       if (raw != null) {
-        follows = [
-          for (final j in jsonDecode(raw) as List)
-            Community.fromJson(j as Map<String, dynamic>),
-        ];
+        // Item a item: uma rede que saiu do app (como o Threads) não pode
+        // derrubar a lista inteira.
+        follows = [for (final j in jsonDecode(raw) as List) ?_tryCommunity(j)];
       }
     } catch (_) {}
     return Settings(
@@ -114,6 +113,14 @@ class SettingsNotifier extends Notifier<Settings> {
   void reset() {
     _prefs.clear();
     state = const Settings();
+  }
+}
+
+Community? _tryCommunity(dynamic j) {
+  try {
+    return Community.fromJson(j as Map<String, dynamic>);
+  } catch (_) {
+    return null;
   }
 }
 

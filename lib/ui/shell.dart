@@ -5,9 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/models.dart';
 import '../state/accounts.dart';
+import '../state/demo.dart';
 import '../state/settings.dart';
 import 'screens/compose_sheet.dart';
 import 'widgets/theme_picker.dart';
+import 'demo_scenes.dart';
 import 'nav.dart';
 import 'screens/clips_screen.dart';
 import 'screens/communities_screen.dart';
@@ -84,6 +86,15 @@ class _AppShellState extends ConsumerState<AppShell> {
       WidgetsBinding.instance.addPostFrameCallback(
         (_) => ref.read(currentTabProvider.notifier).set(widget.initialTab),
       );
+    }
+    if (demoMode) {
+      // Dá um instante para o Navigator da aba existir antes de abrir a cena.
+      Future.delayed(const Duration(milliseconds: 400), () {
+        final ctx = _navKeys[_index].currentState?.overlay?.context;
+        if (ctx != null && ctx.mounted) {
+          runDemoScene(ctx, ref, onSelect: _select);
+        }
+      });
     }
   }
 
@@ -398,7 +409,7 @@ class _SideItemState extends State<_SideItem> {
 const _mobileTabs = [0, 1, 2, 4, 5];
 const _moreTabs = [3, 6, 7];
 
-void _showMore(BuildContext context, ValueChanged<int> onSelect) =>
+void showMoreMenu(BuildContext context, ValueChanged<int> onSelect) =>
     showModalBottomSheet(
       context: context,
       useRootNavigator: true,
@@ -477,7 +488,7 @@ class _BottomBar extends StatelessWidget {
                     Expanded(
                       child: InkResponse(
                         onTap: () => i == -1
-                            ? _showMore(context, onSelect)
+                            ? showMoreMenu(context, onSelect)
                             : onSelect(i),
                         radius: 32,
                         child: Column(

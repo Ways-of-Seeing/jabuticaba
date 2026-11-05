@@ -4,7 +4,7 @@
 
 ## Por que "jabuticaba"
 
-A jabuticabeira é uma árvore brasileira que dá fruto direto no tronco: dezenas de frutinhas grudadas na mesma madeira, cada uma inteira, todas do mesmo pé. É a imagem do que o app faz com o fediverso — muitas redes independentes (Mastodon, Bluesky, Pixelfed, Loops, PeerTube, Lemmy, Threads) brotando de um tronco comum, que são os protocolos abertos.
+A jabuticabeira é uma árvore brasileira que dá fruto direto no tronco: dezenas de frutinhas grudadas na mesma madeira, cada uma inteira, todas do mesmo pé. É a imagem do que o app faz com o fediverso — muitas redes independentes (Mastodon, Bluesky, Pixelfed, Loops, PeerTube, Lemmy, Funkwhale, Castopod) brotando de um tronco comum, que são os protocolos abertos.
 
 E é coisa nossa. Por isso o app fala português primeiro, com calor e sem jargão.
 
@@ -23,6 +23,7 @@ Redes sociais que funcionem como a jabuticabeira: muitos frutos, de muitos donos
 | **Aberto por padrão** | Protocolos abertos, código aberto, nada de jardim murado. Se a pessoa sair do jabuticaba, leva tudo com ela. |
 | **Acolhimento** | Linguagem simples, português do Brasil primeiro, explicação antes de pedir qualquer coisa. Ninguém fica para trás por não saber o que é "instância". |
 | **Autonomia** | A pessoa escolhe onde mora, o que segue e como o app parece. Sugerimos; não decidimos por ela. |
+| **Sem Meta** | O app não integra Threads, Instagram, Facebook nem outro serviço da Meta, e descarta o conteúdo do Threads que chega pela federação. Redes abertas de verdade, de gente e comunidades. |
 | **Atenção não é produto** | Sem anúncios e sem algoritmo de engajamento. O que aparece em "Em alta" vem das próprias redes, e a gente diz de onde. |
 | **Privacidade de verdade** | O que dá para guardar no aparelho fica no aparelho. Senhas são digitadas no site do servidor; tokens ficam no cofre do sistema. |
 | **Beleza com propósito** | Cuidado com cada detalhe, mas a favor da leitura e da acessibilidade (alto contraste, movimento reduzido, temas). |

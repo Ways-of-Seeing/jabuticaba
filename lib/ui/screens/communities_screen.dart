@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/models.dart';
 import '../../services/directory.dart';
+import '../../state/demo.dart';
 import '../../state/explore.dart';
 import '../../state/settings.dart';
 import '../theme.dart';
@@ -18,19 +19,31 @@ class CommunitiesScreen extends ConsumerStatefulWidget {
 }
 
 enum _Kind {
-  groups('Comunidades', '🫂', 'Fóruns do Lemmy sobre todo tipo de assunto'),
-  servers('Servidores', '🏡', 'Escolha onde criar sua conta no Mastodon'),
-  feeds('Feeds', '🦋', 'Feeds temáticos do Bluesky'),
-  channels('Canais', '📺', 'Canais de vídeo do PeerTube');
+  groups(
+    'Comunidades',
+    Icons.forum_rounded,
+    'Fóruns do Lemmy sobre todo tipo de assunto',
+  ),
+  servers(
+    'Servidores',
+    Icons.dns_rounded,
+    'Escolha onde criar sua conta no Mastodon',
+  ),
+  feeds('Feeds', Icons.dynamic_feed_rounded, 'Feeds temáticos do Bluesky'),
+  channels(
+    'Canais',
+    Icons.smart_display_rounded,
+    'Canais de vídeo do PeerTube',
+  );
 
-  const _Kind(this.label, this.emoji, this.blurb);
+  const _Kind(this.label, this.icon, this.blurb);
   final String label;
-  final String emoji;
+  final IconData icon;
   final String blurb;
 }
 
 class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> {
-  _Kind _kind = _Kind.groups;
+  _Kind _kind = _Kind.values.asNameMap()[demoParam('segmento')] ?? _Kind.groups;
   String? _category;
 
   @override
@@ -66,7 +79,8 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> {
                     for (final k in _Kind.values)
                       ButtonSegment(
                         value: k,
-                        label: Text('${k.emoji}  ${k.label}'),
+                        icon: Icon(k.icon, size: 18),
+                        label: Text(k.label, maxLines: 1, softWrap: false),
                       ),
                   ],
                   selected: {_kind},

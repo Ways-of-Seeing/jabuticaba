@@ -1,8 +1,10 @@
 import '../core/http.dart';
 import '../models/models.dart';
 
-/// API do Mastodon. Também serve Pixelfed (compatível) e contas do Threads,
-/// que chegam ao Mastodon via ActivityPub.
+/// API do Mastodon. Também serve Pixelfed (compatível).
+///
+/// O jabuticaba não integra o Threads nem outros serviços da Meta: posts e
+/// contas do threads.net que chegam pela federação são descartados aqui.
 class MastodonApi {
   MastodonApi._();
 
@@ -140,6 +142,7 @@ class MastodonApi {
     final depth = <String, int>{id: -1};
     final out = <Reply>[];
     for (final s in desc) {
+      if (fromMeta(s)) continue;
       final parent = s['in_reply_to_id'] as String?;
       final d = (depth[parent] ?? -1) + 1;
       depth[s['id'] as String] = d;
@@ -158,7 +161,8 @@ class MastodonApi {
     );
     final accounts = [
       for (final a in data['accounts'] as List)
-        parseAccount(a as Map, instance),
+        if (!isMetaAccount((a as Map)['acct'] as String?))
+          parseAccount(a, instance),
     ];
     final tags = [
       for (final t in data['hashtags'] as List)
@@ -195,8 +199,23 @@ class MastodonApi {
   static List<Post> _statuses(dynamic data, String instance, [Network? net]) =>
       [
         for (final s in data as List)
-          if (s is Map) parseStatus(s, instance, network: net),
+          if (s is Map && !fromMeta(s)) parseStatus(s, instance, network: net),
       ];
+
+  static const _metaDomains = {'threads.net', 'threads.com'};
+
+  /// Conta hospedada pela Meta (Threads)?
+  static bool isMetaAccount(String? acct) =>
+      acct != null &&
+      _metaDomains.any((d) => acct.toLowerCase().endsWith('@$d'));
+
+  /// Post escrito ou compartilhado por uma conta da Meta.
+  static bool fromMeta(Map s) {
+    final reblog = s['reblog'];
+    return isMetaAccount((s['account'] as Map?)?['acct'] as String?) ||
+        (reblog is Map &&
+            isMetaAccount((reblog['account'] as Map?)?['acct'] as String?));
+  }
 
   static int? _historyUses(dynamic history) {
     if (history is! List) return null;
@@ -207,7 +226,6 @@ class MastodonApi {
   }
 
   static Network _networkFor(String acct, Network fallback) {
-    if (acct.endsWith('@threads.net')) return Network.threads;
     if (acct.contains('@pixelfed.')) return Network.pixelfed;
     return fallback;
   }

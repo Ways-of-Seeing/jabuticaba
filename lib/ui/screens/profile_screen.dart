@@ -40,7 +40,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       final full = switch (a.network) {
         Network.bluesky => await BlueskyApi.profile(a.handle),
         Network.mastodon ||
-        Network.threads ||
         Network.pixelfed => (await MastodonApi.lookup(a.handle)).$1,
         _ => null,
       };

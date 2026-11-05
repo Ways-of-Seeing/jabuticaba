@@ -23,6 +23,7 @@ import '../widgets/basics.dart';
 Future<bool> openFediverse(
   BuildContext context, {
   FediStart start = FediStart.choose,
+  String? host,
 }) async {
   final r = await Navigator.of(context, rootNavigator: true).push<bool>(
     MaterialPageRoute(
@@ -34,6 +35,11 @@ Future<bool> openFediverse(
         FediStart.music => const _MusicSignupPickPage(),
         FediStart.musicConnect => const _MastodonConnectPage(funkwhale: true),
         FediStart.podcaster => const _PodcasterPage(),
+        FediStart.mastodonConnect => const _MastodonConnectPage(),
+        FediStart.blueskyConnect => const _BlueskyConnectPage(),
+        FediStart.lemmyConnect => const _LemmyConnectPage(),
+        FediStart.servers => const _ServerPickPage(),
+        FediStart.signup => _SignupPage(host: host ?? 'organica.social'),
       },
     ),
   );
@@ -53,6 +59,15 @@ enum FediStart {
 
   /// Quem quer publicar um podcast.
   podcaster,
+
+  // Páginas internas, abertas diretamente.
+  mastodonConnect,
+  blueskyConnect,
+  lemmyConnect,
+  servers,
+
+  /// Cadastro num servidor Mastodon (`host` em [openFediverse]).
+  signup,
 }
 
 const _flowRoot = '/fediverso';
@@ -396,7 +411,7 @@ class _ConnectPickPage extends StatelessWidget {
               _go(context, const _MastodonConnectPage(funkwhale: true)),
         ),
         const _Hint(
-          'Threads e Loops ainda não permitem que outros apps entrem na sua conta. Você continua vendo e seguindo o conteúdo deles por aqui.',
+          'O Loops ainda não permite que outros apps entrem na sua conta. Você continua vendo e seguindo os vídeos de lá por aqui.',
           icon: Icons.info_outline_rounded,
         ),
       ],
@@ -566,9 +581,15 @@ class _MastodonConnectPageState extends ConsumerState<_MastodonConnectPage> {
             autocorrect: false,
             textInputAction: TextInputAction.go,
             onSubmitted: (_) => _start(),
-            decoration: const InputDecoration(
-              hintText: '@voce@mastodon.social',
-              prefixIcon: Icon(Icons.alternate_email_rounded),
+            decoration: InputDecoration(
+              hintText: widget.funkwhale
+                  ? 'tunez.awadwatt.com'
+                  : '@voce@mastodon.social',
+              prefixIcon: Icon(
+                widget.funkwhale
+                    ? Icons.dns_rounded
+                    : Icons.alternate_email_rounded,
+              ),
             ),
           ),
           const SizedBox(height: 16),

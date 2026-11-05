@@ -25,8 +25,10 @@ class _PostScreenState extends State<PostScreen> {
     return switch (p.network) {
       Network.bluesky => BlueskyApi.replies(p.ref!),
       Network.lemmy => LemmyApi.comments(p.id, p.instance!),
-      Network.mastodon || Network.threads when p.instance != null =>
-        MastodonApi.replies(p.id, p.instance!),
+      Network.mastodon when p.instance != null => MastodonApi.replies(
+        p.id,
+        p.instance!,
+      ),
       _ => Future.value(const <Reply>[]),
     };
   }

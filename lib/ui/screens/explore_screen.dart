@@ -105,7 +105,7 @@ class ExploreScreen extends ConsumerWidget {
               child: SectionHeader(
                 'Fotos em alta',
                 emoji: '📸',
-                subtitle: 'Direto do Pixelfed',
+                subtitle: 'Pixelfed e Mastodon',
                 action: 'Ver mais',
                 onAction: () => onOpenTab?.call(3),
               ),
@@ -143,7 +143,7 @@ class ExploreScreen extends ConsumerWidget {
               child: SectionHeader(
                 'Conversas em alta',
                 emoji: '💬',
-                subtitle: 'Mastodon, Threads e Bluesky agora',
+                subtitle: 'Mastodon e Bluesky agora',
               ),
             ),
             SliverToBoxAdapter(
@@ -626,11 +626,6 @@ void showFediverseGuide(BuildContext context) {
       'Conversas em texto, como o antigo Twitter. Milhares de servidores independentes.',
     ),
     (
-      Network.threads,
-      'Threads',
-      'A rede da Meta. Perfis que ativam o compartilhamento aparecem no fediverso.',
-    ),
-    (
       Network.bluesky,
       'Bluesky',
       'Rede aberta baseada no AT Protocol, com feeds personalizados.',
@@ -654,6 +649,16 @@ void showFediverseGuide(BuildContext context) {
       Network.lemmy,
       'Lemmy',
       'Fóruns e comunidades por assunto, como o Reddit.',
+    ),
+    (
+      Network.funkwhale,
+      'Funkwhale',
+      'Música: artistas independentes publicando álbuns e faixas.',
+    ),
+    (
+      Network.castopod,
+      'Castopod',
+      'Podcasts que são contas do fediverso: dá para seguir e comentar.',
     ),
   ];
   showModalBottomSheet(

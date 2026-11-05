@@ -8,9 +8,9 @@ Tudo o que imprensa, parceiros e a comunidade precisam para falar do jabuticaba.
 
 ## Texto padrão (para matérias)
 
-**Português.** O jabuticaba é um explorador do fediverso para iOS, Android, macOS, Windows e Linux. Ele reúne num só app o conteúdo de redes abertas como Mastodon, Bluesky, Threads, Pixelfed, Loops, PeerTube e Lemmy, em formatos familiares: fio de conversas, vídeos verticais, grade de fotos e comunidades. Dá para explorar e seguir sem criar conta; quando a pessoa quiser participar, o app ajuda a escolher um servidor, cria a conta junto e permite publicar em várias redes de uma vez. Sem anúncios e sem algoritmo de engajamento.
+**Português.** O jabuticaba é um explorador do fediverso para iOS, Android, macOS, Windows e Linux. Ele reúne num só app o conteúdo de redes abertas como Mastodon, Bluesky, Pixelfed, Loops, PeerTube, Lemmy, Funkwhale e Castopod, em formatos familiares: fio de conversas, vídeos verticais, grade de fotos, comunidades, música e podcasts. Dá para explorar e seguir sem criar conta; quando a pessoa quiser participar, o app ajuda a escolher um servidor, cria a conta junto e permite publicar em várias redes de uma vez. Sem anúncios, sem algoritmo de engajamento e sem nenhum serviço da Meta.
 
-**English.** jabuticaba is a fediverse explorer for iOS, Android, macOS, Windows and Linux. It brings together open social networks such as Mastodon, Bluesky, Threads, Pixelfed, Loops, PeerTube and Lemmy in familiar formats: a conversation feed, vertical short videos, a photo grid and communities. People can explore and follow without an account; when they want to join, the app helps them pick a server, signs them up and lets them post to several networks at once. No ads, no engagement algorithm.
+**English.** jabuticaba is a fediverse explorer for iOS, Android, macOS, Windows and Linux. It brings together open social networks such as Mastodon, Bluesky, Pixelfed, Loops, PeerTube, Lemmy, Funkwhale and Castopod in familiar formats: a conversation feed, vertical short videos, a photo grid, communities, music and podcasts. People can explore and follow without an account; when they want to join, the app helps them pick a server, signs them up and lets them post to several networks at once. No ads, no engagement algorithm and nothing from Meta.
 
 ## Fatos
 
@@ -19,7 +19,7 @@ Tudo o que imprensa, parceiros e a comunidade precisam para falar do jabuticaba.
 | Nome | jabuticaba (sempre minúsculo, inclusive no começo de frase) |
 | Categoria | Rede social / cliente do fediverso |
 | Plataformas | iOS (App Store, AltStore PAL, Aptoide), Android, macOS, Windows, Linux |
-| Redes | Mastodon, Bluesky, Threads, Pixelfed, Loops, PeerTube, Lemmy |
+| Redes | Mastodon, Bluesky, Pixelfed, Loops, PeerTube, Lemmy, Funkwhale, Castopod (sem Threads ou outros serviços da Meta) |
 | Idioma | Português do Brasil (outros idiomas a caminho) |
 | Modelo | Gratuito, sem anúncios |
 

@@ -30,7 +30,6 @@ COLORS = {
 NETWORKS = {
     "mastodon": "#6364FF",
     "bluesky": "#1185FE",
-    "threads": "#8A8A8A",
     "pixelfed": "#F0447A",
     "peertube": "#F1680D",
     "loops": "#00C2A8",

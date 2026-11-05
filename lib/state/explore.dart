@@ -35,8 +35,13 @@ final exploreClipsProvider = FutureProvider<List<Post>>((ref) async {
   return page.items.take(14).toList();
 });
 
+/// Fotos em alta do Pixelfed. Na web o Pixelfed não libera CORS; aí caímos
+/// para fotos da hashtag #photography no Mastodon.
 final explorePhotosProvider = FutureProvider<List<Post>>((ref) async {
-  return safe(PixelfedApi.trending());
+  final pixelfed = await safe(PixelfedApi.trending());
+  if (pixelfed.isNotEmpty) return pixelfed;
+  final page = await MastodonApi.tagTimeline('photography', onlyMedia: true);
+  return page.items.where((p) => p.hasImage && !p.sensitive).toList();
 });
 
 final exploreVideosProvider = FutureProvider<List<Post>>((ref) async {

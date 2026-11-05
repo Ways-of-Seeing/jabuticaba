@@ -63,7 +63,7 @@ class Account {
   bool canReach(Network n) => switch (kind) {
     AccountKind.bluesky => n == Network.bluesky,
     AccountKind.lemmy => n == Network.lemmy,
-    // Pelo ActivityPub, uma conta Mastodon alcança Threads, Pixelfed, Lemmy…
+    // Pelo ActivityPub, uma conta Mastodon alcança Pixelfed, Lemmy, PeerTube…
     AccountKind.mastodon => n != Network.bluesky && n != Network.loops,
     // Conta Funkwhale serve para favoritar e montar a biblioteca de música.
     AccountKind.funkwhale => n == Network.funkwhale,

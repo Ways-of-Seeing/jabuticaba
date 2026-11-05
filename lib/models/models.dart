@@ -5,7 +5,6 @@ library;
 enum Network {
   mastodon('Mastodon'),
   bluesky('Bluesky'),
-  threads('Threads'),
   pixelfed('Pixelfed'),
   peertube('PeerTube'),
   loops('Loops'),

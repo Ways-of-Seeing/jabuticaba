@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/models.dart';
+import '../../state/demo.dart';
 import '../../state/interests.dart';
 import '../../state/settings.dart';
 import '../theme.dart';
@@ -20,9 +21,9 @@ class OnboardingScreen extends ConsumerStatefulWidget {
 
 class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   static const _steps = 4;
-  final _page = PageController();
+  late final _page = PageController(initialPage: _step);
   final _chosen = <String>{};
-  int _step = 0;
+  int _step = (int.tryParse(demoParam('passo') ?? '') ?? 0).clamp(0, 3);
 
   @override
   void dispose() {
@@ -167,12 +168,13 @@ class _Welcome extends StatelessWidget {
   Widget build(BuildContext context) {
     const nets = [
       Network.mastodon,
-      Network.threads,
       Network.bluesky,
       Network.pixelfed,
       Network.loops,
       Network.peertube,
       Network.lemmy,
+      Network.funkwhale,
+      Network.castopod,
     ];
     return ListView(
       padding: const EdgeInsets.fromLTRB(24, 40, 24, 24),

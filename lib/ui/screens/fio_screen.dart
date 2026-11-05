@@ -11,7 +11,7 @@ import '../widgets/paged.dart';
 import '../widgets/post_card.dart';
 import 'compose_sheet.dart';
 
-/// Aba "Fio": a linha do tempo em texto (Twitter/Threads/Bluesky) misturando redes.
+/// Aba "Fio": a linha do tempo em texto, misturando redes.
 class FioScreen extends ConsumerStatefulWidget {
   const FioScreen({super.key});
 
@@ -30,7 +30,6 @@ class _FioScreenState extends ConsumerState<FioScreen> {
     FioSource.following: Icons.favorite_rounded,
     FioSource.mastodon: Icons.forum_rounded,
     FioSource.bluesky: Icons.cloud_rounded,
-    FioSource.threads: Icons.alternate_email_rounded,
     FioSource.lemmy: Icons.groups_rounded,
   };
 

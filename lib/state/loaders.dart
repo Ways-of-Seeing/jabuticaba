@@ -84,39 +84,9 @@ Loader<Post> peertube({String? query, List<String> languages = const []}) =>
 Loader<Post> loopsTag(String tag) =>
     (c) => LoopsApi.tagFeed(tag, cursor: c);
 
-/// Perfis do Threads que já federam com o fediverso.
-const threadsAccounts = [
-  'mosseri@threads.net',
-  'zuck@threads.net',
-  'mkbhd@threads.net',
-  'techcrunch@threads.net',
-];
-
-Loader<Post> threadsFeed() => (c) async {
-  final cursors = c == null
-      ? <String, String?>{}
-      : Map<String, String?>.from(jsonDecode(c) as Map);
-  final pages = await Future.wait([
-    for (final acct in threadsAccounts)
-      if (c == null || cursors[acct] != null)
-        accountLoader(acct)(cursors[acct])
-            .then<(String, Page<Post>)?>((p) => (acct, p))
-            .catchError((_) => null),
-  ]);
-  final next = <String, String?>{};
-  final posts = <Post>[];
-  for (final p in pages) {
-    if (p == null) continue;
-    posts.addAll(p.$2.items);
-    if (p.$2.cursor != null) next[p.$1] = p.$2.cursor;
-  }
-  posts.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-  return Page(posts, next.isEmpty ? null : jsonEncode(next));
-};
-
 final _accountCache = <String, (Author, String)>{};
 
-/// Posts de uma conta do Mastodon/Threads/Pixelfed a partir do `user@servidor`.
+/// Posts de uma conta do Mastodon/Pixelfed a partir do `user@servidor`.
 Loader<Post> accountLoader(String acct, {bool media = false}) => (c) async {
   final found = _accountCache[acct] ??= await MastodonApi.lookup(acct);
   return MastodonApi.accountStatuses(
@@ -184,7 +154,6 @@ enum FioSource {
   following('Seguindo'),
   mastodon('Mastodon'),
   bluesky('Bluesky'),
-  threads('Threads'),
   lemmy('Lemmy');
 
   const FioSource(this.label);
@@ -197,7 +166,6 @@ Loader<Post> fioLoader(FioSource source, Settings s) => switch (source) {
     'masto': mastodonTrends(),
     'bsky': blueskyFeed(),
     for (final t in s.interestTags.take(3)) 'tag:$t': mastodonTag(t),
-    'threads': threadsFeed(),
     'lemmy': lemmyHot(),
   }),
   FioSource.following =>
@@ -209,7 +177,6 @@ Loader<Post> fioLoader(FioSource source, Settings s) => switch (source) {
     for (final t in s.interestTags.take(4)) 'tag:$t': mastodonTag(t),
   }),
   FioSource.bluesky => blueskyFeed(),
-  FioSource.threads => threadsFeed(),
   FioSource.lemmy => lemmyHot(),
 };
 

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
 
 class ApiException implements Exception {
@@ -22,8 +23,11 @@ class Api {
   final _client = http.Client();
   final _cache = <String, (DateTime, Object?)>{};
   static const _ttl = Duration(minutes: 3);
+
+  /// Na web o navegador manda o próprio User-Agent. Enviar outro faz o
+  /// WebKit pedir um preflight CORS que vários servidores não respondem.
   static const _headers = {
-    'User-Agent': 'jabuticaba/0.1 (+https://jabuticaba.social)',
+    if (!kIsWeb) 'User-Agent': 'jabuticaba/0.1 (+https://jabuticaba.social)',
     'Accept': 'application/json',
   };
 
@@ -112,7 +116,7 @@ class Api {
       return hit.$2 as String;
     }
     final res = await _client
-        .get(Uri.parse(url), headers: {'User-Agent': _headers['User-Agent']!})
+        .get(Uri.parse(url), headers: {'User-Agent': ?_headers['User-Agent']})
         .timeout(const Duration(seconds: 20));
     if (res.statusCode < 200 || res.statusCode >= 300) {
       throw ApiException('GET $url falhou', res.statusCode);

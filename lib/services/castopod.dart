@@ -18,6 +18,11 @@ class CastopodApi {
   );
   static List<Show>? _cache;
 
+  /// Prefixo de um proxy para os feeds RSS (`--dart-define=FEED_PROXY=...`),
+  /// que recebe a URL do feed codificada. Só faz falta na web: os servidores
+  /// de podcast não liberam CORS.
+  static const _feedProxy = String.fromEnvironment('FEED_PROXY');
+
   /// ~2 mil podcasts (4 MB): baixa uma vez por sessão.
   static Future<List<Show>> index() async {
     if (_cache != null) return _cache!;
@@ -98,7 +103,11 @@ class CastopodApi {
 
   /// Episódios do feed RSS, do mais novo para o mais antigo.
   static Future<(Show, List<AudioItem>)> feed(Show show) async {
-    final res = await Api.instance.text(show.feedUrl);
+    final res = await Api.instance.text(
+      _feedProxy.isEmpty
+          ? show.feedUrl
+          : '$_feedProxy${Uri.encodeComponent(show.feedUrl)}',
+    );
     final doc = XmlDocument.parse(res);
     final channel = doc.findAllElements('channel').first;
     String? text(XmlElement e, String name) {

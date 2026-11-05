@@ -38,7 +38,6 @@ abstract final class Jabu {
   static Color brandNetwork(Network n) => switch (n) {
     Network.mastodon => const Color(0xFF6364FF),
     Network.bluesky => const Color(0xFF1185FE),
-    Network.threads => const Color(0xFF8A8A8A),
     Network.pixelfed => const Color(0xFFF0447A),
     Network.peertube => const Color(0xFFF1680D),
     Network.loops => const Color(0xFF00C2A8),
@@ -50,7 +49,6 @@ abstract final class Jabu {
   static IconData networkIcon(Network n) => switch (n) {
     Network.mastodon => Icons.forum_rounded,
     Network.bluesky => Icons.cloud_rounded,
-    Network.threads => Icons.alternate_email_rounded,
     Network.pixelfed => Icons.photo_camera_rounded,
     Network.peertube => Icons.smart_display_rounded,
     Network.loops => Icons.all_inclusive_rounded,
