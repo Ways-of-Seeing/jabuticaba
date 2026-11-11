@@ -8,9 +8,9 @@ Uma obra da [Ways of Seeing](https://ways-of-seeing.github.io). **Apresentação
 
 | | |
 |---|---|
-| 🍎 **macOS** 12+ (Apple Silicon e Intel) | [**Baixar .dmg**](https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.0/jabuticaba-macos.dmg) |
-| 🪟 **Windows** 10/11 | [**Baixar instalador**](https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.0/jabuticaba-windows-instalador.exe) · [versão portátil (.zip)](https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.0/jabuticaba-windows-x64.zip) |
-| 🐧 **Linux** 64 bits | [**Baixar .tar.gz**](https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.0/jabuticaba-linux-x64.tar.gz) |
+| 🍎 **macOS** 12+ (Apple Silicon e Intel) | [**Baixar .dmg**](https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.1/jabuticaba-macos.dmg) |
+| 🪟 **Windows** 10/11 | [**Baixar instalador**](https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.1/jabuticaba-windows-instalador.exe) · [versão portátil (.zip)](https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.1/jabuticaba-windows-x64.zip) |
+| 🐧 **Linux** 64 bits | [**Baixar .tar.gz**](https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.1/jabuticaba-linux-x64.tar.gz) |
 | 📱 **iPhone** (iOS 15+) | [**Adicionar ao AltStore**](https://ways-of-seeing.github.io/jabuticaba/) — IPA não assinado, assinado no aparelho com a sua conta Apple |
 
 Versão 0.1.1, pré-lançamento gratuito. **Como instalar, liberar o app no macOS e no Windows e conectar suas contas:** [docs/INSTALAR.md](docs/INSTALAR.md). **iPhone:** [docs/ALTSTORE.md](docs/ALTSTORE.md). Todas as versões: [Releases](https://github.com/Ways-of-Seeing/jabuticaba/releases). Android vem depois.
