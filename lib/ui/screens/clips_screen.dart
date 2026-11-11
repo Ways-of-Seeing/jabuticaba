@@ -134,6 +134,16 @@ class _ClipsPagerState extends State<ClipsPager> {
   late int _index = widget.initial;
   bool _muted = false;
   final _focus = FocusNode();
+  JabuStyle? _themeStyle;
+  ThemeData? _theme;
+
+  ThemeData _themeFor(JabuStyle style) {
+    if (!identical(_themeStyle, style) || _theme == null) {
+      _themeStyle = style;
+      _theme = buildTheme(style);
+    }
+    return _theme!;
+  }
 
   @override
   void dispose() {
@@ -155,8 +165,9 @@ class _ClipsPagerState extends State<ClipsPager> {
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     final wide = size.width > size.height * .8;
+    final style = context.jc.dark ? context.jc : JabuStyle.jabuticaba;
     return Theme(
-      data: buildTheme(context.jc.dark ? context.jc : JabuStyle.jabuticaba),
+      data: _themeFor(style),
       child: KeyboardListener(
         focusNode: _focus,
         autofocus: true,

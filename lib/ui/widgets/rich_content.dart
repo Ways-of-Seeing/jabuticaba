@@ -31,6 +31,8 @@ class RichContent extends StatefulWidget {
 
 class _RichContentState extends State<RichContent> {
   final _recognizers = <TapGestureRecognizer>[];
+  Object? _spanSignature;
+  List<InlineSpan> _spans = const [];
 
   static final _plain = RegExp(
     r'(https?://[^\s]+)|(#[\p{L}\p{N}_]+)|(@[\w.\-]+(?:@[\w.\-]+\.[a-z]{2,})?)',
@@ -58,19 +60,31 @@ class _RichContentState extends State<RichContent> {
 
   @override
   Widget build(BuildContext context) {
-    _clear();
     final base = widget.style ?? context.tt.bodyLarge!;
     final link = base.copyWith(
       color: context.cs.primary,
       fontWeight: FontWeight.w600,
     );
-    final spans = widget.html != null && widget.html!.isNotEmpty
-        ? _fromHtml(widget.html!, base, link)
-        : _fromText(widget.text, base, link);
-    _trimTrailing(spans);
-    if (spans.isEmpty) return const SizedBox.shrink();
+    final signature = (
+      widget.html,
+      widget.text,
+      base,
+      link,
+      widget.network,
+      context.jc,
+    );
+    if (_spanSignature != signature) {
+      _clear();
+      final spans = widget.html != null && widget.html!.isNotEmpty
+          ? _fromHtml(widget.html!, base, link)
+          : _fromText(widget.text, base, link);
+      _trimTrailing(spans);
+      _spans = spans;
+      _spanSignature = signature;
+    }
+    if (_spans.isEmpty) return const SizedBox.shrink();
     return Text.rich(
-      TextSpan(children: spans, style: base),
+      TextSpan(children: _spans, style: base),
       maxLines: widget.maxLines,
       overflow: widget.maxLines == null
           ? TextOverflow.clip

@@ -1,0 +1,46 @@
+{
+  "name": "jabuticaba",
+  "identifier": "social.jabuticaba.altstore",
+  "subtitle": "O fediverso num lugar só",
+  "description": "Vídeos curtos, fotos, conversas e comunidades das redes abertas num app só. Mastodon, Bluesky, Pixelfed, PeerTube, Lemmy, Funkwhale, Loops e Castopod no mesmo fio, sem anúncios e sem rastreamento.\n\nExplore e siga sem conta. Quando quiser curtir, responder ou publicar, conecte a conta que você já tem ou crie uma com o passo a passo do app.\n\nOito temas, do Paperwhite ao Windows 95. Tudo fica no seu aparelho: o jabuticaba não tem servidor próprio e não coleta seus dados.",
+  "iconURL": "https://ways-of-seeing.github.io/jabuticaba/icon.png",
+  "headerURL": "https://ways-of-seeing.github.io/jabuticaba/header.png",
+  "website": "https://ways-of-seeing.github.io/jabuticaba",
+  "tintColor": "#7B2D9E",
+  "nsfw": false,
+  "apps": [
+    {
+      "name": "jabuticaba",
+      "bundleIdentifier": "social.jabuticaba.jabuticaba",
+      "developerName": "Ways of Seeing",
+      "subtitle": "O fediverso num lugar só",
+      "localizedDescription": "Vídeos curtos, fotos, conversas e comunidades das redes abertas num app só. Mastodon, Bluesky, Pixelfed, PeerTube, Lemmy, Funkwhale, Loops e Castopod no mesmo fio, sem anúncios e sem rastreamento.\n\nExplore e siga sem conta. Quando quiser curtir, responder ou publicar, conecte a conta que você já tem ou crie uma com o passo a passo do app.\n\nOito temas, do Paperwhite ao Windows 95. Tudo fica no seu aparelho: o jabuticaba não tem servidor próprio e não coleta seus dados.",
+      "iconURL": "https://ways-of-seeing.github.io/jabuticaba/icon.png",
+      "tintColor": "#7B2D9E",
+      "category": "social",
+      "screenshots": [
+        "https://ways-of-seeing.github.io/jabuticaba/screenshots/explorar.jpg",
+        "https://ways-of-seeing.github.io/jabuticaba/screenshots/fio.jpg",
+        "https://ways-of-seeing.github.io/jabuticaba/screenshots/fotos.jpg",
+        "https://ways-of-seeing.github.io/jabuticaba/screenshots/musica.jpg",
+        "https://ways-of-seeing.github.io/jabuticaba/screenshots/onboarding.jpg",
+        "https://ways-of-seeing.github.io/jabuticaba/screenshots/visual.jpg"
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {}
+      },
+      "versions": [
+        {
+          "version": "0.1.1",
+          "buildVersion": "2",
+          "date": "2026-11-11",
+          "downloadURL": "https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.1/jabuticaba-0.1.1-2.ipa",
+          "size": 11919931,
+          "minOSVersion": "15.0",
+          "localizedDescription": "Primeira versão para iPhone: OAuth pelo navegador do sistema, denúncia/bloqueio/silenciar, performance e correções de segurança."
+        }
+      ]
+    }
+  ]
+}

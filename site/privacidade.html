@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacidade — jabuticaba</title>
+<meta name="description" content="Política de privacidade do jabuticaba: sem servidor próprio, sem analytics, sem anúncios. Seus dados ficam no seu aparelho.">
+<meta name="theme-color" content="#0F0812">
+<link rel="icon" type="image/png" href="icon.png">
+<style>
+  :root{--ink:#fbf6fa;--muted:#c9b9c9;--line:#3a2440;--bg:#0f0812;--brand:#b44de0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+  *{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 520px at 85% -10%,#3a1450 0%,transparent 60%),var(--bg);color:var(--ink);line-height:1.65}
+  .wrap{width:min(100% - 40px,760px);margin-inline:auto;padding:28px 0 70px}
+  .top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:44px}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:20px}.brand img{width:36px;height:36px;border-radius:9px}
+  a{color:#e9a7ff}.top a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:600}
+  h1{font-size:clamp(34px,7vw,48px);letter-spacing:-.04em;line-height:1.08;margin:0 0 10px}
+  h2{font-size:21px;letter-spacing:-.02em;margin:38px 0 8px}
+  p,li{color:var(--muted);font-size:16px}
+  .lede{font-size:18px;color:#e6dbe6}
+  ul{padding-left:22px}
+  code{background:#120816;border:1px solid var(--line);border-radius:7px;padding:2px 6px;font-size:14px}
+  .box{border:1px solid var(--line);border-radius:16px;padding:18px 20px;background:rgba(255,255,255,.025);margin:18px 0}
+  footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--line);font-size:13.5px}
+  footer a{color:var(--muted)}
+</style>
+</head>
+<body><div class="wrap">
+  <header class="top">
+    <div class="brand"><img src="icon.png" alt=""> jabuticaba</div>
+    <a href="./">Voltar ao app</a>
+  </header>
+  <main>
+    <h1>Privacidade</h1>
+    <p class="lede">O jabuticaba não tem servidor próprio. Ele é um cliente: fala direto com as instâncias que você escolhe, e o que fica guardado fica no seu aparelho.</p>
+    <p><small>Atualizado em 11 de novembro de 2026.</small></p>
+
+    <h2>O que não fazemos</h2>
+    <ul>
+      <li>Não temos conta de usuário no app nem banco de dados de pessoas.</li>
+      <li>Não usamos analytics, telemetria, anúncios, rastreadores ou SDKs de terceiros para medir uso.</li>
+      <li>Não vendemos, alugamos nem compartilhamos dados com anunciantes.</li>
+      <li>Não intermediamos suas requisições: elas vão do seu iPhone direto para a instância.</li>
+    </ul>
+
+    <h2>O que fica no aparelho</h2>
+    <ul>
+      <li><strong>Tokens de acesso</strong> das contas que você conectou, no Keychain do iOS, com a opção <code>first_unlock_this_device</code> (não migram por backup para outro aparelho).</li>
+      <li><strong>Preferências</strong>: tema, interesses, o que você segue e o filtro de conteúdo sensível, em <code>SharedPreferences</code>.</li>
+      <li><strong>Cache temporário</strong> de respostas públicas (até 3 minutos) para não repetir requisições ao voltar a uma tela.</li>
+    </ul>
+    <p>Você pode apagar tudo desconectando as contas e desinstalando o app. O Keychain é limpo pelo sistema ao remover o app; trocar de conta Apple que assina o app (no AltStore) também exige entrar de novo.</p>
+
+    <h2>O que sai do aparelho</h2>
+    <p>Somente o que você pede, para os servidores envolvidos:</p>
+    <ul>
+      <li>Leitura de conteúdo público (tendências, hashtags, perfis, posts) nas instâncias e APIs públicas das redes.</li>
+      <li>Com o seu token, as ações que você toma: curtir, compartilhar, seguir, publicar, denunciar, silenciar e bloquear.</li>
+      <li>Denúncias vão para a moderação do <strong>seu</strong> servidor, junto com o motivo e os detalhes que você escrever, e podem incluir o post denunciado.</li>
+    </ul>
+    <p>Cada instância tem a própria política de privacidade e os próprios registros (logs). O jabuticaba não controla esses servidores. O Bluesky usa o PDS da sua conta; Mastodon, Pixelfed, PeerTube, Lemmy, Funkwhale e Castopod usam a instância onde a conta foi criada.</p>
+
+    <h2>Permissões</h2>
+    <p>O app não pede acesso a câmera, microfone, fotos, contatos, localização ou notificações. A única permissão de rede é a de conexão à internet. O retorno do login usa o esquema <code>jabuticaba://oauth</code>, tratado pelo próprio app.</p>
+
+    <h2>Crianças</h2>
+    <p>O app não é direcionado a crianças menores de 13 anos e não coleta idade. Alguns servidores do fediverso exigem idade mínima própria; o cadastro feito pelo app respeita a regra de cada servidor.</p>
+
+    <h2>Contato</h2>
+    <div class="box">
+      <p>Dúvidas sobre privacidade, remoção de conteúdo ou segurança: abra uma issue em
+      <a href="https://github.com/Ways-of-Seeing/jabuticaba/issues">github.com/Ways-of-Seeing/jabuticaba</a>
+      ou escreva para a Ways of Seeing pelo endereço publicado no repositório. O código é AGPL-3.0 e pode ser auditado por qualquer pessoa.</p>
+    </div>
+  </main>
+  <footer><a href="./">jabuticaba</a> · <a href="https://github.com/Ways-of-Seeing/jabuticaba">GitHub</a> · AGPL-3.0</footer>
+</div></body></html>

@@ -6,7 +6,8 @@ class Loopback {
 
   static bool get supported => false;
 
-  static Future<Loopback> start() => throw UnsupportedError('loopback');
+  static Future<Loopback> start({String? expectedState}) =>
+      throw UnsupportedError('loopback');
 
   String get redirectUri => throw UnsupportedError('loopback');
 

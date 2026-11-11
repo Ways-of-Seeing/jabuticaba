@@ -9,6 +9,7 @@ import '../theme.dart';
 import 'account_gate.dart';
 import 'basics.dart';
 import 'media.dart';
+import 'moderation_menu.dart';
 import 'rich_content.dart';
 
 /// Post no fio: cabeçalho com autor e rede, texto, mídia, link e ações.
@@ -300,6 +301,9 @@ class _ActionsState extends ConsumerState<_Actions> {
           Icons.chat_bubble_outline_rounded,
           p.replies > 0 ? compact(p.replies) : '',
           onTap: () => openPost(context, p),
+          semanticLabel: p.replies > 0
+              ? '${p.replies} respostas. Abrir post'
+              : 'Responder',
         ),
         if (canBoost)
           Stat(
@@ -314,8 +318,14 @@ class _ActionsState extends ConsumerState<_Actions> {
               action: (n) => n.boost(p),
               done: 'Compartilhado ✓',
             ),
+            semanticLabel: 'Compartilhar',
           ),
-        if (p.views != null) Stat(Icons.visibility_outlined, compact(p.views)),
+        if (p.views != null)
+          Stat(
+            Icons.visibility_outlined,
+            compact(p.views),
+            semanticLabel: '${compact(p.views)} visualizações',
+          ),
         Stat(
           lemmy
               ? Icons.arrow_upward_rounded
@@ -331,8 +341,10 @@ class _ActionsState extends ConsumerState<_Actions> {
             action: (n) => n.like(p),
             done: lemmy ? 'Voto enviado ✓' : 'Curtido ✓',
           ),
+          semanticLabel: lemmy ? 'Votar' : 'Curtir',
         ),
         const Spacer(),
+        ModerationMenu(author: p.author, post: p),
         if (p.url != null)
           IconButton(
             tooltip: 'Abrir original',

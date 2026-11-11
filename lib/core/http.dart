@@ -21,8 +21,15 @@ class Api {
   static final instance = Api._();
 
   final _client = http.Client();
-  final _cache = <String, (DateTime, Object?)>{};
+
+  /// LRU pequeno: feeds paginados não podem ficar retidos para sempre.
+  final _cache = <String, _CacheEntry>{};
+  final _inflight = <String, Future<dynamic>>{};
+  var _cacheBytes = 0;
   static const _ttl = Duration(minutes: 3);
+  static const _maxEntries = 150;
+  static const _maxBytes = 8 << 20;
+  static const _maxEntryBytes = 512 << 10;
 
   /// Na web o navegador manda o próprio User-Agent. Enviar outro faz o
   /// WebKit pedir um preflight CORS que vários servidores não respondem.
@@ -35,15 +42,26 @@ class Api {
     String url, {
     Map<String, String>? query,
     bool cache = true,
-  }) async {
+  }) {
     final uri = Uri.parse(
       url,
     ).replace(queryParameters: query == null || query.isEmpty ? null : query);
-    final key = uri.toString();
-    final hit = _cache[key];
-    if (cache && hit != null && DateTime.now().difference(hit.$1) < _ttl) {
-      return hit.$2;
-    }
+    final key = 'json:$uri';
+    final hit = _hit(key);
+    if (cache && hit != null) return Future.value(hit);
+
+    // Explorar e Fio pedem algumas das mesmas URLs ao mesmo tempo.
+    final pending = _inflight[key];
+    if (cache && pending != null) return pending;
+    final future = _fetchJson(uri, key, cache: cache);
+    if (!cache) return future;
+    _inflight[key] = future;
+    return future.whenComplete(() {
+      if (identical(_inflight[key], future)) _inflight.remove(key);
+    });
+  }
+
+  Future<dynamic> _fetchJson(Uri uri, String key, {required bool cache}) async {
     final res = await _client
         .get(uri, headers: _headers)
         .timeout(const Duration(seconds: 20));
@@ -51,7 +69,7 @@ class Api {
       throw ApiException('GET $uri falhou', res.statusCode);
     }
     final data = jsonDecode(utf8.decode(res.bodyBytes));
-    _cache[key] = (DateTime.now(), data);
+    if (cache) _put(key, data, res.bodyBytes.length);
     return data;
   }
 
@@ -111,22 +129,71 @@ class Api {
 
   /// GET que devolve o corpo como texto (feeds RSS), com o mesmo cache curto.
   Future<String> text(String url) async {
-    final hit = _cache[url];
-    if (hit != null && DateTime.now().difference(hit.$1) < _ttl) {
-      return hit.$2 as String;
-    }
+    final key = 'text:$url';
+    final hit = _hit(key);
+    if (hit is String) return hit;
     final res = await _client
         .get(Uri.parse(url), headers: {'User-Agent': ?_headers['User-Agent']})
         .timeout(const Duration(seconds: 20));
     if (res.statusCode < 200 || res.statusCode >= 300) {
       throw ApiException('GET $url falhou', res.statusCode);
     }
+    // Um feed malicioso não deve consumir memória sem limite.
+    if (res.bodyBytes.length > 8 << 20) {
+      throw ApiException('Resposta grande demais (mais de 8 MB)');
+    }
     final body = utf8.decode(res.bodyBytes, allowMalformed: true);
-    _cache[url] = (DateTime.now(), body);
+    _put(key, body, res.bodyBytes.length);
     return body;
   }
 
-  void clearCache() => _cache.clear();
+  Object? _hit(String key) {
+    final entry = _cache[key];
+    if (entry == null) return null;
+    if (DateTime.now().difference(entry.storedAt) >= _ttl) {
+      _remove(key);
+      return null;
+    }
+    // LinkedHashMap: regravar move a entrada para o fim (mais recente).
+    _cache.remove(key);
+    _cache[key] = entry;
+    return entry.value;
+  }
+
+  void _put(String key, Object? value, int bytes) {
+    if (bytes > _maxEntryBytes) return;
+    _remove(key);
+    _cache[key] = _CacheEntry(DateTime.now(), value, bytes);
+    _cacheBytes += bytes;
+    final expiredBefore = DateTime.now().subtract(_ttl);
+    final expired = <String>[];
+    for (final entry in _cache.entries) {
+      if (entry.value.storedAt.isAfter(expiredBefore)) break;
+      expired.add(entry.key);
+    }
+    expired.forEach(_remove);
+    while (_cache.isNotEmpty &&
+        (_cache.length > _maxEntries || _cacheBytes > _maxBytes)) {
+      _remove(_cache.keys.first);
+    }
+  }
+
+  void _remove(String key) {
+    final removed = _cache.remove(key);
+    if (removed != null) _cacheBytes -= removed.bytes;
+  }
+
+  void clearCache() {
+    _cache.clear();
+    _cacheBytes = 0;
+  }
+}
+
+class _CacheEntry {
+  const _CacheEntry(this.storedAt, this.value, this.bytes);
+  final DateTime storedAt;
+  final Object? value;
+  final int bytes;
 }
 
 /// Executa [tasks] em paralelo e ignora as que falharem: o fediverso é

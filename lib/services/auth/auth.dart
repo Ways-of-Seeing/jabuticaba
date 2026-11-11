@@ -1,9 +1,42 @@
+import 'dart:convert';
+import 'dart:math';
+
 import '../../core/http.dart';
 import '../../models/account.dart';
 
 const _appName = 'jabuticaba';
 const _website = 'https://jabuticaba.social';
 const oobRedirect = 'urn:ietf:wg:oauth:2.0:oob';
+const mobileOAuthRedirect = 'jabuticaba://oauth';
+const oauthCallbackScheme = 'jabuticaba';
+
+/// Estado anti-CSRF por tentativa de login (não usar valor fixo).
+String createOAuthState() {
+  final random = Random.secure();
+  final bytes = List<int>.generate(24, (_) => random.nextInt(256));
+  return base64Url.encode(bytes);
+}
+
+/// Valida o retorno do navegador do sistema e devolve o código OAuth.
+String oauthCodeFromCallback(String callback, {required String expectedState}) {
+  final uri = Uri.tryParse(callback);
+  if (uri == null || uri.scheme != oauthCallbackScheme) {
+    throw ApiException('O navegador devolveu um endereço de login inválido');
+  }
+  if (uri.queryParameters['state'] != expectedState) {
+    throw ApiException(
+      'A resposta de login não corresponde a esta tentativa. Tente de novo.',
+    );
+  }
+  final error =
+      uri.queryParameters['error_description'] ?? uri.queryParameters['error'];
+  if (error != null) throw ApiException(error);
+  final code = uri.queryParameters['code'];
+  if (code == null || code.isEmpty) {
+    throw ApiException('O servidor não devolveu o código de autorização');
+  }
+  return code;
+}
 
 final _api = Api.instance;
 
@@ -109,13 +142,18 @@ class MastodonAuth {
     return (app['client_id'] as String, app['client_secret'] as String);
   }
 
-  static Uri authorizeUrl(String host, String clientId, String redirectUri) =>
-      Uri.https(host, '/oauth/authorize', {
-        'client_id': clientId,
-        'redirect_uri': redirectUri,
-        'response_type': 'code',
-        'scope': scopes,
-      });
+  static Uri authorizeUrl(
+    String host,
+    String clientId,
+    String redirectUri, {
+    String? state,
+  }) => Uri.https(host, '/oauth/authorize', {
+    'client_id': clientId,
+    'redirect_uri': redirectUri,
+    'response_type': 'code',
+    'scope': scopes,
+    'state': ?state,
+  });
 
   static Future<String> exchangeCode({
     required String host,
@@ -388,14 +426,18 @@ class FunkwhaleAuth {
     return (app['client_id'] as String, app['client_secret'] as String);
   }
 
-  static Uri authorizeUrl(String host, String clientId, String redirectUri) =>
-      Uri.https(host, '/authorize', {
-        'response_type': 'code',
-        'client_id': clientId,
-        'redirect_uri': redirectUri,
-        'scope': scopes,
-        'state': 'jabuticaba',
-      });
+  static Uri authorizeUrl(
+    String host,
+    String clientId,
+    String redirectUri, {
+    String? state,
+  }) => Uri.https(host, '/authorize', {
+    'response_type': 'code',
+    'client_id': clientId,
+    'redirect_uri': redirectUri,
+    'scope': scopes,
+    'state': ?state,
+  });
 
   static Future<String> exchangeCode({
     required String host,

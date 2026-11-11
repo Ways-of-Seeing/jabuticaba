@@ -16,7 +16,10 @@ enum AccountAction {
   post('publicar', Icons.edit_rounded),
   reply('responder', Icons.chat_bubble_rounded),
   follow('seguir no servidor', Icons.person_add_alt_1_rounded),
-  favorite('favoritar músicas', Icons.favorite_rounded);
+  favorite('favoritar músicas', Icons.favorite_rounded),
+  block('bloquear', Icons.block_rounded),
+  mute('silenciar', Icons.volume_off_rounded),
+  report('denunciar', Icons.flag_outlined);
 
   const AccountAction(this.verb, this.icon);
   final String verb;

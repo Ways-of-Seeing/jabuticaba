@@ -11,8 +11,9 @@ Uma obra da [Ways of Seeing](https://ways-of-seeing.github.io). **Apresentação
 | 🍎 **macOS** 12+ (Apple Silicon e Intel) | [**Baixar .dmg**](https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.0/jabuticaba-macos.dmg) |
 | 🪟 **Windows** 10/11 | [**Baixar instalador**](https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.0/jabuticaba-windows-instalador.exe) · [versão portátil (.zip)](https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.0/jabuticaba-windows-x64.zip) |
 | 🐧 **Linux** 64 bits | [**Baixar .tar.gz**](https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.0/jabuticaba-linux-x64.tar.gz) |
+| 📱 **iPhone** (iOS 15+) | [**Adicionar ao AltStore**](https://ways-of-seeing.github.io/jabuticaba/) — IPA não assinado, assinado no aparelho com a sua conta Apple |
 
-Versão 0.1.0, pré-lançamento gratuito. **Como instalar, liberar o app no macOS e no Windows e conectar suas contas:** [docs/INSTALAR.md](docs/INSTALAR.md). Todas as versões: [Releases](https://github.com/Ways-of-Seeing/jabuticaba/releases). iOS e Android vêm depois.
+Versão 0.1.1, pré-lançamento gratuito. **Como instalar, liberar o app no macOS e no Windows e conectar suas contas:** [docs/INSTALAR.md](docs/INSTALAR.md). **iPhone:** [docs/ALTSTORE.md](docs/ALTSTORE.md). Todas as versões: [Releases](https://github.com/Ways-of-Seeing/jabuticaba/releases). Android vem depois.
 
 A proposta não é só “colar o endereço da sua instância”: é **explorar primeiro**. Dá para descobrir, seguir e montar seu fio sem criar conta; quando quiser postar, o app ajuda a escolher um servidor.
 
@@ -54,12 +55,18 @@ O jabuticaba **não integra o Threads, o Instagram, o Facebook nem qualquer outr
 
 O fluxo **Entrar no fediverso** (no onboarding, na aba Você ou no botão Publicar) cobre dois caminhos:
 
-- **Já tenho conta:** Mastodon e compatíveis (Pixelfed, GoToSocial, Akkoma…) por OAuth — a senha é digitada no site do servidor, nunca no app. No desktop o retorno é automático (servidor local em `127.0.0.1`); no celular a pessoa cola o código. **Bluesky** com senha de app (com suporte ao código 2FA por e-mail). **Lemmy** com usuário e senha (e código 2FA).
+- **Já tenho conta:** Mastodon e compatíveis (Pixelfed, GoToSocial, Akkoma…) por OAuth — a senha é digitada no site do servidor, nunca no app. No desktop o retorno é automático (servidor local em `127.0.0.1`); no iPhone e no Android a autorização abre no navegador seguro do sistema e volta sozinha pelo esquema `jabuticaba://oauth`, com `state` contra CSRF. Se o navegador falhar, ainda dá para colar o código. **Bluesky** com senha de app (com suporte ao código 2FA por e-mail). **Lemmy** com usuário e senha (e código 2FA).
 - **Quero criar:** a pessoa diz o que quer fazer (conversar, fotos, comunidades, vídeos). Para o Mastodon, o app recomenda um servidor (português e cadastro imediato primeiro, depois interesses e atividade), mostra regras e política, e **cria a conta pela API oficial** do servidor, inclusive idade mínima e justificativa quando o servidor exige. Pixelfed, Lemmy, Bluesky e Loops pedem captcha/telefone, então o app abre o cadastro no site e volta para conectar.
 
 Com conta: aba **Minhas contas** no Fio (linhas do tempo juntas), curtir/compartilhar de verdade, "Seguir" também segue no servidor, e **Publicar** em várias contas ao mesmo tempo (respeitando o limite da rede mais restritiva, ex.: 300 no Bluesky). Tokens ficam no cofre do sistema (`flutter_secure_storage`: Keychain/Keystore/libsecret/DPAPI).
 
 O Loops ainda não oferece login para apps de terceiros — os vídeos continuam aparecendo e podendo ser seguidos.
+
+## Moderação e privacidade
+
+Posts e perfis têm menu para **denunciar**, **silenciar** e **bloquear** nas redes que oferecem API para isso (Mastodon/Pixelfed, Bluesky e Lemmy). A denúncia vai para a moderação do servidor da conta conectada, com motivo e detalhes. Bloquear é uma ação de servidor; para desbloquear, use o site da sua rede. Conteúdo sensível fica escondido atrás do aviso, e a opção de mostrá-lo é sua.
+
+O app não tem servidor próprio, analytics, anúncios nem rastreamento. A política completa está em <https://ways-of-seeing.github.io/jabuticaba/privacidade.html>. Tokens ficam no Keychain/Keystore com `first_unlock_this_device`, sem migrar por backup. O único dado que sai do aparelho é o que você pede a cada instância, com o seu token. Links de posts só abrem em `http`/`https`; esquemas como `javascript:` e `file:` são recusados.
 
 ## Temas
 
@@ -153,7 +160,6 @@ Fontes: Plus Jakarta Sans e Bricolage Grotesque (OFL), incluídas em `assets/fon
 ## Próximos passos
 
 - **Responder** posts e anexar mídia ao publicar.
-- **Login no celular sem colar código**: registrar o esquema `jabuticaba://` (iOS/Android) para o retorno do OAuth.
 - **Vídeo no Linux e Windows**: o `video_player` oficial não cobre essas plataformas; trocar por `media_kit` (ou usar os dois por plataforma).
 - **Splash** com a jabuticaba.
 - **Traduções** (a interface hoje é em pt-BR).

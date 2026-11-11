@@ -461,36 +461,53 @@ class FollowButton extends StatelessWidget {
 
 /// Pequeno contador com ícone (curtidas, respostas…).
 class Stat extends StatelessWidget {
-  const Stat(this.icon, this.label, {super.key, this.color, this.onTap});
+  const Stat(
+    this.icon,
+    this.label, {
+    super.key,
+    this.color,
+    this.onTap,
+    this.semanticLabel,
+  });
   final IconData icon;
   final String label;
   final Color? color;
   final VoidCallback? onTap;
+  final String? semanticLabel;
 
   @override
   Widget build(BuildContext context) {
     final c = color ?? context.jc.muted;
-    return InkWell(
-      borderRadius: context.jc.r(20),
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 18, color: c),
-            if (label.isNotEmpty) ...[
-              const SizedBox(width: 5),
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: c,
-                ),
-              ),
-            ],
-          ],
+    return Semantics(
+      button: onTap != null,
+      label: semanticLabel,
+      child: InkWell(
+        borderRadius: context.jc.r(20),
+        onTap: onTap,
+        // Alvo mínimo de toque do iOS (44 pt), mesmo com o ícone pequeno.
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(icon, size: 18, color: c),
+                if (label.isNotEmpty) ...[
+                  const SizedBox(width: 5),
+                  Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: c,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -509,6 +526,7 @@ class JabuLogo extends StatelessWidget {
       'assets/brand/logo.png',
       width: size,
       height: size,
+      cacheWidth: (size * MediaQuery.devicePixelRatioOf(context)).round(),
       filterQuality: context.jc.id == JabuThemeId.win95
           ? FilterQuality.none
           : FilterQuality.medium,

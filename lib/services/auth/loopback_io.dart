@@ -3,9 +3,10 @@ import 'dart:io';
 
 /// Servidor HTTP efêmero em 127.0.0.1 que captura `?code=` do redirect OAuth.
 class Loopback {
-  Loopback._(this._server);
+  Loopback._(this._server, this._expectedState);
 
   final HttpServer _server;
+  final String? _expectedState;
   final _code = Completer<String>();
 
   /// Desktop: sim. iOS/Android suspendem o app enquanto o navegador está na
@@ -13,9 +14,9 @@ class Loopback {
   static bool get supported =>
       Platform.isMacOS || Platform.isLinux || Platform.isWindows;
 
-  static Future<Loopback> start() async {
+  static Future<Loopback> start({String? expectedState}) async {
     final server = await HttpServer.bind(InternetAddress.loopbackIPv4, 0);
-    final lb = Loopback._(server);
+    final lb = Loopback._(server, expectedState);
     server.listen(lb._handle);
     return lb;
   }
@@ -31,7 +32,12 @@ class Loopback {
     req.response.write(_page(ok: code != null));
     await req.response.close();
     if (_code.isCompleted) return;
-    if (code != null) {
+    if (_expectedState != null &&
+        req.uri.queryParameters['state'] != _expectedState) {
+      _code.completeError(
+        Exception('A resposta de login não corresponde a esta tentativa'),
+      );
+    } else if (code != null) {
       _code.complete(code);
     } else if (error != null) {
       _code.completeError(Exception(error));

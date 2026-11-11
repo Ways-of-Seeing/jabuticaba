@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -78,6 +76,10 @@ class _AppShellState extends ConsumerState<AppShell> {
     (_) => GlobalKey<NavigatorState>(),
   );
   late final _built = <int>{widget.initialTab};
+  late final _heroControllers = List.generate(
+    _tabs.length,
+    (_) => MaterialApp.createMaterialHeroController(),
+  );
 
   @override
   void initState() {
@@ -155,12 +157,16 @@ class _AppShellState extends ConsumerState<AppShell> {
           // Só constrói a aba quando visitada pela primeira vez.
           !_built.contains(i)
               ? const SizedBox.shrink()
-              : HeroControllerScope(
-                  controller: MaterialApp.createMaterialHeroController(),
-                  child: Navigator(
-                    key: _navKeys[i],
-                    onGenerateRoute: (_) =>
-                        MaterialPageRoute(builder: (_) => _root(i)),
+              : TickerMode(
+                  // Animações/esqueletos de abas ocultas não devem gerar frames.
+                  enabled: i == _index,
+                  child: HeroControllerScope(
+                    controller: _heroControllers[i],
+                    child: Navigator(
+                      key: _navKeys[i],
+                      onGenerateRoute: (_) =>
+                          MaterialPageRoute(builder: (_) => _root(i)),
+                    ),
                   ),
                 ),
       ],
@@ -465,27 +471,28 @@ class _BottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final jc = context.jc;
     final fg = dark ? Colors.white : context.cs.onSurface;
-    return ClipRect(
-      child: BackdropFilter(
-        filter: ImageFilter.blur(
-          sigmaX: jc.blur ? 24 : 0,
-          sigmaY: jc.blur ? 24 : 0,
-        ),
-        child: Container(
-          decoration: BoxDecoration(
-            color: dark ? Colors.black.withValues(alpha: .55) : jc.glass,
-            border: Border(
-              top: BorderSide(color: dark ? Colors.white12 : jc.line),
-            ),
-          ),
-          child: SafeArea(
-            top: false,
-            child: SizedBox(
-              height: 62,
-              child: Row(
-                children: [
-                  for (final i in [..._mobileTabs, -1])
-                    Expanded(
+    // O véu já é quase opaco: o blur sigma 24 custava um saveLayer por frame
+    // sem mudar perceptivelmente a aparência.
+    return Container(
+      decoration: BoxDecoration(
+        color: dark
+            ? Colors.black.withValues(alpha: .9)
+            : Color.alphaBlend(jc.canvas.withValues(alpha: .72), jc.glass),
+        border: Border(top: BorderSide(color: dark ? Colors.white12 : jc.line)),
+      ),
+      child: SafeArea(
+        top: false,
+        child: SizedBox(
+          height: 62,
+          child: Row(
+            children: [
+              for (final i in [..._mobileTabs, -1])
+                Expanded(
+                  child: Semantics(
+                    button: true,
+                    selected: _sel(i),
+                    label: _label(i),
+                    child: ExcludeSemantics(
                       child: InkResponse(
                         onTap: () => i == -1
                             ? showMoreMenu(context, onSelect)
@@ -538,9 +545,9 @@ class _BottomBar extends StatelessWidget {
                         ),
                       ),
                     ),
-                ],
-              ),
-            ),
+                  ),
+                ),
+            ],
           ),
         ),
       ),

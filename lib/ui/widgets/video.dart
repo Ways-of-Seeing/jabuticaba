@@ -32,6 +32,7 @@ class _VideoSurfaceState extends State<VideoSurface> {
   VideoPlayerController? _c;
   Object? _error;
   bool _paused = false;
+  bool _initializing = false;
 
   Media get _media => widget.post.media.firstWhere((m) => m.isVideo);
 
@@ -44,41 +45,54 @@ class _VideoSurfaceState extends State<VideoSurface> {
   @override
   void didUpdateWidget(VideoSurface old) {
     super.didUpdateWidget(old);
-    if (widget.active && _c == null && _error == null) _init();
-    if (_c != null) {
+    if (widget.active && !old.active) _paused = false;
+    if (widget.active && _c == null && _error == null && !_initializing) {
+      _init();
+    }
+    final c = _c;
+    if (c != null && c.value.isInitialized) {
       if (widget.active && !_paused) {
-        _c!.play();
+        c.play();
         if (!widget.muted) AudioPlayerService.instance.pause();
       } else {
-        _c!.pause();
+        c.pause();
       }
-      _c!.setVolume(widget.muted ? 0 : 1);
+      c.setVolume(widget.muted ? 0 : 1);
     }
   }
 
   Future<void> _init() async {
+    if (_initializing) return;
+    _initializing = true;
+    VideoPlayerController? c;
     try {
       var url = _media.url;
       if (url.isEmpty && widget.post.network == Network.peertube) {
         url = await PeerTubeApi.playableUrl(widget.post);
       }
-      final c = VideoPlayerController.networkUrl(
+      c = VideoPlayerController.networkUrl(
         Uri.parse(url),
         videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
       );
-      _c = c;
       await c.initialize();
+      if (!mounted) {
+        await c.dispose();
+        return;
+      }
       await c.setLooping(true);
       await c.setVolume(widget.muted ? 0 : 1);
-      if (!mounted) return;
-      if (widget.active) {
+      _c = c;
+      if (widget.active && !_paused) {
         await c.play();
         // Um clipe com som pausa a música ou o podcast.
         if (!widget.muted) AudioPlayerService.instance.pause();
       }
       setState(() {});
     } catch (e) {
+      await c?.dispose();
       if (mounted) setState(() => _error = e);
+    } finally {
+      _initializing = false;
     }
   }
 
@@ -116,7 +130,11 @@ class _VideoSurfaceState extends State<VideoSurface> {
               child: SizedBox(
                 width: 1000 * aspect,
                 height: 1000,
-                child: NetImage(_media.previewUrl, blurhash: _media.blurhash),
+                child: NetImage(
+                  _media.previewUrl,
+                  blurhash: _media.blurhash,
+                  cacheWidth: 720,
+                ),
               ),
             ),
           if (ready)

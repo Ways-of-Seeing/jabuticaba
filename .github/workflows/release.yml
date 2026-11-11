@@ -58,6 +58,41 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: gh release upload "$TAG" jabuticaba-macos.dmg --clobber
 
+  ios:
+    needs: release
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - name: IPA não assinado (AltStore Classic)
+        run: tool/release/ios.sh
+      - name: Anexar o IPA à release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          IPA=$(ls build/ios/ipa/*.ipa | head -1)
+          gh release upload "$TAG" "$IPA" --clobber
+      - name: Gerar source do AltStore
+        run: |
+          IPA=$(ls build/ios/ipa/*.ipa | head -1)
+          NAME=$(basename "$IPA")
+          python3 tool/release/altstore/make_source.py \
+            --ipa "$IPA" \
+            --url "https://github.com/Ways-of-Seeing/jabuticaba/releases/download/${TAG}/${NAME}" \
+            --out altstore.json
+          python3 -m json.tool altstore.json > /dev/null
+      - uses: actions/upload-artifact@v4
+        with:
+          name: altstore-source
+          path: altstore.json
+
   windows:
     needs: release
     runs-on: windows-latest
@@ -96,7 +131,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev \
-            liblzma-dev libstdc++-12-dev libsecret-1-dev libjsoncpp-dev
+            liblzma-dev libstdc++-12-dev libsecret-1-dev libjsoncpp-dev \
+            libwebkit2gtk-4.1-dev libsoup-3.0-dev
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}

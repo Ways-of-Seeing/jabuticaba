@@ -1,8 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart'
+    show defaultTargetPlatform, kIsWeb, TargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 
 import '../../core/format.dart';
 import '../../core/http.dart';
@@ -442,8 +445,17 @@ class _MastodonConnectPageState extends ConsumerState<_MastodonConnectPage> {
   Loopback? _loopback;
   String? _host;
   String? _software;
+  String? _redirect;
+  bool _webAuth = false;
   (String, String)? _client;
   Uri? _authUrl;
+
+  /// iOS e Android suspendem o app quando o navegador abre; o loopback local
+  /// não funciona lá. Nesses casos usamos a sessão de autenticação do sistema.
+  static bool get _supportsWebAuth =>
+      !kIsWeb &&
+      (defaultTargetPlatform == TargetPlatform.iOS ||
+          defaultTargetPlatform == TargetPlatform.android);
 
   @override
   void dispose() {
@@ -485,33 +497,101 @@ class _MastodonConnectPageState extends ConsumerState<_MastodonConnectPage> {
           'Servidores $software ainda não são suportados para login. Dá para seguir as pessoas de lá normalmente.',
         );
       }
-      final loop = Loopback.supported ? await Loopback.start() : null;
-      final redirect = loop?.redirectUri ?? oobRedirect;
+      final state = createOAuthState();
+      final webAuth = _supportsWebAuth;
+      final loop = !webAuth && Loopback.supported
+          ? await Loopback.start(expectedState: state)
+          : null;
+      final redirect = webAuth
+          ? mobileOAuthRedirect
+          : (loop?.redirectUri ?? oobRedirect);
       final client = funk
           ? await FunkwhaleAuth.registerApp(host, redirect)
           : await MastodonAuth.registerApp(host, redirect);
       final url = funk
-          ? FunkwhaleAuth.authorizeUrl(host, client.$1, redirect)
-          : MastodonAuth.authorizeUrl(host, client.$1, redirect);
+          ? FunkwhaleAuth.authorizeUrl(
+              host,
+              client.$1,
+              redirect,
+              state: webAuth || loop != null ? state : null,
+            )
+          : MastodonAuth.authorizeUrl(
+              host,
+              client.$1,
+              redirect,
+              state: webAuth || loop != null ? state : null,
+            );
       setState(() {
         _loopback = loop;
         _host = host;
         _software = software;
+        _redirect = redirect;
+        _webAuth = webAuth;
         _client = client;
         _authUrl = url;
-        _phase = loop == null ? _OAuthPhase.paste : _OAuthPhase.waiting;
+        _phase = webAuth || loop != null
+            ? _OAuthPhase.waiting
+            : _OAuthPhase.paste;
         _busy = false;
       });
-      await openUrl(url.toString());
-      if (loop != null) {
-        final code = await loop.waitForCode();
-        await _finishWith(code);
+      if (webAuth) {
+        final callback = await FlutterWebAuth2.authenticate(
+          url: url.toString(),
+          callbackUrlScheme: oauthCallbackScheme,
+          options: const FlutterWebAuth2Options(preferEphemeral: false),
+        );
+        await _finishWith(
+          oauthCodeFromCallback(callback, expectedState: state),
+        );
+      } else {
+        await openUrl(url.toString());
+        if (loop != null) {
+          final code = await loop.waitForCode();
+          await _finishWith(code);
+        }
       }
     } catch (e) {
       if (mounted) {
         setState(() {
           _busy = false;
           _phase = _OAuthPhase.input;
+          _error = e is PlatformException && e.code == 'CANCELED'
+              ? 'Login cancelado. Você pode tentar de novo quando quiser.'
+              : _friendlyError(e);
+        });
+      }
+    }
+  }
+
+  /// Caminho alternativo: registra o app de novo para o retorno OOB e deixa a
+  /// pessoa colar o código. Serve quando o navegador do sistema falha.
+  Future<void> _usePasteFallback() async {
+    final host = _host;
+    if (host == null || _busy) return;
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
+    try {
+      final funk = widget.funkwhale || _software == 'funkwhale';
+      final client = funk
+          ? await FunkwhaleAuth.registerApp(host, oobRedirect)
+          : await MastodonAuth.registerApp(host, oobRedirect);
+      final url = funk
+          ? FunkwhaleAuth.authorizeUrl(host, client.$1, oobRedirect)
+          : MastodonAuth.authorizeUrl(host, client.$1, oobRedirect);
+      setState(() {
+        _client = client;
+        _redirect = oobRedirect;
+        _authUrl = url;
+        _phase = _OAuthPhase.paste;
+        _busy = false;
+      });
+      await openUrl(url.toString());
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _busy = false;
           _error = _friendlyError(e);
         });
       }
@@ -525,7 +605,7 @@ class _MastodonConnectPageState extends ConsumerState<_MastodonConnectPage> {
       _error = null;
     });
     try {
-      final redirect = _loopback?.redirectUri ?? oobRedirect;
+      final redirect = _redirect ?? oobRedirect;
       final funk = widget.funkwhale || _software == 'funkwhale';
       final token = funk
           ? await FunkwhaleAuth.exchangeCode(
@@ -619,7 +699,9 @@ class _MastodonConnectPageState extends ConsumerState<_MastodonConnectPage> {
       _OAuthPhase.waiting => _FlowPage(
         step: _host,
         title: 'Autorize no navegador',
-        subtitle: 'Entre na sua conta e toque em "Autorizar". Assim que terminar, a conexão é concluída aqui sozinha.',
+        subtitle: _webAuth
+            ? 'A autorização abre no navegador seguro do sistema. Ao tocar em "Autorizar", o jabuticaba volta sozinho.'
+            : 'Entre na sua conta e toque em "Autorizar". Assim que terminar, a conexão é concluída aqui sozinha.',
         children: [
           if (_error != null) _ErrorBox(_error!),
           Center(
@@ -637,6 +719,10 @@ class _MastodonConnectPageState extends ConsumerState<_MastodonConnectPage> {
             onPressed: () => openUrl(_authUrl.toString()),
             icon: const Icon(Icons.open_in_browser_rounded),
             label: const Text('Abrir a página de novo'),
+          ),
+          TextButton(
+            onPressed: _busy ? null : _usePasteFallback,
+            child: const Text('Usar um código em vez do navegador'),
           ),
         ],
       ),

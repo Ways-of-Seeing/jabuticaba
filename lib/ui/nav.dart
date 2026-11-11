@@ -82,8 +82,23 @@ void openMedia(BuildContext context, List<Media> media, int index) =>
 void openClips(BuildContext context, List<Post> clips, int index) =>
     _push(context, ClipsPlayerScreen(clips: clips, initial: index), root: true);
 
+/// Só abrimos endereços web. Conteúdo remoto não pode disparar esquemas como
+/// `tel:`, `file:` ou deep links de outros apps sem uma ação explícita nossa.
+bool isSafeExternalUrl(String url) {
+  final uri = Uri.tryParse(url.trim());
+  return uri != null &&
+      (uri.scheme == 'https' || uri.scheme == 'http') &&
+      uri.host.isNotEmpty &&
+      // Evita links com credenciais embutidas (https://banco@evil.example).
+      uri.userInfo.isEmpty;
+}
+
 Future<void> openUrl(String url) async {
-  final uri = Uri.tryParse(url);
-  if (uri == null) return;
-  await launchUrl(uri, mode: LaunchMode.externalApplication);
+  if (!isSafeExternalUrl(url)) return;
+  final uri = Uri.parse(url.trim());
+  try {
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
+  } catch (_) {
+    // Um aparelho sem navegador não deve derrubar a tela do post.
+  }
 }

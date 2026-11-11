@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:isolate';
+
 import 'package:xml/xml.dart';
 
 import '../core/format.dart';
@@ -23,82 +26,14 @@ class CastopodApi {
   /// de podcast não liberam CORS.
   static const _feedProxy = String.fromEnvironment('FEED_PROXY');
 
-  /// ~2 mil podcasts (4 MB): baixa uma vez por sessão.
+  /// ~2 mil podcasts (4 MB): baixa uma vez por sessão e faz o parse fora do
+  /// isolate de UI. O JSON bruto não fica retido no cache HTTP.
   static Future<List<Show>> index() async {
     if (_cache != null) return _cache!;
-    final data = await Api.instance.get(_index) as List;
-    final shows = <Show>[];
-    // O índice repete alguns podcasts (mesmo endereço, caixa diferente).
-    final seen = <String>{};
-    for (final p in data) {
-      if (p is! Map ||
-          _int(p['dead']) == 1 ||
-          _int(p['lastHttpStatus']) != 200) {
-        continue;
-      }
-      final feed = (p['url'] ?? p['originalUrl']) as String?;
-      if (feed == null) continue;
-      final title = (p['title'] as String? ?? '').trim();
-      if (title.isEmpty) continue;
-      if (!seen.add('${p['link'] ?? feed}'.toLowerCase())) continue;
-      final last = _int(p['newestItemPubdate']);
-      final latestUrl = p['newestEnclosureUrl'] as String?;
-      final show = Show(
-        id: '${p['id']}',
-        title: title,
-        feedUrl: feed,
-        author: (p['itunesAuthor'] ?? p['ownerName'] ?? '') as String,
-        artwork: p['imageUrl'] as String?,
-        description: htmlToText(p['description'] as String?),
-        link: p['link'] as String?,
-        language: (p['language'] as String?)?.toLowerCase().split('-').first,
-        categories: [
-          for (var i = 1; i <= 10; i++)
-            if ((p['category$i'] as String? ?? '').isNotEmpty)
-              p['category$i'] as String,
-        ],
-        episodes: _int(p['episodeCount']),
-        popularity: _int(p['popularityScore']) ?? 0,
-        lastEpisodeAt: last == null
-            ? null
-            : DateTime.fromMillisecondsSinceEpoch(last * 1000),
-      );
-      shows.add(
-        Show(
-          id: show.id,
-          title: show.title,
-          feedUrl: show.feedUrl,
-          author: show.author,
-          artwork: show.artwork,
-          description: show.description,
-          link: show.link,
-          language: show.language,
-          categories: show.categories,
-          episodes: show.episodes,
-          popularity: show.popularity,
-          lastEpisodeAt: show.lastEpisodeAt,
-          latest: latestUrl == null
-              ? null
-              : AudioItem(
-                  id: latestUrl,
-                  title: 'Episódio mais recente',
-                  artist: show.title,
-                  streamUrl: latestUrl,
-                  network: Network.castopod,
-                  artwork: show.artwork,
-                  duration: (_int(p['newestEnclosureDuration'])) == null
-                      ? null
-                      : Duration(seconds: _int(p['newestEnclosureDuration'])!),
-                  url: show.link,
-                  host: show.host,
-                  publishedAt: show.lastEpisodeAt,
-                  uploaderHandle: show.handle,
-                  episode: true,
-                ),
-        ),
-      );
-    }
-    return _cache = shows;
+    final raw = await Api.instance.text(_index);
+    final shows = await Isolate.run(() => _parseIndex(raw));
+    _cache = shows;
+    return shows;
   }
 
   /// Episódios do feed RSS, do mais novo para o mais antigo.
@@ -174,8 +109,6 @@ class CastopodApi {
     return (full, items);
   }
 
-  static int? _int(dynamic v) => v is int ? v : int.tryParse('${v ?? ''}');
-
   static Duration? _duration(String? s) {
     if (s == null) return null;
     final parts = s.split(':').map(int.tryParse).toList();
@@ -219,4 +152,82 @@ class CastopodApi {
       int.parse(m[6] ?? '0'),
     );
   }
+}
+
+int? _indexInt(dynamic v) => v is int ? v : int.tryParse('${v ?? ''}');
+
+/// Função top-level para rodar no isolate de background.
+List<Show> _parseIndex(String raw) {
+  final data = jsonDecode(raw) as List;
+  final shows = <Show>[];
+  // O índice repete alguns podcasts (mesmo endereço, caixa diferente).
+  final seen = <String>{};
+  for (final p in data) {
+    if (p is! Map ||
+        _indexInt(p['dead']) == 1 ||
+        _indexInt(p['lastHttpStatus']) != 200) {
+      continue;
+    }
+    final feed = (p['url'] ?? p['originalUrl']) as String?;
+    if (feed == null) continue;
+    final title = (p['title'] as String? ?? '').trim();
+    if (title.isEmpty) continue;
+    if (!seen.add('${p['link'] ?? feed}'.toLowerCase())) continue;
+    final last = _indexInt(p['newestItemPubdate']);
+    final latestUrl = p['newestEnclosureUrl'] as String?;
+    final duration = _indexInt(p['newestEnclosureDuration']);
+    final show = Show(
+      id: '${p['id']}',
+      title: title,
+      feedUrl: feed,
+      author: (p['itunesAuthor'] ?? p['ownerName'] ?? '') as String,
+      artwork: p['imageUrl'] as String?,
+      description: htmlToText(p['description'] as String?),
+      link: p['link'] as String?,
+      language: (p['language'] as String?)?.toLowerCase().split('-').first,
+      categories: [
+        for (var i = 1; i <= 10; i++)
+          if ((p['category$i'] as String? ?? '').isNotEmpty)
+            p['category$i'] as String,
+      ],
+      episodes: _indexInt(p['episodeCount']),
+      popularity: _indexInt(p['popularityScore']) ?? 0,
+      lastEpisodeAt: last == null
+          ? null
+          : DateTime.fromMillisecondsSinceEpoch(last * 1000),
+    );
+    shows.add(
+      Show(
+        id: show.id,
+        title: show.title,
+        feedUrl: show.feedUrl,
+        author: show.author,
+        artwork: show.artwork,
+        description: show.description,
+        link: show.link,
+        language: show.language,
+        categories: show.categories,
+        episodes: show.episodes,
+        popularity: show.popularity,
+        lastEpisodeAt: show.lastEpisodeAt,
+        latest: latestUrl == null
+            ? null
+            : AudioItem(
+                id: latestUrl,
+                title: 'Episódio mais recente',
+                artist: show.title,
+                streamUrl: latestUrl,
+                network: Network.castopod,
+                artwork: show.artwork,
+                duration: duration == null ? null : Duration(seconds: duration),
+                url: show.link,
+                host: show.host,
+                publishedAt: show.lastEpisodeAt,
+                uploaderHandle: show.handle,
+                episode: true,
+              ),
+      ),
+    );
+  }
+  return shows;
 }

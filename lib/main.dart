@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,9 +12,12 @@ import 'ui/theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final prefs = await SharedPreferences.getInstance();
+  // Disco e Keychain são independentes; não precisam esperar um pelo outro.
+  final prefsFuture = SharedPreferences.getInstance();
+  final accountsFuture = TokenStore.load();
+  final prefs = await prefsFuture;
   if (demoMode) await prepareDemo(prefs);
-  final accounts = await TokenStore.load();
+  final accounts = await accountsFuture;
   runApp(
     ProviderScope(
       // Sem repetição automática: as telas mostram o erro com "Tentar de novo".
@@ -40,6 +44,15 @@ class JabuticabaApp extends ConsumerWidget {
     return MaterialApp(
       title: 'jabuticaba',
       debugShowCheckedModeBanner: false,
+      // A interface é em pt-BR; sem isto, menus e seletores do Material
+      // apareceriam em inglês no iOS.
+      locale: const Locale('pt', 'BR'),
+      supportedLocales: const [Locale('pt', 'BR')],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       // "Sistema" alterna Polpa/Jabuticaba; os outros temas são fixos.
       theme: fixed ?? buildTheme(JabuStyle.polpa),
       darkTheme: fixed ?? buildTheme(JabuStyle.jabuticaba),

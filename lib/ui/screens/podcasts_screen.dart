@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,6 +30,97 @@ class _PodcastsScreenState extends ConsumerState<PodcastsScreen> {
   String? _category;
   String _query = '';
   int _shown = 36;
+  Timer? _queryTimer;
+  final _haystacks = Expando<String>();
+
+  List<Show>? _derivedSource;
+  String? _derivedLang;
+  String? _derivedCategory;
+  String _derivedQuery = '';
+  List<String> _langs = const [];
+  List<String> _cats = const [];
+  List<Show> _filtered = const [];
+  List<Show> _popular = const [];
+  List<AudioItem> _freshEpisodes = const [];
+
+  @override
+  void dispose() {
+    _queryTimer?.cancel();
+    super.dispose();
+  }
+
+  void _onQueryChanged(String value) {
+    _queryTimer?.cancel();
+    _queryTimer = Timer(const Duration(milliseconds: 300), () {
+      if (!mounted) return;
+      setState(() {
+        _query = value.trim();
+        _shown = 36;
+      });
+    });
+  }
+
+  void _derive(List<Show> all) {
+    if (identical(_derivedSource, all) &&
+        _derivedLang == _lang &&
+        _derivedCategory == _category &&
+        _derivedQuery == _query) {
+      return;
+    }
+    _derivedSource = all;
+    _derivedLang = _lang;
+    _derivedCategory = _category;
+    _derivedQuery = _query;
+
+    // Português sempre aparece primeiro, mesmo sendo minoria no índice.
+    _langs = {
+      if (all.any((s) => s.language == 'pt')) 'pt',
+      ..._top(all.map((s) => s.language).whereType<String>(), 8),
+    }.toList();
+    _cats = _top(all.expand((s) => s.categories), 14);
+    final q = _query.toLowerCase();
+    _filtered = all.where((s) {
+      if (_lang != null && s.language != _lang) return false;
+      if (_category != null && !s.categories.contains(_category)) return false;
+      if (q.isEmpty) return true;
+      final haystack = _haystacks[s] ??=
+          '${s.title} ${s.author} '
+                  '${s.description}'
+              .toLowerCase();
+      return haystack.contains(q);
+    }).toList();
+    _popular = [..._filtered]
+      ..sort(
+        (a, b) => b.popularity != a.popularity
+            ? b.popularity.compareTo(a.popularity)
+            : (b.lastEpisodeAt ?? DateTime(0)).compareTo(
+                a.lastEpisodeAt ?? DateTime(0),
+              ),
+      );
+    final fresh = _filtered.where((s) => s.latest != null).toList()
+      ..sort(
+        (a, b) => (b.lastEpisodeAt ?? DateTime(0)).compareTo(
+          a.lastEpisodeAt ?? DateTime(0),
+        ),
+      );
+    _freshEpisodes = [
+      for (final s in fresh.take(12))
+        AudioItem(
+          id: s.latest!.id,
+          title: s.title,
+          artist: s.author.isEmpty ? 'Episódio mais recente' : s.author,
+          streamUrl: s.latest!.streamUrl,
+          network: Network.castopod,
+          artwork: s.artwork,
+          duration: s.latest!.duration,
+          url: s.link,
+          host: s.host,
+          publishedAt: s.lastEpisodeAt,
+          uploaderHandle: s.handle,
+          episode: true,
+        ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,57 +145,12 @@ class _PodcastsScreenState extends ConsumerState<PodcastsScreen> {
         error: (e, _) =>
             MessageView.error(e, () => ref.invalidate(podcastIndexProvider)),
         data: (all) {
-          // Português sempre aparece primeiro, mesmo sendo minoria no índice.
-          final langs = {
-            if (all.any((s) => s.language == 'pt')) 'pt',
-            ..._top(all.map((s) => s.language).whereType<String>(), 8),
-          }.toList();
-          final cats = _top(all.expand((s) => s.categories), 14);
-          final q = _query.toLowerCase();
-          final filtered = all.where((s) {
-            if (_lang != null && s.language != _lang) return false;
-            if (_category != null && !s.categories.contains(_category)) {
-              return false;
-            }
-            if (q.isNotEmpty &&
-                !'${s.title} ${s.author} ${s.description}'
-                    .toLowerCase()
-                    .contains(q)) {
-              return false;
-            }
-            return true;
-          }).toList();
-          final popular = [...filtered]
-            ..sort(
-              (a, b) => b.popularity != a.popularity
-                  ? b.popularity.compareTo(a.popularity)
-                  : (b.lastEpisodeAt ?? DateTime(0)).compareTo(
-                      a.lastEpisodeAt ?? DateTime(0),
-                    ),
-            );
-          final fresh = filtered.where((s) => s.latest != null).toList()
-            ..sort(
-              (a, b) => (b.lastEpisodeAt ?? DateTime(0)).compareTo(
-                a.lastEpisodeAt ?? DateTime(0),
-              ),
-            );
-          final freshEpisodes = [
-            for (final s in fresh.take(12))
-              AudioItem(
-                id: s.latest!.id,
-                title: s.title,
-                artist: s.author.isEmpty ? 'Episódio mais recente' : s.author,
-                streamUrl: s.latest!.streamUrl,
-                network: Network.castopod,
-                artwork: s.artwork,
-                duration: s.latest!.duration,
-                url: s.link,
-                host: s.host,
-                publishedAt: s.lastEpisodeAt,
-                uploaderHandle: s.handle,
-                episode: true,
-              ),
-          ];
+          _derive(all);
+          final langs = _langs;
+          final cats = _cats;
+          final filtered = _filtered;
+          final popular = _popular;
+          final freshEpisodes = _freshEpisodes;
           final subscribed = [
             for (final f in follows)
               ?all
@@ -145,10 +193,7 @@ class _PodcastsScreenState extends ConsumerState<PodcastsScreen> {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
                   child: TextField(
-                    onChanged: (v) => setState(() {
-                      _query = v.trim();
-                      _shown = 36;
-                    }),
+                    onChanged: _onQueryChanged,
                     decoration: const InputDecoration(
                       hintText: 'Buscar podcasts',
                       prefixIcon: Icon(Icons.search_rounded),

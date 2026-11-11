@@ -11,6 +11,7 @@ import '../../state/settings.dart';
 import '../theme.dart';
 import '../widgets/basics.dart';
 import '../widgets/media.dart';
+import '../widgets/moderation_menu.dart';
 import '../widgets/paged.dart';
 import '../widgets/post_card.dart';
 import '../widgets/rich_content.dart';
@@ -217,6 +218,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
+        actions: [
+          ModerationMenu(author: a),
+          const SizedBox(width: 4),
+        ],
       ),
       body: PagedView<Post>(
         key: ValueKey('${a.handle}:$_media'),

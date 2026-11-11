@@ -15,6 +15,11 @@ class TokenStore {
 
   static const _key = 'jabuticaba.accounts';
   static const _storage = FlutterSecureStorage(
+    // Tokens não migram por backup/Keychain para outro aparelho. No AltStore,
+    // trocar o Apple ID que assina o app ainda exige entrar de novo.
+    iOptions: IOSOptions(
+      accessibility: KeychainAccessibility.first_unlock_this_device,
+    ),
     // No macOS, o Keychain clássico dispensa perfil de provisionamento.
     mOptions: MacOsOptions(usesDataProtectionKeychain: false),
   );

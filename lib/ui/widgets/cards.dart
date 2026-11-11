@@ -352,6 +352,7 @@ class CommunityCard extends ConsumerWidget {
       settingsProvider.select((s) => s.isFollowing(c.key)),
     );
     final hasBanner = c.banner?.isNotEmpty ?? false;
+    final description = htmlToText(c.description);
     return _Hover(
       onTap: () => openCommunity(context, c),
       child: Container(
@@ -427,9 +428,7 @@ class CommunityCard extends ConsumerWidget {
                     const SizedBox(height: 6),
                     Expanded(
                       child: Text(
-                        htmlToText(c.description).isEmpty
-                            ? _fallback(c)
-                            : htmlToText(c.description),
+                        description.isEmpty ? _fallback(c) : description,
                         style: context.tt.bodySmall,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,

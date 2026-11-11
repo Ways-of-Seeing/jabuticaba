@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>jabuticaba — AltStore</title>
+<meta name="description" content="Instale o jabuticaba no iPhone pelo AltStore. O explorador do fediverso: Mastodon, Bluesky, Pixelfed, PeerTube, Lemmy, Funkwhale, Loops e Castopod num app só.">
+<meta name="theme-color" content="#0F0812">
+<link rel="icon" type="image/png" href="icon.png">
+<meta property="og:title" content="jabuticaba no AltStore">
+<meta property="og:description" content="Todas as redes abertas. Um lugar só. Instale no iPhone pelo AltStore.">
+<meta property="og:image" content="icon.png">
+<style>
+  :root {
+    --ink: #fbf6fa;
+    --muted: #c9b9c9;
+    --bg: #0f0812;
+    --card: #1b1020;
+    --line: #3a2440;
+    --brand: #b44de0;
+    --brand-2: #f05fa8;
+    --leaf: #37c98b;
+    --radius: 22px;
+    --max: 960px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1100px 600px at 80% -10%, #3a1450 0%, transparent 60%),
+      radial-gradient(800px 500px at -10% 30%, #2a0f33 0%, transparent 55%),
+      var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  a { color: #e9a7ff; }
+  .wrap { width: min(100% - 40px, var(--max)); margin-inline: auto; }
+  header { padding: 28px 0 8px; }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 20px; letter-spacing: -.02em; }
+  .brand img { width: 38px; height: 38px; border-radius: 10px; }
+  .top a.ghost { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 600; }
+  .top a.ghost:hover { color: var(--ink); }
+
+  .hero { padding: 54px 0 34px; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12.5px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase;
+    color: var(--leaf); margin: 0 0 14px;
+  }
+  h1 {
+    margin: 0 0 14px;
+    font-size: clamp(40px, 8vw, 68px);
+    line-height: 1.02;
+    letter-spacing: -.045em;
+  }
+  h1 .grad {
+    background: linear-gradient(92deg, #f6a6ff 0%, var(--brand-2) 55%, #ffb86b 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .lede { max-width: 60ch; margin: 0; color: var(--muted); font-size: clamp(17px, 2.4vw, 20px); }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 28px; }
+  .button {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 15px 22px; border-radius: 999px;
+    background: linear-gradient(96deg, var(--brand) 0%, var(--brand-2) 100%);
+    color: #180a1e; font-weight: 800; font-size: 16px; text-decoration: none;
+    box-shadow: 0 12px 30px rgba(240, 95, 168, .22);
+    border: 0; cursor: pointer;
+  }
+  .button:hover { filter: brightness(1.06); }
+  .button.secondary {
+    background: transparent; color: var(--ink);
+    border: 1px solid var(--line); box-shadow: none;
+  }
+  .meta { color: var(--muted); font-size: 13.5px; margin-top: 12px; }
+
+  .shots {
+    display: grid; grid-auto-flow: column; grid-auto-columns: minmax(230px, 1fr);
+    gap: 16px; overflow-x: auto; padding: 20px 0 12px;
+    scroll-snap-type: x mandatory;
+  }
+  .shots img {
+    width: 100%; height: auto; border-radius: var(--radius);
+    border: 1px solid var(--line);
+    scroll-snap-align: start;
+    background: #000;
+  }
+  .shots figure { margin: 0; }
+  .shots figcaption { color: var(--muted); font-size: 13px; margin-top: 8px; }
+
+  section { padding: 46px 0; border-top: 1px solid rgba(58, 36, 64, .55); }
+  h2 { font-size: clamp(26px, 4vw, 34px); letter-spacing: -.03em; margin: 0 0 8px; }
+  .sub { color: var(--muted); margin: 0 0 26px; max-width: 62ch; }
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+  .card {
+    background: linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.01));
+    border: 1px solid var(--line); border-radius: var(--radius); padding: 20px;
+  }
+  .card h3 { margin: 0 0 6px; font-size: 16px; }
+  .card p { margin: 0; color: var(--muted); font-size: 14.5px; }
+  .step { display: flex; gap: 14px; align-items: flex-start; }
+  .num {
+    flex: none; width: 30px; height: 30px; border-radius: 50%;
+    display: grid; place-items: center; font-weight: 800; font-size: 14px;
+    background: rgba(180, 77, 224, .16); color: #e9a7ff; border: 1px solid #552766;
+  }
+  code {
+    background: #120816; border: 1px solid var(--line); border-radius: 8px;
+    padding: 2px 7px; font-size: 13.5px; overflow-wrap: anywhere;
+  }
+  .notice {
+    border-left: 3px solid #ffbe5c; background: rgba(255, 190, 92, .07);
+    padding: 14px 18px; border-radius: 0 12px 12px 0; color: #f3ddb9; font-size: 14.5px;
+  }
+  footer { padding: 34px 0 60px; color: var(--muted); font-size: 13.5px; border-top: 1px solid rgba(58,36,64,.55); }
+  footer a { color: var(--muted); }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="top">
+      <div class="brand"><img src="icon.png" alt=""> jabuticaba</div>
+      <a class="ghost" href="https://github.com/Ways-of-Seeing/jabuticaba">Código no GitHub ↗</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero">
+      <p class="eyebrow">iPhone · iOS 15 ou mais novo</p>
+      <h1>Todas as redes abertas.<br><span class="grad">Um lugar só.</span></h1>
+      <p class="lede">
+        Vídeos curtos, fotos, conversas e comunidades de Mastodon, Bluesky, Pixelfed,
+        PeerTube, Lemmy, Funkwhale, Loops e Castopod no mesmo app. Sem anúncios,
+        sem rastreamento, sem servidor no meio.
+      </p>
+      <div class="cta">
+        <a class="button" href="altstore://source?url=https%3A%2F%2Fways-of-seeing.github.io%2Fjabuticaba%2Faltstore.json">
+          Adicionar ao AltStore
+        </a>
+        <button class="button secondary" id="copy" type="button">Copiar endereço da source</button>
+      </div>
+      <p class="meta">
+        A source é um JSON aberto: <code>ways-of-seeing.github.io/jabuticaba/altstore.json</code>.
+        O app é assinado no seu iPhone com a sua conta Apple.
+      </p>
+      <p class="sr" id="status" role="status" aria-live="polite"></p>
+    </div>
+
+    <div class="shots" aria-label="Capturas do app">
+      <figure><img src="screenshots/explorar.jpg" alt="Tela Explorar com tendências, clipes e fotos"><figcaption>Explorar</figcaption></figure>
+      <figure><img src="screenshots/fio.jpg" alt="Fio com posts do Mastodon e do Bluesky"><figcaption>Fio</figcaption></figure>
+      <figure><img src="screenshots/fotos.jpg" alt="Grade de fotos"><figcaption>Fotos</figcaption></figure>
+      <figure><img src="screenshots/musica.jpg" alt="Aba de música"><figcaption>Música</figcaption></figure>
+      <figure><img src="screenshots/onboarding.jpg" alt="Primeira tela do app"><figcaption>Sem conta para começar</figcaption></figure>
+      <figure><img src="screenshots/visual.jpg" alt="Seletor de temas"><figcaption>Oito temas</figcaption></figure>
+    </div>
+
+    <section>
+      <h2>Como instalar</h2>
+      <p class="sub">O AltStore Classic instala apps fora da App Store usando a sua conta Apple. É gratuito e não precisa de jailbreak.</p>
+      <div class="grid">
+        <div class="card step"><span class="num">1</span><div><h3>Instale o AltStore no computador</h3><p>Baixe o AltServer em <a href="https://altstore.io">altstore.io</a>, conecte o iPhone pelo cabo e instale o AltStore no aparelho.</p></div></div>
+        <div class="card step"><span class="num">2</span><div><h3>Adicione esta source</h3><p>Toque em “Adicionar ao AltStore” neste site, ou cole o endereço da source em Browse → Sources → +.</p></div></div>
+        <div class="card step"><span class="num">3</span><div><h3>Assine com a sua conta Apple</h3><p>O AltStore assina o jabuticaba no aparelho. Com conta gratuita, renove a cada 7 dias pelo próprio AltStore.</p></div></div>
+      </div>
+      <p class="notice" style="margin-top:20px">
+        Com conta Apple gratuita: até 3 apps por iPhone e validade de 7 dias por assinatura.
+        Para renovar, o iPhone precisa estar na mesma rede do AltServer. Com conta paga,
+        a assinatura dura 1 ano.
+      </p>
+    </section>
+
+    <section>
+      <h2>O que tem dentro</h2>
+      <div class="grid">
+        <div class="card"><h3>Um fio, várias redes</h3><p>Mastodon, Bluesky e Lemmy misturados na mesma linha do tempo. Uma instância fora do ar não derruba a tela.</p></div>
+        <div class="card"><h3>Sem conta para explorar</h3><p>Descubra, siga e monte seu fio antes de criar conta. Quando quiser publicar, o app ajuda a escolher um servidor.</p></div>
+        <div class="card"><h3>Vídeo, foto, música e podcast</h3><p>Clipes verticais, galeria masonry, player de música do Funkwhale e podcasts do Castopod.</p></div>
+        <div class="card"><h3>Moderação de verdade</h3><p>Denunciar, silenciar e bloquear nas redes que oferecem API. Conteúdo sensível começa escondido.</p></div>
+        <div class="card"><h3>Seus dados ficam com você</h3><p>Sem analytics e sem servidor próprio. Tokens no Keychain do iPhone, presos ao aparelho.</p></div>
+        <div class="card"><h3>Oito temas</h3><p>Do Paperwhite ao Windows 95, incluindo alto contraste e Matrix. Muda na hora.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Perguntas rápidas</h2>
+      <div class="grid">
+        <div class="card"><h3>Preciso pagar algo?</h3><p>Não. O app é AGPL-3.0 e a source é gratuita. A conta Apple gratuita basta; a paga só aumenta a validade da assinatura.</p></div>
+        <div class="card"><h3>Funciona no Android?</h3><p>Ainda não há build público. O mesmo código já roda no Android; o pacote sai numa próxima versão.</p></div>
+        <div class="card"><h3>Por que 7 dias?</h3><p>É um limite da Apple para apps assinados com conta gratuita. O AltStore renova quando você abre com o AltServer disponível.</p></div>
+        <div class="card"><h3>O app coleta meus dados?</h3><p>Não. Ele fala direto com as instâncias que você escolhe, com o seu token. Não há telemetria nem anúncios.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>jabuticaba é uma obra da <a href="https://ways-of-seeing.github.io">Ways of Seeing</a>, sob AGPL-3.0.
+    Código, issues e releases no <a href="https://github.com/Ways-of-Seeing/jabuticaba">GitHub</a>.
+    iPhone só instala pelo AltStore; o app não está na App Store. ·
+    <a href="privacidade.html">Privacidade</a></p>
+  </footer>
+</div>
+<script>
+  const btn = document.getElementById('copy');
+  const status = document.getElementById('status');
+  const url = 'https://ways-of-seeing.github.io/jabuticaba/altstore.json';
+  btn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(url);
+      status.textContent = 'Endereço copiado.';
+      btn.textContent = 'Copiado ✓';
+      setTimeout(() => { btn.textContent = 'Copiar endereço da source'; }, 1800);
+    } catch {
+      status.textContent = 'Não foi possível copiar. O endereço é ' + url;
+    }
+  });
+</script>
+</body>
+</html>

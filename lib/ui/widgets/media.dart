@@ -313,6 +313,13 @@ class _MediaViewerState extends State<MediaViewer> {
                   widget.media[i].url,
                   fit: BoxFit.contain,
                   blurhash: widget.media[i].blurhash,
+                  // Não decodificar fotos de 40+ MP na resolução original.
+                  cacheWidth:
+                      (MediaQuery.sizeOf(context).width *
+                              MediaQuery.devicePixelRatioOf(context) *
+                              1.5)
+                          .round()
+                          .clamp(1024, 4096),
                 ),
               ),
             ),
@@ -323,6 +330,7 @@ class _MediaViewerState extends State<MediaViewer> {
               child: Row(
                 children: [
                   IconButton.filledTonal(
+                    tooltip: 'Fechar',
                     onPressed: () => Navigator.pop(context),
                     icon: const Icon(Icons.close_rounded),
                     style: IconButton.styleFrom(
@@ -400,26 +408,25 @@ class MasonrySliver extends StatelessWidget {
       cols[shortest].add((items[i], i));
       heights[shortest] += 1 / aspect;
     }
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: gap),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            for (var c = 0; c < columns; c++)
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: gap / 2),
-                  child: Column(
-                    children: [
-                      for (final (p, _) in cols[c])
-                        _PhotoTile(post: p, gap: gap),
-                    ],
-                  ),
+    // Cada coluna é uma SliverList: só os tiles perto da viewport são
+    // construídos, mesmo depois de muitas páginas carregadas.
+    return SliverPadding(
+      padding: EdgeInsets.symmetric(horizontal: gap),
+      sliver: SliverCrossAxisGroup(
+        slivers: [
+          for (var c = 0; c < columns; c++)
+            SliverCrossAxisExpanded(
+              flex: 1,
+              sliver: SliverPadding(
+                padding: EdgeInsets.symmetric(horizontal: gap / 2),
+                sliver: SliverList.builder(
+                  itemCount: cols[c].length,
+                  itemBuilder: (context, i) =>
+                      _PhotoTile(post: cols[c][i].$1, gap: gap),
                 ),
               ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }
