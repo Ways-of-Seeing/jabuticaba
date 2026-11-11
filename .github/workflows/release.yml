@@ -72,7 +72,7 @@ jobs:
           cache: true
       - run: flutter pub get
       - name: IPA não assinado (AltStore Classic)
-        run: tool/release/ios.sh
+        run: bash tool/release/ios.sh
       - name: Anexar o IPA à release
         env:
           GH_TOKEN: ${{ github.token }}
