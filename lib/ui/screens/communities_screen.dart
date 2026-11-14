@@ -166,9 +166,9 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> {
 
   Widget _grid(BuildContext context, int count, Widget Function(int) builder) =>
       SliverGrid.builder(
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 320,
-          mainAxisExtent: 250,
+          mainAxisExtent: scaledExtent(context, 250, 120),
           crossAxisSpacing: 14,
           mainAxisSpacing: 14,
         ),

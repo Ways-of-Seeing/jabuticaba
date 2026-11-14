@@ -221,13 +221,15 @@ class _Choice extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
+                      // Wrap, não Row: em tela estreita ou com letra grande o
+                      // selo desce de linha em vez de espremer o título.
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 4,
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
-                          Flexible(
-                            child: Text(title, style: context.tt.titleMedium),
-                          ),
+                          Text(title, style: context.tt.titleMedium),
                           if (badge != null) ...[
-                            const SizedBox(width: 8),
                             Container(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 8,
@@ -1315,11 +1317,12 @@ class _ServerOption extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 4,
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
-                          Expanded(
-                            child: Text(s.name, style: context.tt.titleMedium),
-                          ),
+                          Text(s.name, style: context.tt.titleMedium),
                           if (recommended)
                             Container(
                               padding: const EdgeInsets.symmetric(

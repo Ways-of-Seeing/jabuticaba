@@ -482,72 +482,85 @@ class _BottomBar extends StatelessWidget {
       ),
       child: SafeArea(
         top: false,
-        child: SizedBox(
-          height: 62,
-          child: Row(
-            children: [
-              for (final i in [..._mobileTabs, -1])
-                Expanded(
-                  child: Semantics(
-                    button: true,
-                    selected: _sel(i),
-                    label: _label(i),
-                    child: ExcludeSemantics(
-                      child: InkResponse(
-                        onTap: () => i == -1
-                            ? showMoreMenu(context, onSelect)
-                            : onSelect(i),
-                        radius: 32,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            AnimatedContainer(
-                              duration: const Duration(milliseconds: 200),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 14,
-                                vertical: 4,
+        // Barra de abas segue o texto grande do sistema só até 1,2×, como a do
+        // iOS; acima disso ela estouraria a altura fixa.
+        child: MediaQuery.withClampedTextScaling(
+          maxScaleFactor: 1.2,
+          child: SizedBox(
+            height: 62,
+            child: Row(
+              children: [
+                for (final i in [..._mobileTabs, -1])
+                  Expanded(
+                    child: Semantics(
+                      button: true,
+                      selected: _sel(i),
+                      label: _label(i),
+                      child: ExcludeSemantics(
+                        child: InkResponse(
+                          onTap: () => i == -1
+                              ? showMoreMenu(context, onSelect)
+                              : onSelect(i),
+                          radius: 32,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              AnimatedContainer(
+                                duration: const Duration(milliseconds: 200),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 14,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: _sel(i)
+                                      ? (dark
+                                            ? Colors.white24
+                                            : context.cs.primary.withValues(
+                                                alpha: .16,
+                                              ))
+                                      : Colors.transparent,
+                                  borderRadius: context.jc.r(20),
+                                ),
+                                child: Icon(
+                                  _icon(i),
+                                  size: 24,
+                                  color: _sel(i)
+                                      ? (dark
+                                            ? Colors.white
+                                            : context.cs.primary)
+                                      : fg.withValues(alpha: .75),
+                                ),
                               ),
-                              decoration: BoxDecoration(
-                                color: _sel(i)
-                                    ? (dark
-                                          ? Colors.white24
-                                          : context.cs.primary.withValues(
-                                              alpha: .16,
-                                            ))
-                                    : Colors.transparent,
-                                borderRadius: context.jc.r(20),
+                              const SizedBox(height: 3),
+                              // Encolhe o rótulo para caber na coluna em vez de
+                              // cortar ("Podcast…") em tela estreita.
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  _label(i),
+                                  maxLines: 1,
+                                  softWrap: false,
+                                  style: TextStyle(
+                                    fontSize: 10.5,
+                                    fontWeight: _sel(i)
+                                        ? FontWeight.w800
+                                        : FontWeight.w600,
+                                    color: _sel(i)
+                                        ? (dark
+                                              ? Colors.white
+                                              : context.cs.primary)
+                                        : fg.withValues(alpha: .7),
+                                  ),
+                                ),
                               ),
-                              child: Icon(
-                                _icon(i),
-                                size: 24,
-                                color: _sel(i)
-                                    ? (dark ? Colors.white : context.cs.primary)
-                                    : fg.withValues(alpha: .75),
-                              ),
-                            ),
-                            const SizedBox(height: 3),
-                            Text(
-                              _label(i),
-                              maxLines: 1,
-                              overflow: TextOverflow.fade,
-                              softWrap: false,
-                              style: TextStyle(
-                                fontSize: 10.5,
-                                fontWeight: _sel(i)
-                                    ? FontWeight.w800
-                                    : FontWeight.w600,
-                                color: _sel(i)
-                                    ? (dark ? Colors.white : context.cs.primary)
-                                    : fg.withValues(alpha: .7),
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -57,6 +57,14 @@ class JabuticabaApp extends ConsumerWidget {
       theme: fixed ?? buildTheme(JabuStyle.polpa),
       darkTheme: fixed ?? buildTheme(JabuStyle.jabuticaba),
       themeMode: fixed == null ? ThemeMode.system : ThemeMode.light,
+      // Modo demonstração: `?texto=1.3` simula o texto maior do sistema.
+      builder: demoTextScale == null
+          ? null
+          : (context, child) => MediaQuery(
+              data: MediaQuery.of(context)
+                  .copyWith(textScaler: TextScaler.linear(demoTextScale!)),
+              child: child!,
+            ),
       home: AnimatedSwitcher(
         duration: const Duration(milliseconds: 450),
         child: onboarded

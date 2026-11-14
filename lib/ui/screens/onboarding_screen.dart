@@ -94,45 +94,55 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                                 borderRadius: jc.r(8),
                               ),
                             ),
-                          const Spacer(),
-                          if (_step > 0)
-                            TextButton(
-                              onPressed: () => _goTo(_step - 1),
-                              child: const Text('Voltar'),
+                          // Expanded + Wrap: com letra grande os botões descem
+                          // de linha em vez de sair da tela.
+                          Expanded(
+                            child: Wrap(
+                              alignment: WrapAlignment.end,
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              spacing: 8,
+                              runSpacing: 4,
+                              children: [
+                                if (_step > 0)
+                                  TextButton(
+                                    onPressed: () => _goTo(_step - 1),
+                                    child: const Text('Voltar'),
+                                  ),
+                                if (_step == 1 && _chosen.isEmpty)
+                                  TextButton(
+                                    onPressed: () => _goTo(2),
+                                    child: const Text('Pular'),
+                                  ),
+                                if (_step < _steps - 1)
+                                  DecoratedBox(
+                                    decoration: ShapeDecoration(
+                                      gradient: canNext ? jc.accent : null,
+                                      color: canNext ? null : jc.cardHigh,
+                                      shape: jc.pill(),
+                                    ),
+                                    child: FilledButton(
+                                      style: FilledButton.styleFrom(
+                                        backgroundColor: Colors.transparent,
+                                        foregroundColor: canNext
+                                            ? jc.onAccent
+                                            : jc.muted,
+                                      ),
+                                      onPressed: canNext
+                                          ? () => _goTo(_step + 1)
+                                          : null,
+                                      child: Text(switch (_step) {
+                                        0 => 'Começar',
+                                        1 =>
+                                          _chosen.isEmpty
+                                              ? 'Escolha ao menos 1'
+                                              : 'Continuar (${_chosen.length})',
+                                        _ => 'Continuar',
+                                      }),
+                                    ),
+                                  ),
+                              ],
                             ),
-                          if (_step == 1 && _chosen.isEmpty)
-                            TextButton(
-                              onPressed: () => _goTo(2),
-                              child: const Text('Pular'),
-                            ),
-                          const SizedBox(width: 8),
-                          if (_step < _steps - 1)
-                            DecoratedBox(
-                              decoration: ShapeDecoration(
-                                gradient: canNext ? jc.accent : null,
-                                color: canNext ? null : jc.cardHigh,
-                                shape: jc.pill(),
-                              ),
-                              child: FilledButton(
-                                style: FilledButton.styleFrom(
-                                  backgroundColor: Colors.transparent,
-                                  foregroundColor: canNext
-                                      ? jc.onAccent
-                                      : jc.muted,
-                                ),
-                                onPressed: canNext
-                                    ? () => _goTo(_step + 1)
-                                    : null,
-                                child: Text(switch (_step) {
-                                  0 => 'Começar',
-                                  1 =>
-                                    _chosen.isEmpty
-                                        ? 'Escolha ao menos 1'
-                                        : 'Continuar (${_chosen.length})',
-                                  _ => 'Continuar',
-                                }),
-                              ),
-                            ),
+                          ),
                         ],
                       ),
                     ),

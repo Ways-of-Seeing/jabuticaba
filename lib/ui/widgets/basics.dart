@@ -564,3 +564,83 @@ class Wordmark extends StatelessWidget {
     );
   }
 }
+
+/// Título e ação (ex.: botão Seguir) lado a lado quando há espaço; em tela
+/// estreita ou com letra grande, a ação desce para baixo do título, para o
+/// título não quebrar no meio da palavra ("Organica.Soci / al").
+class TitleWithAction extends StatelessWidget {
+  const TitleWithAction({
+    super.key,
+    required this.title,
+    required this.action,
+    this.minTitleWidth = 260,
+  });
+
+  final Widget title;
+  final Widget action;
+
+  /// Largura mínima (em pontos com letra normal) que o título precisa ao lado
+  /// da ação; abaixo disso, empilha.
+  final double minTitleWidth;
+
+  @override
+  Widget build(BuildContext context) {
+    final scale = MediaQuery.textScalerOf(context).scale(1);
+    return LayoutBuilder(
+      builder: (context, box) {
+        if (box.maxWidth / scale >= minTitleWidth + 110) {
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(child: title),
+              const SizedBox(width: 12),
+              action,
+            ],
+          );
+        }
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [title, const SizedBox(height: 14), action],
+        );
+      },
+    );
+  }
+}
+
+/// Texto que mostra só as linhas inteiras que cabem na altura disponível
+/// (até [maxLines]) e termina com reticências, em vez de cortar a última
+/// linha ao meio quando a letra do sistema é grande.
+class FitLinesText extends StatelessWidget {
+  const FitLinesText(this.text, {super.key, this.style, this.maxLines = 3});
+
+  final String text;
+  final TextStyle? style;
+  final int maxLines;
+
+  @override
+  Widget build(BuildContext context) {
+    final s = DefaultTextStyle.of(context).style.merge(style);
+    final scaler = MediaQuery.textScalerOf(context);
+    final lineHeight = scaler.scale(s.fontSize ?? 14) * (s.height ?? 1.35);
+    return LayoutBuilder(
+      builder: (context, box) {
+        final fit = box.maxHeight.isFinite
+            ? (box.maxHeight / lineHeight).floor().clamp(1, maxLines)
+            : maxLines;
+        return Text(
+          text,
+          style: style,
+          maxLines: fit,
+          overflow: TextOverflow.ellipsis,
+        );
+      },
+    );
+  }
+}
+
+/// Altura de um card que cresce com a letra do sistema: [base] com letra
+/// normal, mais [textPart] proporcional ao aumento.
+double scaledExtent(BuildContext context, double base, double textPart) {
+  final scale = MediaQuery.textScalerOf(context).scale(1);
+  return base + textPart * (scale - 1).clamp(0, 1.5);
+}

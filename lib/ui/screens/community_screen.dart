@@ -125,24 +125,26 @@ class _CommunityScreenState extends ConsumerState<CommunityScreen> {
                       const SizedBox(width: 14),
                     ],
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            c.displayTitle,
-                            style: context.tt.headlineMedium,
-                          ),
-                          const SizedBox(height: 4),
-                          Text(_subtitle, style: context.tt.bodySmall),
-                        ],
+                      child: TitleWithAction(
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              c.displayTitle,
+                              style: context.tt.headlineMedium,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(_subtitle, style: context.tt.bodySmall),
+                          ],
+                        ),
+                        action: FollowButton(
+                          following: following,
+                          dense: true,
+                          onTap: () => ref
+                              .read(settingsProvider.notifier)
+                              .toggleFollow(widget.community),
+                        ),
                       ),
-                    ),
-                    FollowButton(
-                      following: following,
-                      dense: true,
-                      onTap: () => ref
-                          .read(settingsProvider.notifier)
-                          .toggleFollow(widget.community),
                     ),
                   ],
                 ),
@@ -192,7 +194,10 @@ class _CommunityScreenState extends ConsumerState<CommunityScreen> {
               if (c.kind == CommunityKind.server)
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
-                  child: Row(
+                  // Wrap: em tela estreita o segundo botão desce de linha.
+                  child: Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
                     children: [
                       FilledButton.icon(
                         onPressed: () =>
@@ -200,7 +205,6 @@ class _CommunityScreenState extends ConsumerState<CommunityScreen> {
                         icon: const Icon(Icons.rocket_launch_rounded, size: 18),
                         label: const Text('Criar conta aqui'),
                       ),
-                      const SizedBox(width: 10),
                       OutlinedButton(
                         onPressed: () => openUrl('https://${c.name}/about'),
                         child: const Text('Regras e sobre'),

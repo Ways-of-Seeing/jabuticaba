@@ -284,13 +284,12 @@ class _PodcastsScreenState extends ConsumerState<PodcastsScreen> {
                 SliverPadding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   sliver: SliverGrid.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 190,
-                          mainAxisExtent: 250,
-                          crossAxisSpacing: 14,
-                          mainAxisSpacing: 14,
-                        ),
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 190,
+                      mainAxisExtent: scaledExtent(context, 250, 80),
+                      crossAxisSpacing: 14,
+                      mainAxisSpacing: 14,
+                    ),
                     itemCount: popular.length.clamp(0, _shown),
                     itemBuilder: (context, i) =>
                         _ShowTile(show: popular[i], width: null),

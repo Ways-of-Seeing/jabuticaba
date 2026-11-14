@@ -1,9 +1,11 @@
 import 'dart:convert';
-import 'dart:isolate';
 
 import 'package:xml/xml.dart';
 
 import '../core/format.dart';
+
+import 'package:flutter/foundation.dart' show compute;
+
 import '../core/http.dart';
 import '../models/audio.dart';
 import '../models/models.dart';
@@ -31,7 +33,8 @@ class CastopodApi {
   static Future<List<Show>> index() async {
     if (_cache != null) return _cache!;
     final raw = await Api.instance.text(_index);
-    final shows = await Isolate.run(() => _parseIndex(raw));
+    // compute: isolate próprio no app nativo; na web (sem isolates) roda direto.
+    final shows = await compute(_parseIndex, raw);
     _cache = shows;
     return shows;
   }

@@ -36,3 +36,6 @@ Future<void> prepareDemo(SharedPreferences prefs) async {
 /// Parâmetro da URL no modo demonstração (`null` fora dele).
 String? demoParam(String key) =>
     demoMode ? Uri.base.queryParameters[key] : null;
+
+/// Escala de texto pedida em `?texto=` (para testar letras grandes).
+final double? demoTextScale = double.tryParse(demoParam('texto') ?? '');

@@ -135,7 +135,7 @@ flutter build web --release --dart-define=DEMO=true
 
 Abas: `explorar`, `fio`, `clipes`, `fotos`, `musica`, `podcasts`, `comunidades`, `voce`. Temas: `jabuticaba`, `polpa`, `paperwhite`, `win95`, `ascii`, `matrix`, `contraste`.
 
-Também dá para abrir uma tela específica: `tela=` (`post`, `perfil`, `hashtag`, `comunidade`, `servidor`, `feed`, `busca`, `album`, `podcast`, `player`, `miniplayer`, `foto`, `clipe`, `aviso`, `aviso-musica`, `visual`, `guia`, `mais`), um passo de entrar no fediverso com `fediverso=` (`choose`, `connect`, `create`, `servers`, `signup`, `mastodonConnect`, `blueskyConnect`, `lemmyConnect`, `music`, `musicConnect`, `podcaster`), um segmento de Comunidades com `segmento=` (`groups`, `servers`, `feeds`, `channels`) e um passo do primeiro uso com `onboarding=1&passo=0..3`.
+Também dá para abrir uma tela específica: `tela=` (`post`, `perfil`, `hashtag`, `comunidade`, `servidor`, `feed`, `busca`, `album`, `podcast`, `player`, `miniplayer`, `foto`, `clipe`, `aviso`, `aviso-musica`, `visual`, `guia`, `mais`), um passo de entrar no fediverso com `fediverso=` (`choose`, `connect`, `create`, `servers`, `signup`, `mastodonConnect`, `blueskyConnect`, `lemmyConnect`, `music`, `musicConnect`, `podcaster`), um segmento de Comunidades com `segmento=` (`groups`, `servers`, `feeds`, `channels`) e um passo do primeiro uso com `onboarding=1&passo=0..3`. Para testar letra grande, `texto=1.3` simula o tamanho de texto do sistema (a varredura de responsividade usa 360 px com `texto=1.3` e 320 px com letra normal).
 
 As capturas de [docs/TELAS.md](docs/TELAS.md) saem de `tool/screens/scenes.tsv` com `python3 tool/screens/capture.py` (instruções no cabeçalho do script).
 

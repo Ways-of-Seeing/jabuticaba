@@ -389,9 +389,13 @@ class _Hero extends StatelessWidget {
                       children: [
                         Icon(Icons.search_rounded, color: context.jc.muted),
                         const SizedBox(width: 10),
-                        Text(
-                          'Pessoas, hashtags, comunidades, vídeos…',
-                          style: TextStyle(color: context.jc.muted),
+                        Expanded(
+                          child: Text(
+                            'Pessoas, hashtags, comunidades, vídeos…',
+                            style: TextStyle(color: context.jc.muted),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ],
                     ),

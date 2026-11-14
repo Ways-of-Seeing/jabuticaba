@@ -27,7 +27,9 @@ class Carousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: height,
+      // Cresce um pouco com a letra do sistema para os textos dos cards
+      // caberem sem corte.
+      height: scaledExtent(context, height, height * .45),
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -427,11 +429,9 @@ class CommunityCard extends ConsumerWidget {
                     ),
                     const SizedBox(height: 6),
                     Expanded(
-                      child: Text(
+                      child: FitLinesText(
                         description.isEmpty ? _fallback(c) : description,
                         style: context.tt.bodySmall,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     Row(

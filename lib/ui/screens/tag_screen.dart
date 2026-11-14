@@ -41,44 +41,43 @@ class TagScreen extends ConsumerWidget {
                   margin: const EdgeInsets.fromLTRB(16, 4, 16, 12),
                   padding: const EdgeInsets.all(22),
                   decoration: context.jc.accentPanel(),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '#$tag',
-                              style: context.tt.displaySmall?.copyWith(
-                                color: context.jc.onAccent,
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
+                  child: TitleWithAction(
+                    minTitleWidth: 220,
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Hashtag é uma palavra só: encolhe em vez de quebrar
+                        // no meio ("#photograph / y").
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            '#$tag',
+                            maxLines: 1,
+                            style: context.tt.displaySmall?.copyWith(
+                              color: context.jc.onAccent,
                             ),
-                            const SizedBox(height: 6),
-                            Text(
-                              'Posts do Mastodon e vídeos do Loops com esta hashtag',
-                              style: TextStyle(
-                                color: context.jc.onAccent.withValues(
-                                  alpha: .8,
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      FilledButton(
-                        style: FilledButton.styleFrom(
-                          backgroundColor: context.jc.onAccent,
-                          foregroundColor: context.jc.accent.colors.first,
+                        const SizedBox(height: 6),
+                        Text(
+                          'Posts do Mastodon e vídeos do Loops com esta hashtag',
+                          style: TextStyle(
+                            color: context.jc.onAccent.withValues(alpha: .8),
+                          ),
                         ),
-                        onPressed: () => ref
-                            .read(settingsProvider.notifier)
-                            .toggleFollow(community),
-                        child: Text(following ? 'Seguindo' : 'Seguir'),
+                      ],
+                    ),
+                    action: FilledButton(
+                      style: FilledButton.styleFrom(
+                        backgroundColor: context.jc.onAccent,
+                        foregroundColor: context.jc.accent.colors.first,
                       ),
-                    ],
+                      onPressed: () => ref
+                          .read(settingsProvider.notifier)
+                          .toggleFollow(community),
+                      child: Text(following ? 'Seguindo' : 'Seguir'),
+                    ),
                   ),
                 ),
               ),
