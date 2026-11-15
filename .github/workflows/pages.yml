@@ -1,6 +1,7 @@
 name: pages
 
-# Publica site/ (source do AltStore, ícone e capturas) no GitHub Pages.
+# Publica site/ no GitHub Pages: página do produto, brandbook, página do iPhone,
+# source do AltStore, ícone e capturas.
 on:
   push:
     branches: [main]

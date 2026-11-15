@@ -18,7 +18,8 @@ da Apple.
 | IPA | GitHub Releases, tag `vX.Y.Z` | `https://github.com/Ways-of-Seeing/jabuticaba/releases/download/vX.Y.Z/jabuticaba-X.Y.Z-N.ipa` |
 | Ícone 512×512 | GitHub Pages | `https://ways-of-seeing.github.io/jabuticaba/icon.png` |
 | Capturas | GitHub Pages | `https://ways-of-seeing.github.io/jabuticaba/screenshots/…` |
-| Página para o público | GitHub Pages | `https://ways-of-seeing.github.io/jabuticaba/` |
+| Página do produto (todas as plataformas) | GitHub Pages | `https://ways-of-seeing.github.io/jabuticaba/` |
+| Página de instalação no iPhone | GitHub Pages | `https://ways-of-seeing.github.io/jabuticaba/iphone.html` |
 
 O bundle id é `social.jabuticaba.jabuticaba` e **não pode mudar** depois da
 primeira publicação: é por ele que o AltStore registra o App ID na conta de cada

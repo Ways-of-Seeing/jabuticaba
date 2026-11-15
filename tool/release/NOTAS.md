@@ -39,4 +39,4 @@ Conferido em tela de 320 px e em 360 px com a letra do sistema 30% maior.
 - Build público para Android.
 - Assinatura de código e lojas oficiais (App Store e Google Play).
 
-Telas de tudo: [docs/TELAS.md](https://github.com/Ways-of-Seeing/jabuticaba/blob/main/docs/TELAS.md). Site do iPhone: <https://ways-of-seeing.github.io/jabuticaba/>.
+Telas de tudo: [docs/TELAS.md](https://github.com/Ways-of-Seeing/jabuticaba/blob/main/docs/TELAS.md). Site: <https://ways-of-seeing.github.io/jabuticaba/> (iPhone: <https://ways-of-seeing.github.io/jabuticaba/iphone.html>).
