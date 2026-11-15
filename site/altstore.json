@@ -32,13 +32,13 @@
       },
       "versions": [
         {
-          "version": "0.1.1",
-          "buildVersion": "2",
-          "date": "2026-11-11",
-          "downloadURL": "https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.1/jabuticaba-0.1.1-2.ipa",
-          "size": 11919931,
+          "version": "0.1.2",
+          "buildVersion": "3",
+          "date": "2026-11-14",
+          "downloadURL": "https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.2/jabuticaba-0.1.2-3.ipa",
+          "size": 11938192,
           "minOSVersion": "15.0",
-          "localizedDescription": "Primeira versão para iPhone: OAuth pelo navegador do sistema, denúncia/bloqueio/silenciar, performance e correções de segurança."
+          "localizedDescription": "Textos que vazavam no celular e com letra grande agora cabem: barra de busca, selos, cabeçalhos, cards, abas e botões."
         }
       ]
     }
