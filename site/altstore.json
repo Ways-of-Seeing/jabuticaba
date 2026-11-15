@@ -32,13 +32,13 @@
       },
       "versions": [
         {
-          "version": "0.1.2",
-          "buildVersion": "3",
-          "date": "2026-11-14",
-          "downloadURL": "https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.2/jabuticaba-0.1.2-3.ipa",
-          "size": 11938192,
+          "version": "0.1.3",
+          "buildVersion": "4",
+          "date": "2026-11-15",
+          "downloadURL": "https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.3/jabuticaba-0.1.3-4.ipa",
+          "size": 11937675,
           "minOSVersion": "15.0",
-          "localizedDescription": "Textos que vazavam no celular e com letra grande agora cabem: barra de busca, selos, cabeçalhos, cards, abas e botões."
+          "localizedDescription": "Textos que ficavam espremidos no iPhone mini e com letra grande agora cabem. Textos do app reescritos e versão certa na aba Você."
         }
       ]
     }
