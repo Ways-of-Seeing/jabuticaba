@@ -33,7 +33,7 @@ TINT = "#7B2D9E"
 
 NAME = "jabuticaba"
 DEVELOPER = "Ways of Seeing"
-SUBTITLE = "O fediverso num lugar só"
+SUBTITLE = "O fediverso num app só"
 DESCRIPTION = (
     "Vídeos curtos, fotos, conversas e comunidades das redes abertas num app só. "
     "Mastodon, Bluesky, Pixelfed, PeerTube, Lemmy, Funkwhale, Loops e Castopod no "

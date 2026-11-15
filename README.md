@@ -1,6 +1,6 @@
 # 🫐 jabuticaba
 
-Um explorador do fediverso: **vídeos curtos, fotos, conversas e comunidades** de redes abertas num app só — iOS, Android, macOS, Linux e Windows, com o mesmo código Flutter.
+Um explorador do fediverso: **vídeos curtos, fotos, conversas e comunidades** de redes abertas num app só, para iOS, Android, macOS, Linux e Windows com o mesmo código Flutter.
 
 Uma obra da [Ways of Seeing](https://ways-of-seeing.github.io). **Apresentação:** <https://ways-of-seeing.github.io/jabuticaba/> · **Brandbook:** <https://ways-of-seeing.github.io/jabuticaba/brandbook.html>
 
@@ -11,7 +11,7 @@ Uma obra da [Ways of Seeing](https://ways-of-seeing.github.io). **Apresentação
 | 🍎 **macOS** 12+ (Apple Silicon e Intel) | [**Baixar .dmg**](https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.3/jabuticaba-macos.dmg) |
 | 🪟 **Windows** 10/11 | [**Baixar instalador**](https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.3/jabuticaba-windows-instalador.exe) · [versão portátil (.zip)](https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.3/jabuticaba-windows-x64.zip) |
 | 🐧 **Linux** 64 bits | [**Baixar .tar.gz**](https://github.com/Ways-of-Seeing/jabuticaba/releases/download/v0.1.3/jabuticaba-linux-x64.tar.gz) |
-| 📱 **iPhone** (iOS 15+) | [**Adicionar ao AltStore**](https://ways-of-seeing.github.io/jabuticaba/iphone.html) — IPA não assinado, assinado no aparelho com a sua conta Apple |
+| 📱 **iPhone** (iOS 15+) | [**Adicionar ao AltStore**](https://ways-of-seeing.github.io/jabuticaba/iphone.html). O AltStore Classic assina o app no aparelho com a sua conta Apple |
 
 Versão 0.1.3, pré-lançamento gratuito. **Como instalar, liberar o app no macOS e no Windows e conectar suas contas:** [docs/INSTALAR.md](docs/INSTALAR.md). **iPhone:** [docs/ALTSTORE.md](docs/ALTSTORE.md). Todas as versões: [Releases](https://github.com/Ways-of-Seeing/jabuticaba/releases). Android vem depois.
 
@@ -55,12 +55,12 @@ O jabuticaba **não integra o Threads, o Instagram, o Facebook nem qualquer outr
 
 O fluxo **Entrar no fediverso** (no onboarding, na aba Você ou no botão Publicar) cobre dois caminhos:
 
-- **Já tenho conta:** Mastodon e compatíveis (Pixelfed, GoToSocial, Akkoma…) por OAuth — a senha é digitada no site do servidor, nunca no app. No desktop o retorno é automático (servidor local em `127.0.0.1`); no iPhone e no Android a autorização abre no navegador seguro do sistema e volta sozinha pelo esquema `jabuticaba://oauth`, com `state` contra CSRF. Se o navegador falhar, ainda dá para colar o código. **Bluesky** com senha de app (com suporte ao código 2FA por e-mail). **Lemmy** com usuário e senha (e código 2FA).
+- **Já tenho conta:** Mastodon e compatíveis (Pixelfed, GoToSocial, Akkoma…) por OAuth: a senha é digitada no site do servidor, nunca no app. No desktop o retorno é automático (servidor local em `127.0.0.1`); no iPhone e no Android a autorização abre no navegador seguro do sistema e volta sozinha pelo esquema `jabuticaba://oauth`, com `state` contra CSRF. Se o navegador falhar, ainda dá para colar o código. **Bluesky** com senha de app (com suporte ao código 2FA por e-mail). **Lemmy** com usuário e senha (e código 2FA).
 - **Quero criar:** a pessoa diz o que quer fazer (conversar, fotos, comunidades, vídeos). Para o Mastodon, o app recomenda um servidor (português e cadastro imediato primeiro, depois interesses e atividade), mostra regras e política, e **cria a conta pela API oficial** do servidor, inclusive idade mínima e justificativa quando o servidor exige. Pixelfed, Lemmy, Bluesky e Loops pedem captcha/telefone, então o app abre o cadastro no site e volta para conectar.
 
-Com conta: aba **Minhas contas** no Fio (linhas do tempo juntas), curtir/compartilhar de verdade, "Seguir" também segue no servidor, e **Publicar** em várias contas ao mesmo tempo (respeitando o limite da rede mais restritiva, ex.: 300 no Bluesky). Tokens ficam no cofre do sistema (`flutter_secure_storage`: Keychain/Keystore/libsecret/DPAPI).
+Com conta: aba **Minhas contas** no Fio (linhas do tempo juntas), curtir e compartilhar no servidor, "Seguir" também segue no servidor, e **Publicar** em várias contas ao mesmo tempo (respeitando o limite da rede mais restritiva, ex.: 300 no Bluesky). Tokens ficam no cofre do sistema (`flutter_secure_storage`: Keychain/Keystore/libsecret/DPAPI).
 
-O Loops ainda não oferece login para apps de terceiros — os vídeos continuam aparecendo e podendo ser seguidos.
+O Loops ainda não oferece login para apps de terceiros. Os vídeos continuam aparecendo e dá para seguir os perfis.
 
 ## Moderação e privacidade
 
@@ -70,7 +70,7 @@ O app não tem servidor próprio, analytics, anúncios nem rastreamento. A polí
 
 ## Temas
 
-Sistema, **Jabuticaba** (escuro), **Polpa** (claro), **Paperwhite** (papel e serifa Literata, fotos em tons de cinza, como um Kindle), **Windows 95** (cinza, relevo 3D, barra de título azul, fonte pixelada), **ASCII** (monoespaçado, `[ títulos ]`, imagens em tinta), **Matrix** (verde fósforo, chuva de caracteres) e **Alto contraste**. Cada tema é um `JabuStyle` em `lib/ui/theme.dart` que define cores, fontes, cantos, bordas, filtro de imagem e até a forma dos títulos — criar um tema novo é adicionar um valor ali.
+Sistema, **Jabuticaba** (escuro), **Polpa** (claro), **Paperwhite** (papel e serifa Literata, fotos em tons de cinza, como um Kindle), **Windows 95** (cinza, relevo 3D, barra de título azul, fonte pixelada), **ASCII** (monoespaçado, `[ títulos ]`, imagens em tinta), **Matrix** (verde fósforo, chuva de caracteres) e **Alto contraste**. Cada tema é um `JabuStyle` em `lib/ui/theme.dart` que define cores, fontes, cantos, bordas, filtro de imagem e até a forma dos títulos. Para criar um tema novo, basta adicionar um valor ali.
 
 ## Marca
 
@@ -90,14 +90,14 @@ python3 tool/icon/make_icon.py && dart run flutter_launcher_icons
 
 ## Abas
 
-- **Explorar** — saudação, busca única, interesses, tópicos em alta, carrosséis de clipes, fotos, conversas, comunidades, vídeos, servidores, feeds e notícias.
-- **Fio** — linha do tempo em texto misturando redes, com filtros (Minhas contas, Para você, Seguindo, Mastodon, Bluesky, Lemmy).
-- **Clipes** — vídeos em tela cheia, deslizando na vertical (Loops, PeerTube, Bluesky, Mastodon). No desktop: setas ↑/↓, `J`/`K`, `M` para mudo.
-- **Fotos** — grade masonry (Pixelfed + Mastodon + Bluesky), com filtros por hashtag.
-- **Música** — Funkwhale: álbuns recentes, faixas novas, busca e filtro por servidor; favoritos com conta Funkwhale.
-- **Podcasts** — Castopod: em alta, episódios novos, filtros por idioma e tema, busca; cada podcast é uma conta do fediverso que dá para seguir e comentar.
-- **Comunidades** — comunidades Lemmy, servidores Mastodon por categoria, feeds do Bluesky e canais PeerTube.
-- **Você** — o que você segue (salvo no aparelho), interesses, tema claro/escuro, mídia sensível.
+- **Explorar:** saudação, busca única, interesses, tópicos em alta, carrosséis de clipes, fotos, conversas, comunidades, vídeos, servidores, feeds e notícias.
+- **Fio:** linha do tempo em texto misturando redes, com filtros (Minhas contas, Para você, Seguindo, Mastodon, Bluesky, Lemmy).
+- **Clipes:** vídeos em tela cheia, deslizando na vertical (Loops, PeerTube, Bluesky, Mastodon). No desktop: setas ↑/↓, `J`/`K`, `M` para mudo.
+- **Fotos:** grade masonry (Pixelfed + Mastodon + Bluesky), com filtros por hashtag.
+- **Música:** Funkwhale: álbuns recentes, faixas novas, busca e filtro por servidor; favoritos com conta Funkwhale.
+- **Podcasts:** Castopod: em alta, episódios novos, filtros por idioma e tema, busca; cada podcast é uma conta do fediverso que dá para seguir e comentar.
+- **Comunidades:** comunidades Lemmy, servidores Mastodon por categoria, feeds do Bluesky e canais PeerTube.
+- **Você:** o que você segue (salvo no aparelho), interesses, tema claro/escuro, mídia sensível.
 
 ## Áudio
 
@@ -153,7 +153,7 @@ lib/
   ui/widgets/             cartões, mídia, vídeo, texto rico, listas paginadas
 ```
 
-Todo conteúdo vira um `Post` comum; cada fonte é um `Loader` (página + cursor), e `mix()` intercala várias fontes num fio só — é assim que um único feed junta Mastodon, Bluesky e Lemmy. Uma instância fora do ar ou lenta (mais de 10 s) sai da mistura sem derrubar a tela.
+Todo conteúdo vira um `Post` comum; cada fonte é um `Loader` (página + cursor), e `mix()` intercala várias fontes num fio só. É assim que um único feed junta Mastodon, Bluesky e Lemmy. Uma instância fora do ar ou lenta (mais de 10 s) sai da mistura sem derrubar a tela.
 
 Fontes: Plus Jakarta Sans e Bricolage Grotesque (OFL), incluídas em `assets/fonts`.
 
@@ -169,7 +169,7 @@ Fontes: Plus Jakarta Sans e Bricolage Grotesque (OFL), incluídas em `assets/fon
 
 O jabuticaba é **software livre e de código aberto**, sob a **[GNU Affero General Public License v3.0](LICENSE)** (AGPL-3.0), a mesma licença do Mastodon, do Pixelfed e do Castopod.
 
-Na prática: qualquer pessoa ou empresa pode usar, estudar, modificar e distribuir o app, inclusive comercialmente. Em troca, quem distribuir uma versão modificada — ou oferecê-la às pessoas como serviço pela rede — precisa publicar o código dessa versão sob a mesma licença. Assim o jabuticaba e o que for construído a partir dele continuam abertos.
+Na prática: qualquer pessoa ou empresa pode usar, estudar, modificar e distribuir o app, inclusive comercialmente. Em troca, quem distribuir uma versão modificada, ou oferecê-la às pessoas como serviço pela rede, precisa publicar o código dessa versão sob a mesma licença. Assim o jabuticaba e o que for construído a partir dele continuam abertos.
 
 Fora da licença do código:
 

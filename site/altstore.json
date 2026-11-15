@@ -1,7 +1,7 @@
 {
   "name": "jabuticaba",
   "identifier": "social.jabuticaba.altstore",
-  "subtitle": "O fediverso num lugar só",
+  "subtitle": "O fediverso num app só",
   "description": "Vídeos curtos, fotos, conversas e comunidades das redes abertas num app só. Mastodon, Bluesky, Pixelfed, PeerTube, Lemmy, Funkwhale, Loops e Castopod no mesmo fio, sem anúncios e sem rastreamento.\n\nExplore e siga sem conta. Quando quiser curtir, responder ou publicar, conecte a conta que você já tem ou crie uma com o passo a passo do app.\n\nOito temas, do Paperwhite ao Windows 95. Tudo fica no seu aparelho: o jabuticaba não tem servidor próprio e não coleta seus dados.",
   "iconURL": "https://ways-of-seeing.github.io/jabuticaba/icon.png",
   "headerURL": "https://ways-of-seeing.github.io/jabuticaba/header.png",
@@ -13,7 +13,7 @@
       "name": "jabuticaba",
       "bundleIdentifier": "social.jabuticaba.jabuticaba",
       "developerName": "Ways of Seeing",
-      "subtitle": "O fediverso num lugar só",
+      "subtitle": "O fediverso num app só",
       "localizedDescription": "Vídeos curtos, fotos, conversas e comunidades das redes abertas num app só. Mastodon, Bluesky, Pixelfed, PeerTube, Lemmy, Funkwhale, Loops e Castopod no mesmo fio, sem anúncios e sem rastreamento.\n\nExplore e siga sem conta. Quando quiser curtir, responder ou publicar, conecte a conta que você já tem ou crie uma com o passo a passo do app.\n\nOito temas, do Paperwhite ao Windows 95. Tudo fica no seu aparelho: o jabuticaba não tem servidor próprio e não coleta seus dados.",
       "iconURL": "https://ways-of-seeing.github.io/jabuticaba/icon.png",
       "tintColor": "#7B2D9E",
