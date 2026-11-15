@@ -57,14 +57,21 @@ class JabuticabaApp extends ConsumerWidget {
       theme: fixed ?? buildTheme(JabuStyle.polpa),
       darkTheme: fixed ?? buildTheme(JabuStyle.jabuticaba),
       themeMode: fixed == null ? ThemeMode.system : ThemeMode.light,
+      // Segue o tamanho de texto do sistema até 2x; acima disso (tamanhos de
+      // acessibilidade do iOS) as telas viram colunas de uma palavra por linha.
       // Modo demonstração: `?texto=1.3` simula o texto maior do sistema.
-      builder: demoTextScale == null
-          ? null
-          : (context, child) => MediaQuery(
-              data: MediaQuery.of(context)
-                  .copyWith(textScaler: TextScaler.linear(demoTextScale!)),
-              child: child!,
-            ),
+      builder: (context, child) {
+        final mq = MediaQuery.of(context);
+        return MediaQuery(
+          data: demoTextScale == null
+              ? mq
+              : mq.copyWith(textScaler: TextScaler.linear(demoTextScale!)),
+          child: MediaQuery.withClampedTextScaling(
+            maxScaleFactor: 2,
+            child: child!,
+          ),
+        );
+      },
       home: AnimatedSwitcher(
         duration: const Duration(milliseconds: 450),
         child: onboarded

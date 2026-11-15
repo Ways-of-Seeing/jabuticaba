@@ -167,7 +167,11 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> {
   Widget _grid(BuildContext context, int count, Widget Function(int) builder) =>
       SliverGrid.builder(
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 320,
+          // Com letra grande o card fica largo o bastante para o texto:
+          // num iPhone mini, com letra bem maior que a normal, vira uma coluna.
+          maxCrossAxisExtent:
+              320 *
+              (MediaQuery.textScalerOf(context).scale(1) * .8).clamp(1, 2),
           mainAxisExtent: scaledExtent(context, 250, 120),
           crossAxisSpacing: 14,
           mainAxisSpacing: 14,

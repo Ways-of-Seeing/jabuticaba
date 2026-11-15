@@ -366,39 +366,36 @@ class _Hero extends StatelessWidget {
           const SizedBox(height: 18),
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 640),
-            child: Hero(
-              tag: 'search',
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  borderRadius: context.jc.r(40),
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const SearchScreen()),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: context.jc.r(40),
+                onTap: () => Navigator.of(
+                  context,
+                ).push(MaterialPageRoute(builder: (_) => const SearchScreen())),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18,
+                    vertical: 15,
                   ),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 18,
-                      vertical: 15,
-                    ),
-                    decoration: BoxDecoration(
-                      color: context.jc.card,
-                      borderRadius: context.jc.r(40),
-                      border: Border.all(color: context.jc.line),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.search_rounded, color: context.jc.muted),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Text(
-                            'Pessoas, hashtags, comunidades, vídeos…',
-                            style: TextStyle(color: context.jc.muted),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                  decoration: BoxDecoration(
+                    color: context.jc.card,
+                    borderRadius: context.jc.r(40),
+                    border: Border.all(color: context.jc.line),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.search_rounded, color: context.jc.muted),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          'Pessoas, hashtags, comunidades, vídeos…',
+                          style: TextStyle(color: context.jc.muted),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -583,39 +580,63 @@ class _FediverseExplainer extends StatelessWidget {
                 borderRadius: jc.r(22),
               )
             : jc.accentPanel(),
-        child: Row(
-          children: [
-            const JabuLogo(size: 54),
-            const SizedBox(width: 18),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Novo no fediverso?',
-                    style: context.tt.titleLarge?.copyWith(color: fg),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'São várias redes independentes que conversam entre si — como e-mail, mas social.',
-                    style: context.tt.bodyMedium?.copyWith(
-                      color: fg.withValues(alpha: .8),
-                      height: 1.35,
-                    ),
-                  ),
-                ],
+        // Em tela estreita (ou com letra grande) o botão desce para baixo do
+        // texto; lado a lado, num iPhone mini, o título virava uma coluna de letras.
+        child: LayoutBuilder(
+          builder: (context, box) {
+            final scale = MediaQuery.textScalerOf(context).scale(1);
+            final title = Text(
+              'Novo no fediverso?',
+              style: context.tt.titleLarge?.copyWith(color: fg),
+            );
+            final body = Text(
+              'São várias redes independentes que conversam entre si — como e-mail, mas social.',
+              style: context.tt.bodyMedium?.copyWith(
+                color: fg.withValues(alpha: .8),
+                height: 1.35,
               ),
-            ),
-            const SizedBox(width: 12),
-            FilledButton(
+            );
+            final button = FilledButton(
               style: FilledButton.styleFrom(
                 backgroundColor: fg,
                 foregroundColor: brand ? jc.brand : jc.accent.colors.first,
               ),
               onPressed: () => showFediverseGuide(context),
               child: const Text('Entender'),
-            ),
-          ],
+            );
+            if (box.maxWidth / scale >= 560) {
+              return Row(
+                children: [
+                  const JabuLogo(size: 54),
+                  const SizedBox(width: 18),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [title, const SizedBox(height: 4), body],
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  button,
+                ],
+              );
+            }
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const JabuLogo(size: 40),
+                    const SizedBox(width: 12),
+                    Expanded(child: title),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                body,
+                const SizedBox(height: 14),
+                button,
+              ],
+            );
+          },
         ),
       ),
     );

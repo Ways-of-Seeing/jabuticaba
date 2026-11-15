@@ -621,17 +621,27 @@ class AudioIntro extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            // Wrap: em tela estreita ou com letra grande o selo da rede desce
+            // de linha em vez de espremer o título até quebrar as palavras.
+            Wrap(
+              spacing: 10,
+              runSpacing: 8,
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                Icon(icon, color: jc.onAccent, size: 28),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    title,
-                    style: context.tt.headlineSmall?.copyWith(
-                      color: jc.onAccent,
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(icon, color: jc.onAccent, size: 28),
+                    const SizedBox(width: 10),
+                    Flexible(
+                      child: Text(
+                        title,
+                        style: context.tt.headlineSmall?.copyWith(
+                          color: jc.onAccent,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(

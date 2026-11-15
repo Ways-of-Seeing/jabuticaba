@@ -58,30 +58,27 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
         titleSpacing: 0,
         title: Padding(
           padding: const EdgeInsets.only(right: 16),
-          child: Hero(
-            tag: 'search',
-            child: Material(
-              color: Colors.transparent,
-              child: TextField(
-                controller: _ctrl,
-                autofocus: true,
-                onChanged: _onChanged,
-                onSubmitted: (v) => setState(() => _q = v.trim()),
-                textInputAction: TextInputAction.search,
-                decoration: InputDecoration(
-                  hintText: 'Pessoas, hashtags, comunidades, vídeos…',
-                  prefixIcon: const Icon(Icons.search_rounded),
-                  isDense: true,
-                  suffixIcon: _ctrl.text.isEmpty
-                      ? null
-                      : IconButton(
-                          icon: const Icon(Icons.close_rounded),
-                          onPressed: () {
-                            _ctrl.clear();
-                            setState(() => _q = '');
-                          },
-                        ),
-                ),
+          child: Material(
+            color: Colors.transparent,
+            child: TextField(
+              controller: _ctrl,
+              autofocus: true,
+              onChanged: _onChanged,
+              onSubmitted: (v) => setState(() => _q = v.trim()),
+              textInputAction: TextInputAction.search,
+              decoration: InputDecoration(
+                hintText: 'Pessoas, hashtags, comunidades, vídeos…',
+                prefixIcon: const Icon(Icons.search_rounded),
+                isDense: true,
+                suffixIcon: _ctrl.text.isEmpty
+                    ? null
+                    : IconButton(
+                        icon: const Icon(Icons.close_rounded),
+                        onPressed: () {
+                          _ctrl.clear();
+                          setState(() => _q = '');
+                        },
+                      ),
               ),
             ),
           ),

@@ -239,42 +239,63 @@ class SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final heading = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          emoji == null ||
+                  context.jc.square && context.jc.id != JabuThemeId.win95
+              ? context.jc.headline(title)
+              : '$emoji  ${context.jc.headline(title)}',
+          style: context.tt.headlineSmall,
+        ),
+        if (subtitle != null) ...[
+          const SizedBox(height: 3),
+          Text(subtitle!, style: context.tt.bodySmall),
+        ],
+      ],
+    );
+    final label = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Flexible(child: Text(action ?? '')),
+        const Icon(Icons.chevron_right_rounded, size: 18),
+      ],
+    );
+    final scale = MediaQuery.textScalerOf(context).scale(1);
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 30, 12, 12),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      child: LayoutBuilder(
+        builder: (context, box) {
+          // Com letra grande ou tela estreita, o "Ver mais" desce para baixo
+          // do título em vez de espremê-lo até quebrar palavras no meio.
+          if (action == null || box.maxWidth / scale >= 300) {
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  emoji == null ||
-                          context.jc.square &&
-                              context.jc.id != JabuThemeId.win95
-                      ? context.jc.headline(title)
-                      : '$emoji  ${context.jc.headline(title)}',
-                  style: context.tt.headlineSmall,
-                ),
-                if (subtitle != null) ...[
-                  const SizedBox(height: 3),
-                  Text(subtitle!, style: context.tt.bodySmall),
-                ],
+                Expanded(child: heading),
+                if (action != null)
+                  TextButton(onPressed: onAction, child: label),
               ],
-            ),
-          ),
-          if (action != null)
-            TextButton(
-              onPressed: onAction,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(action!),
-                  const Icon(Icons.chevron_right_rounded, size: 18),
-                ],
+            );
+          }
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              heading,
+              const SizedBox(height: 4),
+              TextButton(
+                onPressed: onAction,
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  minimumSize: Size.zero,
+                  tapTargetSize: MaterialTapTargetSize.padded,
+                ),
+                child: label,
               ),
-            ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }
