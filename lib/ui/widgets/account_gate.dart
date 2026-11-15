@@ -142,9 +142,9 @@ class _AccountNeededDialog extends StatelessWidget {
               Text(
                 unsupported
                     ? 'O Loops ainda não deixa outros apps interagirem em nome de alguém. Você pode abrir o vídeo no site do Loops, ou seguir o perfil por aqui.'
-                    : 'Sem conta você explora tudo à vontade. Para ${action.verb}, é preciso $_which — '
-                          'e o jabuticaba tem um passo a passo para entrar no fediverso: ajuda a escolher um servidor, '
-                          'cria a conta com você ou conecta a que você já tem.',
+                    : 'Sem conta você explora tudo. Para ${action.verb}, é preciso $_which. '
+                          'O jabuticaba tem um passo a passo: ajuda a escolher um servidor e cria a conta com você, '
+                          'ou conecta a que você já tem.',
                 style: context.tt.bodyMedium?.copyWith(color: jc.muted),
               ),
               if (pending.isNotEmpty && !unsupported) ...[

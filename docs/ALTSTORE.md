@@ -27,8 +27,10 @@ usuário. (Se mudar, quem já instalou perde as atualizações.)
 
 ## Passo a passo de uma versão
 
-1. **Suba a versão** em `pubspec.yaml` (`version: 0.1.0+1` → `0.1.1+2`). Os dois
-   números precisam bater com `CFBundleShortVersionString` e `CFBundleVersion`
+1. **Suba a versão** em `pubspec.yaml` (`version: 0.1.0+1` → `0.1.1+2`) e em
+   `lib/core/version.dart`, que é o número mostrado na aba Você (o teste
+   `test/version_test.dart` falha se os dois não baterem). A versão e o
+   número de build do `pubspec.yaml` precisam bater com `CFBundleShortVersionString` e `CFBundleVersion`
    do IPA; o script confere.
 2. **Gere o IPA sem assinatura**, no macOS com Xcode:
 

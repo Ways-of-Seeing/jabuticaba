@@ -120,7 +120,7 @@ class _FioScreenState extends ConsumerState<FioScreen> {
             ? const MessageView(
                 emoji: '🌱',
                 title: 'Você ainda não segue nada',
-                message: 'Toque em "Seguir" em perfis, hashtags, comunidades e feeds. Não precisa de conta — fica salvo aqui.',
+                message: 'Toque em "Seguir" em perfis, hashtags, comunidades e feeds. Não precisa de conta: fica salvo no aparelho.',
               )
             : null,
         sliverBuilder: (context, items) =>

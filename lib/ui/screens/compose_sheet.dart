@@ -148,7 +148,7 @@ class _ComposerState extends ConsumerState<_Composer> {
           Text(jc.headline('Novo post'), style: context.tt.headlineMedium),
           const SizedBox(height: 4),
           Text(
-            'Escolha uma ou mais contas — publicamos em todas de uma vez.',
+            'Escolha uma ou mais contas. O post sai em todas ao mesmo tempo.',
             style: context.tt.bodySmall,
           ),
           const SizedBox(height: 14),

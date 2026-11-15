@@ -360,7 +360,7 @@ class _Hero extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'Vídeos, fotos, conversas e comunidades de redes abertas — tudo num lugar só.',
+            'Vídeos, fotos, conversas e comunidades das redes abertas, num app só.',
             style: context.tt.bodyLarge?.copyWith(color: context.jc.muted),
           ),
           const SizedBox(height: 18),
@@ -590,7 +590,7 @@ class _FediverseExplainer extends StatelessWidget {
               style: context.tt.titleLarge?.copyWith(color: fg),
             );
             final body = Text(
-              'São várias redes independentes que conversam entre si — como e-mail, mas social.',
+              'São várias redes independentes que conversam entre si, como acontece com o e-mail.',
               style: context.tt.bodyMedium?.copyWith(
                 color: fg.withValues(alpha: .8),
                 height: 1.35,
@@ -701,9 +701,9 @@ void showFediverseGuide(BuildContext context) {
           Text('O fediverso em 1 minuto', style: context.tt.headlineMedium),
           const SizedBox(height: 10),
           Text(
-            'Em vez de uma empresa dona de tudo, o fediverso é feito de muitos servidores que conversam por protocolos abertos. '
-            'Você escolhe onde morar e continua falando com todo mundo. O jabuticaba junta tudo isso numa só janela — '
-            'e dá pra explorar e seguir sem criar conta.',
+            'O fediverso é feito de muitos servidores, mantidos por pessoas e grupos diferentes, que conversam por protocolos abertos. '
+            'Você cria a conta num deles e fala com gente de todos os outros. '
+            'No jabuticaba dá para ver essas redes juntas e seguir perfis sem criar conta.',
             style: context.tt.bodyLarge?.copyWith(color: context.jc.muted),
           ),
           const SizedBox(height: 20),

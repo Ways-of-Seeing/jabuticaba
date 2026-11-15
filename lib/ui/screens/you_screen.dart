@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/version.dart';
 import '../../models/account.dart';
 import '../../models/models.dart';
 import '../../state/accounts.dart';
@@ -276,7 +277,7 @@ class YouScreen extends ConsumerWidget {
               const SizedBox(height: 6),
               Center(
                 child: Text(
-                  'versão 0.2 · feito com 💜 e protocolos abertos',
+                  'versão $appVersion · código aberto (AGPL-3.0)',
                   style: context.tt.bodySmall,
                 ),
               ),

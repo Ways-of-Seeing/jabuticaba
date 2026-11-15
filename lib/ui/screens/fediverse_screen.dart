@@ -364,7 +364,7 @@ class _StartPage extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         const _Hint(
-          'Você pode conectar várias contas — por exemplo, uma no Mastodon e outra no Bluesky — e publicar nas duas de uma vez.',
+          'Dá para conectar várias contas, por exemplo uma no Mastodon e outra no Bluesky, e publicar nas duas de uma vez.',
           icon: Icons.layers_rounded,
         ),
       ],
@@ -397,7 +397,7 @@ class _ConnectPickPage extends StatelessWidget {
           icon: Icons.cloud_rounded,
           color: jc.network(Network.bluesky),
           title: 'Bluesky',
-          text: 'Com uma senha de app — sua senha principal fica guardada só com você.',
+          text: 'Com uma senha de app. A sua senha principal não passa pelo jabuticaba.',
           onTap: () => _go(context, const _BlueskyConnectPage()),
         ),
         _Choice(
@@ -1077,7 +1077,7 @@ class _CreatePickPage extends StatelessWidget {
     return _FlowPage(
       step: 'Criar conta',
       title: 'O que você quer fazer por lá?',
-      subtitle: 'Não tem resposta errada — dá para criar outras contas depois e conectar todas.',
+      subtitle: 'Depois dá para criar outras contas e conectar todas.',
       children: [
         _Choice(
           icon: Icons.forum_rounded,
@@ -1501,7 +1501,7 @@ class _SignupPageState extends ConsumerState<_SignupPage> {
             step: info.host,
             title: 'Cadastro fechado',
             subtitle:
-                '${info.title} não está aceitando contas novas agora. Volte e escolha outro — todos conversam entre si.',
+                '${info.title} não está aceitando contas novas agora. Volte e escolha outro: de qualquer servidor você conversa com os demais.',
             children: const [],
           );
         }
@@ -1774,7 +1774,7 @@ class _ExternalSignupPage extends StatelessWidget {
     final (title, text, servers, connect) = switch (network) {
       Network.pixelfed => (
         'Pixelfed',
-        'O cadastro é feito no site do servidor. Depois, volte e conecte — o Pixelfed usa o mesmo login do Mastodon.',
+        'O cadastro é feito no site do servidor. Depois, volte e conecte a conta aqui. O login do Pixelfed funciona como o do Mastodon.',
         const [('pixelfed.social', 'https://pixelfed.social/register')],
         () => _go(
           context,
@@ -1815,7 +1815,7 @@ class _ExternalSignupPage extends StatelessWidget {
             )
           : FilledButton(
               onPressed: connect,
-              child: const Text('Já criei — conectar'),
+              child: const Text('Já criei a conta'),
             ),
       children: [
         for (final (host, url) in servers)
@@ -2028,7 +2028,7 @@ class _MusicConfirmPage extends StatelessWidget {
           context,
           _MastodonConnectPage(initialHost: host, funkwhale: true),
         ),
-        child: const Text('Já confirmei — conectar'),
+        child: const Text('Já confirmei o e-mail'),
       ),
       children: [
         const _Hint(

@@ -194,14 +194,11 @@ class _Welcome extends StatelessWidget {
           child: JabuLogo(size: 104),
         ),
         const SizedBox(height: 22),
-        Text(
-          'Todas as redes abertas.\nUm lugar só.',
-          style: context.tt.displayMedium,
-        ),
+        Text('As redes abertas num app só.', style: context.tt.displayMedium),
         const SizedBox(height: 16),
         Text(
-          'O jabuticaba é uma janela para o fediverso: vídeos curtos, fotos, conversas e comunidades '
-          'de redes independentes — sem dono, sem anúncios no meio, sem precisar de conta pra começar.',
+          'O jabuticaba mostra o fediverso num app só: vídeos curtos, fotos, conversas e comunidades '
+          'de redes independentes. Não tem anúncios, e você começa sem criar conta.',
           style: context.tt.bodyLarge?.copyWith(
             color: context.jc.muted,
             fontSize: 17,
@@ -221,13 +218,13 @@ class _Welcome extends StatelessWidget {
         ),
         const _Bullet(
           Icons.bookmark_added_rounded,
-          'Siga do seu jeito',
+          'Siga o que quiser',
           'Perfis, hashtags e comunidades ficam salvos no aparelho.',
         ),
         const _Bullet(
           Icons.hub_rounded,
           'Todas as contas juntas',
-          'Conecte Mastodon, Bluesky, Pixelfed e Lemmy — ou crie sua primeira conta aqui.',
+          'Conecte Mastodon, Bluesky, Pixelfed e Lemmy, ou crie sua primeira conta aqui.',
         ),
       ],
     );
@@ -327,7 +324,7 @@ class _Visual extends StatelessWidget {
       ),
       const SizedBox(height: 10),
       Text(
-        'Toque para experimentar — o app inteiro muda na hora.',
+        'Toque num tema para ver o app mudar.',
         style: context.tt.bodyLarge?.copyWith(color: context.jc.muted),
       ),
       const SizedBox(height: 26),
@@ -410,7 +407,7 @@ class _Enter extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         Text(
-          'Com uma conta você curte, comenta, segue e publica — em várias redes ao mesmo tempo. Sem conta, você explora tudo do mesmo jeito.',
+          'Com uma conta você curte, comenta, segue e publica, inclusive em várias redes de uma vez. Sem conta, dá para explorar tudo do mesmo jeito.',
           style: context.tt.bodyLarge?.copyWith(color: jc.muted),
         ),
         const SizedBox(height: 26),
