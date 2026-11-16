@@ -39,3 +39,6 @@ String? demoParam(String key) =>
 
 /// Escala de texto pedida em `?texto=` (para testar letras grandes).
 final double? demoTextScale = double.tryParse(demoParam('texto') ?? '');
+
+/// `?zoom=3`: amplia o layout para capturas em alta resolução.
+final double? demoZoom = double.tryParse(demoParam('zoom') ?? '');

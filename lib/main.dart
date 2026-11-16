@@ -60,16 +60,30 @@ class JabuticabaApp extends ConsumerWidget {
       // Segue o tamanho de texto do sistema até 2x; acima disso (tamanhos de
       // acessibilidade do iOS) as telas viram colunas de uma palavra por linha.
       // Modo demonstração: `?texto=1.3` simula o texto maior do sistema.
+      // `?zoom=3` desenha o layout de celular ampliado 3x (capturas do AltStore
+      // em 1290×2796 a partir de uma janela de 1290×2796).
       builder: (context, child) {
         final mq = MediaQuery.of(context);
-        return MediaQuery(
-          data: demoTextScale == null
-              ? mq
-              : mq.copyWith(textScaler: TextScaler.linear(demoTextScale!)),
+        final zoom = (demoZoom ?? 1) > 1 ? demoZoom! : 1.0;
+        final logical = mq.size / zoom;
+        var data = mq.copyWith(
+          size: logical,
+          devicePixelRatio: mq.devicePixelRatio * zoom,
+        );
+        if (demoTextScale != null) {
+          data = data.copyWith(textScaler: TextScaler.linear(demoTextScale!));
+        }
+        final app = MediaQuery(
+          data: data,
           child: MediaQuery.withClampedTextScaling(
             maxScaleFactor: 2,
             child: child!,
           ),
+        );
+        if (zoom == 1) return app;
+        return FittedBox(
+          alignment: Alignment.topLeft,
+          child: SizedBox.fromSize(size: logical, child: app),
         );
       },
       home: AnimatedSwitcher(

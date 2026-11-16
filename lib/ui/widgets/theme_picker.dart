@@ -51,7 +51,7 @@ Future<void> showThemePicker(BuildContext context) => showModalBottomSheet(
           Text(context.jc.headline('Visual'), style: context.tt.headlineMedium),
           const SizedBox(height: 4),
           Text(
-            'Escolha a cara do jabuticaba. Muda na hora.',
+            'Escolha a cara do jabuticaba.',
             style: context.tt.bodyMedium?.copyWith(color: context.jc.muted),
           ),
           const SizedBox(height: 18),
